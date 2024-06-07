@@ -1,4 +1,4 @@
-export type ADAAS_A_AUTH_RequestParam = {
+export type A_AUTH_RequestParam = {
     id?: string;
     /**
      * The issuer of the parameter. Could be system, custom, proxy, credentials or SIC to data provider service(e.g. CSS)
@@ -21,12 +21,12 @@ export type ADAAS_A_AUTH_RequestParam = {
      */
     value: string;
 };
-export type ADAAS_A_AUTH_DeepPartial<T> = {
-    [P in keyof T]?: T[P] extends object ? ADAAS_A_AUTH_DeepPartial<T[P]> : T[P];
+export type A_TYPES__DeepPartial<T> = {
+    [P in keyof T]?: T[P] extends object ? A_TYPES__DeepPartial<T[P]> : T[P];
 };
-export type ADAAS_A_AUTH_ObjectKeyEnum<T, E> = {
-    [P in keyof T]?: T[P] extends object ? ADAAS_A_AUTH_ObjectKeyEnum<T[P], E> : E;
+export type A_TYPES__ObjectKeyEnum<T, E> = {
+    [P in keyof T]?: T[P] extends object ? A_TYPES__ObjectKeyEnum<T[P], E> : E;
 };
-export type ADAAS_A_AUTH_Dictionary<T> = {
+export type A_TYPES__Dictionary<T> = {
     [Key: string]: T;
 };

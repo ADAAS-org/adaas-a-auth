@@ -1,5 +1,5 @@
 
-export type ADAAS_A_AUTH_Error_ConstructorParams = {
+export type A_AUTH_TYPES__Error_ConstructorParams = {
     /**
      * The name of the error
      */

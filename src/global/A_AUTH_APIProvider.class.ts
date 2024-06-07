@@ -1,15 +1,15 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { ADAAS_A_AUTH_Context, ADAAS_A_AUTH_ContextInstance } from './ADAAS_A_AUTH_Context.class';
-import { ADAAS_A_AUTH_Error } from './ADAAS_A_AUTH_Error.class';
+import { A_AUTH_Context, A_AUTH_ContextInstance } from './A_AUTH_Context.class';
+import { A_AUTH_Error } from './A_AUTH_Error.class';
 
-export class ADAAS_A_AUTH_APIProvider {
+export class A_AUTH_APIProvider {
 
     loading: boolean = false;
 
     protected axiosInstance!: AxiosInstance
     protected version: string = 'v1'
-    protected context: ADAAS_A_AUTH_Context = ADAAS_A_AUTH_ContextInstance
-    protected baseURL = process.env.ADAAS_API_LOCATION || 'https://api.adaas.org';
+    protected context: A_AUTH_Context = A_AUTH_ContextInstance
+    protected baseURL: string = 'https://api.adaas.org';
 
 
     protected customFormatter!: (response: AxiosResponse<any>) => any
@@ -47,7 +47,7 @@ export class ADAAS_A_AUTH_APIProvider {
 
 
     protected errorHandler(error) {
-        throw new ADAAS_A_AUTH_Error(error);
+        throw new A_AUTH_Error(error);
     }
 }
 

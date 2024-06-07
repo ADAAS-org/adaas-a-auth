@@ -1,4 +1,4 @@
-export type ADAAS_A_AUTH_TYPES__APIProviderError = {
+export type A_AUTH_TYPES__APIProviderError = {
     name: string,
     code: string
     description?: string

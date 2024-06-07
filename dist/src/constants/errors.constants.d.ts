@@ -1,4 +1,4 @@
-export declare const ADAAS_A_AUTH_ERRORS: {
+export declare const A_AUTH_ERRORS: {
     EMPTY_CREDENTIALS: {
         name: string;
         message: string;

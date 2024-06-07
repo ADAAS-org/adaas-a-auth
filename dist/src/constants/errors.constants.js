@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ADAAS_A_AUTH_ERRORS = void 0;
-exports.ADAAS_A_AUTH_ERRORS = {
+exports.A_AUTH_ERRORS = void 0;
+exports.A_AUTH_ERRORS = {
     EMPTY_CREDENTIALS: {
         name: 'EMPTY_CREDENTIALS',
         message: 'Credentials are not provided',

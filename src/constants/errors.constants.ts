@@ -1,7 +1,4 @@
-import { ADAAS_A_AUTH_Dictionary } from '../types/common.types'
-import { ADAAS_A_AUTH_Error_ConstructorParams } from '../types/ADAAS_A_AUTH_Error.types'
-
-export const ADAAS_A_AUTH_ERRORS = {
+export const A_AUTH_ERRORS = {
 
     EMPTY_CREDENTIALS: {
         name: 'EMPTY_CREDENTIALS',

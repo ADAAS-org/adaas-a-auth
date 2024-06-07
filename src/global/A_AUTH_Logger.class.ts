@@ -1,6 +1,6 @@
-import { ADAAS_A_AUTH_Error } from "./ADAAS_A_AUTH_Error.class";
+import { A_AUTH_Error } from "./A_AUTH_Error.class";
 
-export class ADAAS_A_AUTH_Logger {
+export class A_AUTH_Logger {
 
 
 
@@ -32,14 +32,14 @@ export class ADAAS_A_AUTH_Logger {
 
         const firstArg = args[0];
 
-        if (firstArg instanceof ADAAS_A_AUTH_Error)
+        if (firstArg instanceof A_AUTH_Error)
             this.logADAASError(firstArg)
         else
             console.log('\x1b[31m%s\x1b[0m', `[ADAAS ERROR] |${this.getTime()}| `, ...args)
     }
 
 
-    private logADAASError(error: ADAAS_A_AUTH_Error) {
+    private logADAASError(error: A_AUTH_Error) {
         const time = this.getTime();
 
         console.log('\x1b[31m%s\x1b[0m', `[ADAAS ERROR] |${time}|`, error.code);

@@ -1,10 +1,9 @@
 import { AxiosResponse } from "axios";
-import { ADAAS_A_AUTH_APIProvider } from "../global/ADAAS_A_AUTH_APIProvider.class";
+import { A_AUTH_APIProvider } from "../global/A_AUTH_APIProvider.class";
 
 
-export class ADAAS_A_AUTH_AuthenticatorClass extends ADAAS_A_AUTH_APIProvider {
+export class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider {
 
-  
     protected baseURL = process.env.ADAAS_SSO_LOCATION || 'https://sso.adaas.org';
 
     constructor() {
@@ -39,12 +38,22 @@ export class ADAAS_A_AUTH_AuthenticatorClass extends ADAAS_A_AUTH_APIProvider {
     async getAccessTokenFromHint(hint: string) {
         const response: AxiosResponse<{
             token: string
-        }> = await this.axiosInstance.post('/auth/sso/refresh', {
+        }> = await this.axiosInstance.post('/auth/sso/hint', {
             hint
+        });
+
+        return response.data.token;
+    }
+
+    async getNewTokenByRefreshToken(refreshToken: string) {
+        const response: AxiosResponse<{
+            token: string
+        }> = await this.axiosInstance.post('/auth/token/refresh', {
+            refreshToken
         });
 
         return response.data.token;
     }
 }
 
-export const ADAAS_A_AUTH_Authenticator = new ADAAS_A_AUTH_AuthenticatorClass();
+export const A_AUTH_Authenticator = new A_AUTH_AuthenticatorClass();
