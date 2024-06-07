@@ -2,8 +2,8 @@ import { AxiosInstance } from "axios";
 export declare class A_AUTH_Context {
     private _token;
     private logger;
-    private API_CREDENTIALS_CLIENT_ID;
-    private API_CREDENTIALS_CLIENT_SECRET;
+    private ADAAS_API_CREDENTIALS_CLIENT_ID;
+    private ADAAS_API_CREDENTIALS_CLIENT_SECRET;
     private A_AUTH_CONFIG_SDK_VALIDATION;
     private A_AUTH_CONFIG_VERBOSE;
     private A_AUTH_CONFIG_IGNORE_ERRORS;

@@ -10,8 +10,8 @@ export class A_AUTH_Context {
     private logger: A_AUTH_Logger
 
     // Credentials
-    private API_CREDENTIALS_CLIENT_ID: string = '';
-    private API_CREDENTIALS_CLIENT_SECRET: string = '';
+    private ADAAS_API_CREDENTIALS_CLIENT_ID: string = '';
+    private ADAAS_API_CREDENTIALS_CLIENT_SECRET: string = '';
 
     // Configuration
     private A_AUTH_CONFIG_SDK_VALIDATION: boolean = true
@@ -74,8 +74,8 @@ export class A_AUTH_Context {
 
 
     setCredentials(client_id: string, client_secret: string) {
-        this.API_CREDENTIALS_CLIENT_ID = client_id;
-        this.API_CREDENTIALS_CLIENT_SECRET = client_secret;
+        this.ADAAS_API_CREDENTIALS_CLIENT_ID = client_id;
+        this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = client_secret;
         this.logger.log('Credentials set manually');
     }
 
@@ -83,17 +83,17 @@ export class A_AUTH_Context {
         if (!this.credentialsPromise)
             this.credentialsPromise = new Promise((resolve, reject) => {
                 switch (true) {
-                    case !!this.API_CREDENTIALS_CLIENT_ID && !!this.API_CREDENTIALS_CLIENT_SECRET:
+                    case !!this.ADAAS_API_CREDENTIALS_CLIENT_ID && !!this.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
                         break;
 
                     case fs.existsSync('adaas.conf.json'):
                         this.loadConfigurationsFromFile();
                         break;
 
-                    case !!process.env.API_CREDENTIALS_CLIENT_ID && !!process.env.API_CREDENTIALS_CLIENT_SECRET:
+                    case !!process.env.ADAAS_API_CREDENTIALS_CLIENT_ID && !!process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
 
-                        this.API_CREDENTIALS_CLIENT_ID = process.env.API_CREDENTIALS_CLIENT_ID;
-                        this.API_CREDENTIALS_CLIENT_SECRET = process.env.API_CREDENTIALS_CLIENT_SECRET;
+                        this.ADAAS_API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID;
+                        this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET;
 
                         this.logger.log('Credentials loaded from environment variables');
                         break;
@@ -120,8 +120,8 @@ export class A_AUTH_Context {
             if (!config.client_id || !config.client_secret)
                 throw new A_AUTH_Error(A_AUTH_ERRORS.CREDENTIALS_NOT_FOUND);
 
-            this.API_CREDENTIALS_CLIENT_ID = config.client_id;
-            this.API_CREDENTIALS_CLIENT_SECRET = config.client_secret;
+            this.ADAAS_API_CREDENTIALS_CLIENT_ID = config.client_id;
+            this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = config.client_secret;
             this.A_AUTH_CONFIG_VERBOSE = config.verbose || this.A_AUTH_CONFIG_VERBOSE;
             this.A_AUTH_CONFIG_IGNORE_ERRORS = config.ignoreErrors || this.A_AUTH_CONFIG_IGNORE_ERRORS;
             this.A_AUTH_CONFIG_SDK_VALIDATION = config.sdkValidation || this.A_AUTH_CONFIG_SDK_VALIDATION;
@@ -141,8 +141,8 @@ export class A_AUTH_Context {
         const response: AxiosResponse<{ token: string }> = await this.axiosInstance.post(
             `${this.baseURL}/api/v1/auth/api-credentials/authorize`,
             {
-                client_id: this.API_CREDENTIALS_CLIENT_ID,
-                client_secret: this.API_CREDENTIALS_CLIENT_SECRET
+                client_id: this.ADAAS_API_CREDENTIALS_CLIENT_ID,
+                client_secret: this.ADAAS_API_CREDENTIALS_CLIENT_SECRET
             });
 
         this._token = response.data.token;
