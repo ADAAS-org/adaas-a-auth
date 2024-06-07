@@ -25,9 +25,10 @@
   },
   "scripts": {
     "test": "jest",
+    "publish": "npm run build && npm version patch && npm publish --access public",
     "preversion": "echo test",
     "version": "git add .",
-    "postversion": "git push --no-verify && git push --tags --no-verify && echo \"\n======Version Pushed Successfully=====\n\" ",
+    "postversion": "git commit -m \"$(cat package.json | grep version | head -1  | awk -F: '{ print $2 }'  | sed 's/[\",]//g')\" &&  git push --no-verify && git push --tags --no-verify && echo \"\n======Version Pushed Successfully=====\n\" ",
     "echo-version": "echo $npm_package_version",
     "build": "tsc --declaration --project tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./dist  && rm -r ./dist/tests"
   },
