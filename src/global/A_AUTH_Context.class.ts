@@ -9,7 +9,7 @@ export class A_AUTH_Context {
     private _token: string = '';
     private logger: A_AUTH_Logger
 
-    // Credentials
+    // Credentials for ADAAS SSO via API
     private ADAAS_API_CREDENTIALS_CLIENT_ID: string = '';
     private ADAAS_API_CREDENTIALS_CLIENT_SECRET: string = '';
 

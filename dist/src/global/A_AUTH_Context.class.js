@@ -21,7 +21,7 @@ const errors_constants_1 = require("../constants/errors.constants");
 class A_AUTH_Context {
     constructor() {
         this._token = '';
-        // Credentials
+        // Credentials for ADAAS SSO via API
         this.ADAAS_API_CREDENTIALS_CLIENT_ID = '';
         this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = '';
         // Configuration
