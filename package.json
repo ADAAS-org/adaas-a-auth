@@ -1,6 +1,6 @@
 {
   "name": "@adaas/adaas-a-auth",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Nodejs JS/TS SDK to manage authentication with ADAAS SSO using API Credentials",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
