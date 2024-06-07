@@ -109,7 +109,7 @@ export class ADAAS_A_AUTH_Context {
         return this.credentialsPromise;
     }
 
-    
+
 
     private loadConfigurationsFromFile() {
         try {
@@ -139,7 +139,7 @@ export class ADAAS_A_AUTH_Context {
         await this.loadCredentials();
 
         const response: AxiosResponse<{ token: string }> = await this.axiosInstance.post(
-            `${this.baseURL}/api/v1/auth/authorize`,
+            `${this.baseURL}/api/v1/auth/api-credentials/authorize`,
             {
                 client_id: this.ADAAS_API_CREDENTIALS_CLIENT_ID,
                 client_secret: this.ADAAS_API_CREDENTIALS_CLIENT_SECRET

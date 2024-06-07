@@ -10,3 +10,7 @@ export { ADAAS_A_AUTH_Error_ConstructorParams } from './src/types/ADAAS_A_AUTH_E
 // export { A_ADF__SDK_TYPES__ServiceCommandConstructorParams, A_ADF__SDK_TYPES__ServiceCommand_APIEntity } from './src/types/A_ADF_ServiceCommand.types';
 // export { A_ADF__SDK_TYPES__SIC_SERVICES_NAMES } from './src/types/common.types';
 // export { A_ADF__SDK_Dictionary } from './src/types/common.types';
+
+
+// ============ API Export ============
+export { ADAAS_A_AUTH_Authenticator } from './src/api/ADAAS_A_AUTH_Authenticator.class';

@@ -15,7 +15,7 @@ export class ADAAS_A_AUTH_APIProvider {
     protected customFormatter!: (response: AxiosResponse<any>) => any
 
     constructor() {
-
+        this.init();
     }
 
 
