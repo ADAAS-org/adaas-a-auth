@@ -7,7 +7,9 @@ import { A_AUTH_ERRORS } from "../constants/errors.constants";
 export class A_AUTH_Context {
 
     private _token: string = '';
-    private logger: A_AUTH_Logger
+    private _refreshTimeout?: NodeJS.Timeout;
+
+    logger: A_AUTH_Logger
 
     // Credentials for ADAAS SSO via API
     private ADAAS_API_CREDENTIALS_CLIENT_ID: string = '';
@@ -21,7 +23,8 @@ export class A_AUTH_Context {
     private baseURL = process.env.ADAAS_SSO_LOCATION || 'https://sso.adaas.org';
     protected axiosInstance: AxiosInstance
 
-    protected credentialsPromise: Promise<void> | null = null;
+    protected credentialsPromise?: Promise<void>;
+    protected authPromise?: Promise<void>;
 
     constructor() {
 
@@ -134,19 +137,40 @@ export class A_AUTH_Context {
 
 
     async authenticate() {
-        if (this._token) return;
+        if (!this.authPromise) {
+            this.authPromise = new Promise(async (resolve, reject) => {
+                try {
+                    await this.loadCredentials();
 
-        await this.loadCredentials();
+                    const response: AxiosResponse<{ token: string, exp: number }> = await this.axiosInstance.post(
+                        `${this.baseURL}/api/v1/auth/api-credentials/authorize`,
+                        {
+                            client_id: this.ADAAS_API_CREDENTIALS_CLIENT_ID,
+                            client_secret: this.ADAAS_API_CREDENTIALS_CLIENT_SECRET
+                        });
 
-        const response: AxiosResponse<{ token: string }> = await this.axiosInstance.post(
-            `${this.baseURL}/api/v1/auth/api-credentials/authorize`,
-            {
-                client_id: this.ADAAS_API_CREDENTIALS_CLIENT_ID,
-                client_secret: this.ADAAS_API_CREDENTIALS_CLIENT_SECRET
+                    this._token = response.data.token;
+
+                    if (this._refreshTimeout)
+                        clearTimeout(this._refreshTimeout);
+
+                    this._refreshTimeout = setTimeout(() => {
+                        this.authPromise = undefined;
+                        this.authenticate();
+                    },
+                        // 1 minute before expiration
+                        (response.data.exp * 1000) - 60 * 1000);
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
             });
+        }
 
-        this._token = response.data.token;
+        return this.authPromise;
     }
+
+
 }
 
 

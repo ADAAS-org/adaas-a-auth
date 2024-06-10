@@ -29,7 +29,6 @@ class A_AUTH_Context {
         this.A_AUTH_CONFIG_VERBOSE = true;
         this.A_AUTH_CONFIG_IGNORE_ERRORS = false;
         this.baseURL = process.env.ADAAS_SSO_LOCATION || 'https://sso.adaas.org';
-        this.credentialsPromise = null;
         this.logger = new A_AUTH_Logger_class_1.A_AUTH_Logger(this.verbose, this.ignoreErrors);
         this.axiosInstance = axios_1.default.create({
             baseURL: this.baseURL
@@ -111,14 +110,31 @@ class A_AUTH_Context {
     }
     authenticate() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this._token)
-                return;
-            yield this.loadCredentials();
-            const response = yield this.axiosInstance.post(`${this.baseURL}/api/v1/auth/api-credentials/authorize`, {
-                client_id: this.ADAAS_API_CREDENTIALS_CLIENT_ID,
-                client_secret: this.ADAAS_API_CREDENTIALS_CLIENT_SECRET
-            });
-            this._token = response.data.token;
+            if (!this.authPromise) {
+                this.authPromise = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        yield this.loadCredentials();
+                        const response = yield this.axiosInstance.post(`${this.baseURL}/api/v1/auth/api-credentials/authorize`, {
+                            client_id: this.ADAAS_API_CREDENTIALS_CLIENT_ID,
+                            client_secret: this.ADAAS_API_CREDENTIALS_CLIENT_SECRET
+                        });
+                        this._token = response.data.token;
+                        if (this._refreshTimeout)
+                            clearTimeout(this._refreshTimeout);
+                        this._refreshTimeout = setTimeout(() => {
+                            this.authPromise = undefined;
+                            this.authenticate();
+                        }, 
+                        // 1 minute before expiration
+                        (response.data.exp * 1000) - 60 * 1000);
+                        resolve();
+                    }
+                    catch (error) {
+                        reject(error);
+                    }
+                }));
+            }
+            return this.authPromise;
         });
     }
 }

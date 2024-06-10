@@ -26,28 +26,28 @@ class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider_class_1.A_AUTH_APIPro
             return response.data.url;
         });
     }
-    getAccessTokenFromCode(code) {
+    getAccessToken(hint) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield this.axiosInstance.post('/auth/sso/token', {
-                code
-            });
-            return response.data.token;
-        });
-    }
-    getAccessTokenFromHint(hint) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const response = yield this.axiosInstance.post('/auth/sso/hint', {
+            const response = yield this.axiosInstance.post('/api/v1/auth/sso/token', {
                 hint
             });
-            return response.data.token;
+            return response.data;
         });
     }
-    getNewTokenByRefreshToken(refreshToken) {
+    verifyToken(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield this.axiosInstance.post('/auth/token/refresh', {
+            const response = yield this.axiosInstance.post('/api/v1/auth/sso/token/verify', {
+                token
+            });
+            return response.data.status === 'OK';
+        });
+    }
+    refreshToken(refreshToken) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.axiosInstance.post('/api/v1/auth/sso/token/refresh', {
                 refreshToken
             });
-            return response.data.token;
+            return response.data;
         });
     }
 }

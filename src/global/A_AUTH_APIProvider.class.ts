@@ -12,6 +12,7 @@ export class A_AUTH_APIProvider {
     protected baseURL: string = 'https://api.adaas.org';
 
 
+
     protected customFormatter!: (response: AxiosResponse<any>) => any
 
     constructor() {
@@ -47,7 +48,11 @@ export class A_AUTH_APIProvider {
 
 
     protected errorHandler(error) {
-        throw new A_AUTH_Error(error);
+        const internalError = new A_AUTH_Error(error);
+
+        this.context.logger.error(internalError);
+
+        throw internalError;
     }
 }
 

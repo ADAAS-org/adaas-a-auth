@@ -5,6 +5,7 @@ export declare class A_AUTH_Error extends Error {
     message: string;
     code: string;
     description: string;
+    serverCode?: number;
     link?: string;
     constructor(params: A_AUTH_TYPES__Error_ConstructorParams | AxiosError | Error);
     protected identifyInitializer(err: A_AUTH_TYPES__Error_ConstructorParams | AxiosError | Error): A_AUTH_Error;

@@ -7,6 +7,7 @@ export class A_AUTH_Error extends Error {
     message!: string
     code!: string
     description!: string
+    serverCode?: number = 500
     link?: string
 
     constructor(params: A_AUTH_TYPES__Error_ConstructorParams | AxiosError | Error) {
@@ -35,6 +36,8 @@ export class A_AUTH_Error extends Error {
         this.name = err.name;
         this.code = err.code || 'A_AUTH_EXTERNAL_API_ERROR';
         this.description = err.response?.data?.description || 'External API Error...';
+        this.message = err.response?.data?.message || 'External API Error...';
+        this.serverCode = err.response?.status || 500;
 
         return this;
     }
@@ -44,6 +47,7 @@ export class A_AUTH_Error extends Error {
         this.description = err.description;
         this.code = err.code;
         this.link = err.link;
+        this.message = err.message;
 
         return this;
     }

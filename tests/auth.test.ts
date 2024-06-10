@@ -27,8 +27,8 @@ describe('Authorization with APP API Credentials', () => {
     it('Should auth with direct credentials', async () => {
 
         const testContext = new A_AUTH_Context();
-        const API_CREDENTIALS_CLIENT_ID = process.env.API_CREDENTIALS_CLIENT_ID!;
-        const API_CREDENTIALS_CLIENT_SECRET = process.env.API_CREDENTIALS_CLIENT_SECRET!;
+        const API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID!;
+        const API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET!;
 
         testContext.setCredentials(
             API_CREDENTIALS_CLIENT_ID,
@@ -43,31 +43,36 @@ describe('Authorization with APP API Credentials', () => {
     });
 
     it('Should auth with FILE credentials', async () => {
-
-        const API_CREDENTIALS_CLIENT_ID = process.env.API_CREDENTIALS_CLIENT_ID!;
-        const API_CREDENTIALS_CLIENT_SECRET = process.env.API_CREDENTIALS_CLIENT_SECRET!;
-
-        const credentials = {
-            client_id: API_CREDENTIALS_CLIENT_ID,
-            client_secret: API_CREDENTIALS_CLIENT_SECRET
-        };
-
         const filePath = path.join(__dirname, '../adaas.conf.json');
 
-        // Write credentials to file
-        fs.writeFileSync(filePath, JSON.stringify(credentials));
+        try {
+            const API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID!;
+            const API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET!;
+
+            const credentials = {
+                client_id: API_CREDENTIALS_CLIENT_ID,
+                client_secret: API_CREDENTIALS_CLIENT_SECRET
+            };
 
 
-        const testContext = new A_AUTH_Context();
+            // Write credentials to file
+            fs.writeFileSync(filePath, JSON.stringify(credentials));
 
-        await testContext.authenticate();
 
-        expect(testContext.token).toBeDefined();
-        expect(testContext.token).not.toBeNull();
-        expect(testContext.token).not.toEqual('');
+            const testContext = new A_AUTH_Context();
 
-        // Remove the file
-        fs.unlinkSync(filePath);
+            await testContext.authenticate();
+
+            expect(testContext.token).toBeDefined();
+            expect(testContext.token).not.toBeNull();
+            expect(testContext.token).not.toEqual('');
+            // Remove the file
+            fs.unlinkSync(filePath);
+        } catch (error) {
+            // Remove the file
+            fs.unlinkSync(filePath);
+            throw error
+        }
     });
 
 

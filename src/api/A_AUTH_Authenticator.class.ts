@@ -24,36 +24,48 @@ export class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider {
     }
 
 
-    async getAccessTokenFromCode(code: string) {
+
+    async getAccessToken(hint: string): Promise<{
+        token: string,
+        refreshToken: string
+    }> {
         const response: AxiosResponse<{
-            token: string
-        }> = await this.axiosInstance.post('/auth/sso/token', {
-            code
-        });
-
-        return response.data.token;
-    }
-
-
-    async getAccessTokenFromHint(hint: string) {
-        const response: AxiosResponse<{
-            token: string
-        }> = await this.axiosInstance.post('/auth/sso/hint', {
+            token: string,
+            refreshToken: string
+        }> = await this.axiosInstance.post('/api/v1/auth/sso/token', {
             hint
         });
 
-        return response.data.token;
+        return response.data;
     }
 
-    async getNewTokenByRefreshToken(refreshToken: string) {
+
+    async verifyToken(token: string): Promise<boolean> {
         const response: AxiosResponse<{
-            token: string
-        }> = await this.axiosInstance.post('/auth/token/refresh', {
+            status: 'OK' | 'ERROR',
+
+        }> = await this.axiosInstance.post('/api/v1/auth/sso/token/verify', {
+            token
+        });
+
+        return response.data.status === 'OK';
+    }
+
+
+    async refreshToken(refreshToken: string): Promise<{
+        token: string,
+        refreshToken: string
+    }> {
+        const response: AxiosResponse<{
+            token: string,
+            refreshToken: string
+        }> = await this.axiosInstance.post('/api/v1/auth/sso/token/refresh', {
             refreshToken
         });
 
-        return response.data.token;
+        return response.data;
     }
+
 }
 
 export const A_AUTH_Authenticator = new A_AUTH_AuthenticatorClass();

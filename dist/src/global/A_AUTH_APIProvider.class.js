@@ -45,7 +45,9 @@ class A_AUTH_APIProvider {
         });
     }
     errorHandler(error) {
-        throw new A_AUTH_Error_class_1.A_AUTH_Error(error);
+        const internalError = new A_AUTH_Error_class_1.A_AUTH_Error(error);
+        this.context.logger.error(internalError);
+        throw internalError;
     }
 }
 exports.A_AUTH_APIProvider = A_AUTH_APIProvider;
