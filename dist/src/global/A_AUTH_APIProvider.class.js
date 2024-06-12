@@ -17,11 +17,12 @@ const axios_1 = __importDefault(require("axios"));
 const A_AUTH_Context_class_1 = require("./A_AUTH_Context.class");
 const A_AUTH_Error_class_1 = require("./A_AUTH_Error.class");
 class A_AUTH_APIProvider {
-    constructor() {
+    constructor(baseURL) {
         this.loading = false;
         this.version = 'v1';
         this.context = A_AUTH_Context_class_1.A_AUTH_ContextInstance;
         this.baseURL = 'https://api.adaas.org';
+        this.baseURL = baseURL || this.baseURL;
         this.init();
     }
     init() {

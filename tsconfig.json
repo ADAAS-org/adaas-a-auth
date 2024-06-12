@@ -31,6 +31,7 @@
     ],
     "paths": {
       "@adaas/a-auth/constants/*": ["src/constants/*"],
+      "@adaas/a-sdk/api/*": ["src/api/*"],
       "@adaas/a-auth/entities/*": ["src/entities/*"],
       "@adaas/a-auth/global/*": ["src/global/*"],
       "@adaas/a-auth/types/*": ["src/types/*"],

@@ -9,6 +9,7 @@ const config: Config.InitialOptions = {
     },
     moduleNameMapper: {
         "@adaas/a-auth/constants/(.*)": ["<rootDir>/src/constants/$1"],
+        "@adaas/a-auth/api/(.*)": ["<rootDir>/src/api/$1"],
         "@adaas/a-auth/entities/(.*)": ["<rootDir>/src/entities/$1"],
         "@adaas/a-auth/global/(.*)": ["<rootDir>/src/global/$1"],
         "@adaas/a-auth/types/(.*)": ["<rootDir>/src/types/$1"],

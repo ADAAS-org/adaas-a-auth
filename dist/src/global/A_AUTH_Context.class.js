@@ -20,6 +20,9 @@ const A_AUTH_Error_class_1 = require("./A_AUTH_Error.class");
 const errors_constants_1 = require("../constants/errors.constants");
 class A_AUTH_Context {
     constructor() {
+        /**
+         * Could be both API Credentials Token and User Token for the UI applications
+         */
         this._token = '';
         // Credentials for ADAAS SSO via API
         this.ADAAS_API_CREDENTIALS_CLIENT_ID = '';
@@ -28,7 +31,14 @@ class A_AUTH_Context {
         this.A_AUTH_CONFIG_SDK_VALIDATION = true;
         this.A_AUTH_CONFIG_VERBOSE = true;
         this.A_AUTH_CONFIG_IGNORE_ERRORS = false;
+        this.A_AUTH_CONFIG_FRONTEND = false;
         this.baseURL = process.env.ADAAS_SSO_LOCATION || 'https://sso.adaas.org';
+        this.init();
+    }
+    /**
+     * Initializes the SDK or can be used to reinitialize the SDK
+     */
+    init() {
         this.logger = new A_AUTH_Logger_class_1.A_AUTH_Logger(this.verbose, this.ignoreErrors);
         this.axiosInstance = axios_1.default.create({
             baseURL: this.baseURL
@@ -52,6 +62,9 @@ class A_AUTH_Context {
         //         this.logger.error(error);
         // });
     }
+    set token(token) {
+        this._token = token;
+    }
     get token() {
         return this._token;
     }
@@ -64,7 +77,52 @@ class A_AUTH_Context {
     get sdkValidation() {
         return process.env.A_AUTH_CONFIG_SDK_VALIDATION === 'true' || this.A_AUTH_CONFIG_SDK_VALIDATION;
     }
-    setCredentials(client_id, client_secret) {
+    /**
+     * Configures the SDK with the provided parameters or uses the default ones
+     * Useful for Front End applications to omit env variables and use the SDK
+     *
+     * @param verbose
+     * @param ignoreErrors
+     * @param sdkValidation
+     */
+    configure(
+    /**
+     * Verbose mode for the SDK
+     */
+    verbose, 
+    /**
+     * Ignore errors mode for the SDK
+     */
+    ignoreErrors, 
+    /**
+     * SDK Validation mode
+     */
+    sdkValidation, 
+    /**
+     * Location of the SSO Server
+     */
+    adaasSSOLocation = 'https://sso.adaas.org', 
+    /**
+     * FrontEnd mode: if true, the SDK will be configured for the FrontEnd and will not require API Credentials
+     */
+    frontEnd = false) {
+        this.A_AUTH_CONFIG_VERBOSE = verbose || this.A_AUTH_CONFIG_VERBOSE;
+        this.A_AUTH_CONFIG_IGNORE_ERRORS = ignoreErrors || this.A_AUTH_CONFIG_IGNORE_ERRORS;
+        this.A_AUTH_CONFIG_SDK_VALIDATION = sdkValidation || this.A_AUTH_CONFIG_SDK_VALIDATION;
+        this.A_AUTH_CONFIG_FRONTEND = frontEnd;
+        this.baseURL = adaasSSOLocation;
+        // reinitialize the SDK
+        this.init();
+    }
+    setCredentials(
+    /**
+     * API Credentials Client ID
+     */
+    client_id, 
+    /**
+     * API Credentials Client Secret
+     */
+    client_secret) {
         this.ADAAS_API_CREDENTIALS_CLIENT_ID = client_id;
         this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = client_secret;
         this.logger.log('Credentials set manually');
@@ -108,8 +166,17 @@ class A_AUTH_Context {
             this.logger.error(error);
         }
     }
+    /**
+     *
+     * Authenticates the SDK with the API Credentials
+     * Uses on BE side only
+     *
+     * @returns void
+     */
     authenticate() {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.A_AUTH_CONFIG_FRONTEND)
+                return Promise.resolve();
             if (!this.authPromise) {
                 this.authPromise = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                     try {

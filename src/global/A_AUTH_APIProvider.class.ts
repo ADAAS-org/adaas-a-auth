@@ -15,7 +15,10 @@ export class A_AUTH_APIProvider {
 
     protected customFormatter!: (response: AxiosResponse<any>) => any
 
-    constructor() {
+    constructor(baseURL?: string) {
+        
+        this.baseURL = baseURL || this.baseURL;
+
         this.init();
     }
 

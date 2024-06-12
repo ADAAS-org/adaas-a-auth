@@ -7,7 +7,7 @@ export declare class A_AUTH_APIProvider {
     protected context: A_AUTH_Context;
     protected baseURL: string;
     protected customFormatter: (response: AxiosResponse<any>) => any;
-    constructor();
+    constructor(baseURL?: string);
     init(): void;
     protected errorHandler(error: any): void;
 }
