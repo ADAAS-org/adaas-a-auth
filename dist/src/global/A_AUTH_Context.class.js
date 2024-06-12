@@ -14,10 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_ContextInstance = exports.A_AUTH_Context = void 0;
 const axios_1 = __importDefault(require("axios"));
-const fs_1 = __importDefault(require("fs"));
 const A_AUTH_Logger_class_1 = require("./A_AUTH_Logger.class");
 const A_AUTH_Error_class_1 = require("./A_AUTH_Error.class");
 const errors_constants_1 = require("../constants/errors.constants");
+const Lib_polyfill_1 = require("../lib/Lib.polyfill");
 class A_AUTH_Context {
     constructor() {
         /**
@@ -128,43 +128,49 @@ class A_AUTH_Context {
         this.logger.log('Credentials set manually');
     }
     loadCredentials() {
-        if (!this.credentialsPromise)
-            this.credentialsPromise = new Promise((resolve, reject) => {
-                switch (true) {
-                    case !!this.ADAAS_API_CREDENTIALS_CLIENT_ID && !!this.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
-                        break;
-                    case fs_1.default.existsSync('adaas.conf.json'):
-                        this.loadConfigurationsFromFile();
-                        break;
-                    case !!process.env.ADAAS_API_CREDENTIALS_CLIENT_ID && !!process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
-                        this.ADAAS_API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID;
-                        this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET;
-                        this.logger.log('Credentials loaded from environment variables');
-                        break;
-                    default:
-                        reject(new A_AUTH_Error_class_1.A_AUTH_Error(errors_constants_1.A_AUTH_ERRORS.CREDENTIALS_NOT_FOUND));
-                }
-                this.logger = new A_AUTH_Logger_class_1.A_AUTH_Logger(this.verbose, this.ignoreErrors);
-                resolve();
-            });
-        return this.credentialsPromise;
+        return __awaiter(this, void 0, void 0, function* () {
+            const fs = yield Lib_polyfill_1.LibPolyfill.fs();
+            if (!this.credentialsPromise)
+                this.credentialsPromise = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                    switch (true) {
+                        case !!this.ADAAS_API_CREDENTIALS_CLIENT_ID && !!this.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
+                            break;
+                        case fs.existsSync('adaas.conf.json'):
+                            yield this.loadConfigurationsFromFile();
+                            break;
+                        case !!process.env.ADAAS_API_CREDENTIALS_CLIENT_ID && !!process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
+                            this.ADAAS_API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID;
+                            this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET;
+                            this.logger.log('Credentials loaded from environment variables');
+                            break;
+                        default:
+                            reject(new A_AUTH_Error_class_1.A_AUTH_Error(errors_constants_1.A_AUTH_ERRORS.CREDENTIALS_NOT_FOUND));
+                    }
+                    this.logger = new A_AUTH_Logger_class_1.A_AUTH_Logger(this.verbose, this.ignoreErrors);
+                    resolve();
+                }));
+            return this.credentialsPromise;
+        });
     }
     loadConfigurationsFromFile() {
-        try {
-            const data = fs_1.default.readFileSync('adaas.conf.json', 'utf8');
-            const config = JSON.parse(data);
-            if (!config.client_id || !config.client_secret)
-                throw new A_AUTH_Error_class_1.A_AUTH_Error(errors_constants_1.A_AUTH_ERRORS.CREDENTIALS_NOT_FOUND);
-            this.ADAAS_API_CREDENTIALS_CLIENT_ID = config.client_id;
-            this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = config.client_secret;
-            this.A_AUTH_CONFIG_VERBOSE = config.verbose || this.A_AUTH_CONFIG_VERBOSE;
-            this.A_AUTH_CONFIG_IGNORE_ERRORS = config.ignoreErrors || this.A_AUTH_CONFIG_IGNORE_ERRORS;
-            this.A_AUTH_CONFIG_SDK_VALIDATION = config.sdkValidation || this.A_AUTH_CONFIG_SDK_VALIDATION;
-            this.logger.log('Credentials loaded from file');
-        }
-        catch (error) {
-            this.logger.error(error);
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            const fs = yield Lib_polyfill_1.LibPolyfill.fs();
+            try {
+                const data = fs.readFileSync('adaas.conf.json', 'utf8');
+                const config = JSON.parse(data);
+                if (!config.client_id || !config.client_secret)
+                    throw new A_AUTH_Error_class_1.A_AUTH_Error(errors_constants_1.A_AUTH_ERRORS.CREDENTIALS_NOT_FOUND);
+                this.ADAAS_API_CREDENTIALS_CLIENT_ID = config.client_id;
+                this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = config.client_secret;
+                this.A_AUTH_CONFIG_VERBOSE = config.verbose || this.A_AUTH_CONFIG_VERBOSE;
+                this.A_AUTH_CONFIG_IGNORE_ERRORS = config.ignoreErrors || this.A_AUTH_CONFIG_IGNORE_ERRORS;
+                this.A_AUTH_CONFIG_SDK_VALIDATION = config.sdkValidation || this.A_AUTH_CONFIG_SDK_VALIDATION;
+                this.logger.log('Credentials loaded from file');
+            }
+            catch (error) {
+                this.logger.error(error);
+            }
+        });
     }
     /**
      *

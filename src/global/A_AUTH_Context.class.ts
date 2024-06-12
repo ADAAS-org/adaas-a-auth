@@ -1,8 +1,9 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import fs from 'fs';
 import { A_AUTH_Logger } from "./A_AUTH_Logger.class";
 import { A_AUTH_Error } from "./A_AUTH_Error.class";
 import { A_AUTH_ERRORS } from "../constants/errors.constants";
+import { LibPolyfill } from '../lib/Lib.polyfill'
+
 
 export class A_AUTH_Context {
 
@@ -155,15 +156,17 @@ export class A_AUTH_Context {
 
 
 
-    private loadCredentials(): Promise<void> {
+    private async loadCredentials(): Promise<void> {
+        const fs = await LibPolyfill.fs();
+
         if (!this.credentialsPromise)
-            this.credentialsPromise = new Promise((resolve, reject) => {
+            this.credentialsPromise = new Promise(async (resolve, reject) => {
                 switch (true) {
                     case !!this.ADAAS_API_CREDENTIALS_CLIENT_ID && !!this.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
                         break;
 
                     case fs.existsSync('adaas.conf.json'):
-                        this.loadConfigurationsFromFile();
+                        await this.loadConfigurationsFromFile();
                         break;
 
                     case !!process.env.ADAAS_API_CREDENTIALS_CLIENT_ID && !!process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
@@ -187,7 +190,8 @@ export class A_AUTH_Context {
 
 
 
-    private loadConfigurationsFromFile() {
+    private async loadConfigurationsFromFile() {
+        const fs = await LibPolyfill.fs();
         try {
             const data = fs.readFileSync('adaas.conf.json', 'utf8');
 
