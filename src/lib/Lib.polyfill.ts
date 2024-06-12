@@ -18,6 +18,9 @@ class LibPolyfillClass {
 
 
     private async init() {
+        console.log('typeof window', typeof window)
+        console.log('just window', window)
+
         if (typeof window === 'undefined') {
             // We are in a Node.js environment
             this._fs = await import('fs') as Ifspolyfill;
