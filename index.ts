@@ -6,6 +6,9 @@ export { A_AUTH_Error } from './src/global/A_AUTH_Error.class';
 // To keep proper naming and prevent confusion
 export const A_AUTH_Context = A_AUTH_ContextInstance;
 
+// Export Some Global Entities
+export { A_AUTH_APIProvider } from './src/global/A_AUTH_APIProvider.class';
+
 // ============ TYPES Export ============
 export { A_AUTH_TYPES__Error_ConstructorParams } from './src/types/A_AUTH_Error.types';
 export {
