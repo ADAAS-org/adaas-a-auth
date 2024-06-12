@@ -46,7 +46,7 @@ class LibPolyfillClass {
         return __awaiter(this, void 0, void 0, function* () {
             if (typeof window === 'undefined') {
                 // We are in a Node.js environment
-                this._fs = yield Promise.resolve().then(() => __importStar(require('fs')));
+                this._fs = (yield Promise.resolve().then(() => __importStar(require('fs'))));
             }
             else {
                 // We are in a browser environment

@@ -1,6 +1,12 @@
+interface Ifspolyfill {
+    readFileSync: (path: string, encoding: string) => string;
+    existsSync: (path: string) => boolean;
+}
+
+
 class LibPolyfillClass {
 
-    private _fs!: typeof import('fs');
+    private _fs!: Ifspolyfill;
 
 
     async fs() {
@@ -14,7 +20,7 @@ class LibPolyfillClass {
     private async init() {
         if (typeof window === 'undefined') {
             // We are in a Node.js environment
-            this._fs = await import('fs');
+            this._fs = await import('fs') as Ifspolyfill;
         } else {
             // We are in a browser environment
             this._fs = {
@@ -24,7 +30,7 @@ class LibPolyfillClass {
                 existsSync: () => {
                     throw new Error('fs.existsSync is not available in the browser');
                 }
-            } as any;
+            };
         }
     }
 }
