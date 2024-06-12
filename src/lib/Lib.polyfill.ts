@@ -18,23 +18,34 @@ class LibPolyfillClass {
 
 
     private async init() {
-        console.log('typeof window', typeof window)
-        console.log('just window', window)
+        let testEnvironment = 'node';
 
-        if (typeof window === 'undefined') {
-            // We are in a Node.js environment
-            this._fs = await import('fs') as Ifspolyfill;
-        } else {
-            // We are in a browser environment
+        try {
+            testEnvironment = !!window.location ? 'browser' : 'node';
+        } catch (error) {
+            console.log('Environment is NodeJS')
+        }
+
+        try {
+            if (testEnvironment === 'node') {
+                this._fs = await import('fs') as Ifspolyfill;
+            }
+            else {
+                this._fs = {
+                    readFileSync: (path: string, encoding: string) => '',
+                    existsSync: (path: string) => false
+                };
+            }
+        } catch (error) {
+
+            console.log('All FS Polyfill Checks Failed error', error);
+
             this._fs = {
-                readFileSync: () => {
-                    throw new Error('fs.readFile is not available in the browser');
-                },
-                existsSync: () => {
-                    throw new Error('fs.existsSync is not available in the browser');
-                }
+                readFileSync: (path: string, encoding: string) => '',
+                existsSync: (path: string) => false
             };
         }
+
     }
 }
 
