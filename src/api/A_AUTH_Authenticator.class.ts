@@ -6,14 +6,13 @@ export class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider {
 
     protected baseURL = process.env.ADAAS_SSO_LOCATION || 'https://sso.adaas.org';
 
-    constructor() {
-        super();
+    constructor(baseURL?: string) {
+        super(baseURL);
         this.init();
     }
 
 
-    async getSSOUrl(redirectURL: string) {
-        console.log('baseURL', this.baseURL)
+    async getSignInUrl(redirectURL: string) {
         const response: AxiosResponse<{
             url: string
         }> = await this.axiosInstance.post('/api/v1/auth/sso/url', {
@@ -23,9 +22,19 @@ export class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider {
         return response.data.url;
     }
 
+    async getSignUpUrl(redirectURL: string) {
+        const response: AxiosResponse<{
+            url: string
+        }> = await this.axiosInstance.post('/api/v1/auth/sso/sign-up/url', {
+            redirectURL
+        });
+
+        return response.data.url;
+    }
 
 
-    async getAccessToken(hint: string): Promise<{
+
+    async getAccessToken(code: string): Promise<{
         token: string,
         refreshToken: string
     }> {
@@ -33,7 +42,7 @@ export class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider {
             token: string,
             refreshToken: string
         }> = await this.axiosInstance.post('/api/v1/auth/sso/token', {
-            hint
+            code
         });
 
         return response.data;
@@ -65,7 +74,5 @@ export class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider {
 
         return response.data;
     }
-
 }
 
-export const A_AUTH_Authenticator = new A_AUTH_AuthenticatorClass();

@@ -9,27 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.A_AUTH_Authenticator = exports.A_AUTH_AuthenticatorClass = void 0;
+exports.A_AUTH_AuthenticatorClass = void 0;
 const A_AUTH_APIProvider_class_1 = require("../global/A_AUTH_APIProvider.class");
 class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider_class_1.A_AUTH_APIProvider {
-    constructor() {
-        super();
+    constructor(baseURL) {
+        super(baseURL);
         this.baseURL = process.env.ADAAS_SSO_LOCATION || 'https://sso.adaas.org';
         this.init();
     }
-    getSSOUrl(redirectURL) {
+    getSignInUrl(redirectURL) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('baseURL', this.baseURL);
             const response = yield this.axiosInstance.post('/api/v1/auth/sso/url', {
                 redirectURL
             });
             return response.data.url;
         });
     }
-    getAccessToken(hint) {
+    getSignUpUrl(redirectURL) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.axiosInstance.post('/api/v1/auth/sso/sign-up/url', {
+                redirectURL
+            });
+            return response.data.url;
+        });
+    }
+    getAccessToken(code) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.axiosInstance.post('/api/v1/auth/sso/token', {
-                hint
+                code
             });
             return response.data;
         });
@@ -52,5 +59,4 @@ class A_AUTH_AuthenticatorClass extends A_AUTH_APIProvider_class_1.A_AUTH_APIPro
     }
 }
 exports.A_AUTH_AuthenticatorClass = A_AUTH_AuthenticatorClass;
-exports.A_AUTH_Authenticator = new A_AUTH_AuthenticatorClass();
 //# sourceMappingURL=A_AUTH_Authenticator.class.js.map
