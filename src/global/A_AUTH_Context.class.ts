@@ -1,262 +1,143 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { A_AUTH_Logger } from "./A_AUTH_Logger.class";
-import { A_AUTH_Error } from "./A_AUTH_Error.class";
-import { A_AUTH_ERRORS } from "../constants/errors.constants";
-import { LibPolyfill } from '../lib/Lib.polyfill'
+import { A_SDK_Context, A_SDK_GlobalContext, A_SDK_ServerError } from "@adaas/a-sdk-types";
+import { A_AUTH_Authenticator } from "./A_AUTH_Authenticator.class";
+import { A_AUTH_TYPES__AuthenticatorCredentials, A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
+import { A_AUTH_AppInteractionsAuthenticator } from "./authenticator/A_AUTH_AppInteractions.authenticator";
+import { A_AUTH_ServerCommandsAuthenticator } from "./authenticator/A_AUTH_ServerCommands.authenticator";
+import { A_AUTH_ServerDelegateAuthenticator } from "./authenticator/A_AUTH_ServerDelegate.authenticator";
+import { AxiosError, AxiosResponse } from "axios";
+import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter } from "../types/A_AUTH_Context.types";
 
 
-export class A_AUTH_Context {
+export class A_AUTH_ContextClass extends A_SDK_Context {
 
     /**
-     * Could be both API Credentials Token and User Token for the UI applications
+     * API Credentials Authentication using CLIENT_ID and CLIENT_SECRET
+     * Uses Across all SDKs connected to A-AUTH
      */
-    private _token: string = '';
-    private _refreshTimeout?: NodeJS.Timeout;
+    global: A_SDK_Context = A_SDK_GlobalContext;
 
-    logger!: A_AUTH_Logger
 
-    // Credentials for ADAAS SSO via API
-    private ADAAS_API_CREDENTIALS_CLIENT_ID: string = '';
-    private ADAAS_API_CREDENTIALS_CLIENT_SECRET: string = '';
+    protected SSO_LOCATION: string = 'https://sso.adaas.org';
 
-    // Configuration
-    private A_AUTH_CONFIG_SDK_VALIDATION: boolean = true
-    private A_AUTH_CONFIG_VERBOSE: boolean = true
-    private A_AUTH_CONFIG_IGNORE_ERRORS: boolean = false
-    private A_AUTH_CONFIG_FRONTEND: boolean = false
+    responseFormatter: A_AUTH_TYPES__AuthContext_ResponseFormatter = (response) => response.data;
+    errorsHandler: A_AUTH_TYPES__AuthContext_ErrorHandler = (error) => { throw new A_SDK_ServerError(error) }
 
-    private baseURL = process.env.ADAAS_SSO_LOCATION || 'https://sso.adaas.org';
-    protected axiosInstance!: AxiosInstance
 
-    protected credentialsPromise?: Promise<void>;
-    protected authPromise?: Promise<void>;
+    protected customAllowedProperties = [
+        ...this.defaultAllowedToReadProperties,
+        "SSO_LOCATION"
+    ] as const;
+
+
+    protected _AuthMap = new Map<string, A_AUTH_TYPES__IAuthenticator>();
 
     constructor() {
-        this.init();
+        super('a-auth');
+    }
+
+
+    getConfigurationProperty<T = any>(
+        property: typeof this.customAllowedProperties[number]
+    ): T | undefined {
+        if (this.customAllowedProperties.includes(property as any))
+            return this[property as string] as T;
+
+        return undefined;
     }
 
 
     /**
-     * Initializes the SDK or can be used to reinitialize the SDK
-     */
-    protected init() {
-        this.logger = new A_AUTH_Logger(this.verbose, this.ignoreErrors);
-
-        this.axiosInstance = axios.create({
-            baseURL: this.baseURL
-        });
-
-        this.axiosInstance.interceptors.request.use(async (conf) => {
-            if (this._token)
-                conf.headers.Authorization = `Bearer ${this.token}`;
-
-            return conf;
-        });
-
-        this.axiosInstance.interceptors.response.use((response) => {
-            return response;
-        }, (error) => {
-            const err = new A_AUTH_Error(error);
-            this.logger.error(err);
-            throw err
-        });
-
-        // global logger configuration
-
-        // process.on('uncaughtException', (error) => {
-        //     // log only in case of A_AUTH_Error
-        //     if (error instanceof A_AUTH_Error)
-        //         this.logger.error(error);
-        // });
-
-    }
-
-    set token(token: string) {
-        this._token = token;
-    }
-
-    get token(): string {
-        return this._token;
-    }
-
-    get verbose(): boolean {
-        return process.env.A_AUTH_CONFIG_VERBOSE === 'true' || this.A_AUTH_CONFIG_VERBOSE;
-    }
-
-    get ignoreErrors(): boolean {
-        return process.env.A_AUTH_CONFIG_IGNORE_ERRORS === 'true' || this.A_AUTH_CONFIG_IGNORE_ERRORS;
-    }
-
-    get sdkValidation(): boolean {
-        return process.env.A_AUTH_CONFIG_SDK_VALIDATION === 'true' || this.A_AUTH_CONFIG_SDK_VALIDATION;
-    }
-
-
-    /**
-     * Configures the SDK with the provided parameters or uses the default ones
-     * Useful for Front End applications to omit env variables and use the SDK
+     * Allows to define a global custom API response and error processors
      * 
-     * @param verbose 
-     * @param ignoreErrors 
-     * @param sdkValidation 
+     * @param responseFormatter 
+     * @param errorsHandler 
      */
-    configure(
-        /**
-         * Verbose mode for the SDK
-         */
-        verbose?: boolean,
+    setAPIHandlers(
+        responseFormatter: A_AUTH_TYPES__AuthContext_ResponseFormatter,
+        errorsHandler: A_AUTH_TYPES__AuthContext_ErrorHandler
 
-        /**
-         * Ignore errors mode for the SDK
-         */
-        ignoreErrors?: boolean,
-
-        /**
-         * SDK Validation mode
-         */
-        sdkValidation?: boolean,
-
-        /**
-         * Location of the SSO Server
-         */
-        adaasSSOLocation: string = 'https://sso.adaas.org',
-
-        /**
-         * FrontEnd mode: if true, the SDK will be configured for the FrontEnd and will not require API Credentials
-         */
-        frontEnd: boolean = false
     ) {
-        this.A_AUTH_CONFIG_VERBOSE = verbose || this.A_AUTH_CONFIG_VERBOSE;
-        this.A_AUTH_CONFIG_IGNORE_ERRORS = ignoreErrors || this.A_AUTH_CONFIG_IGNORE_ERRORS;
-        this.A_AUTH_CONFIG_SDK_VALIDATION = sdkValidation || this.A_AUTH_CONFIG_SDK_VALIDATION;
-        this.A_AUTH_CONFIG_FRONTEND = frontEnd;
-
-        this.baseURL = adaasSSOLocation;
-
-        // reinitialize the SDK
-        this.init();
-    }
-
-
-    setCredentials(
-        /**
-         * API Credentials Client ID
-         */
-        client_id: string,
-        /**
-         * API Credentials Client Secret
-         */
-        client_secret: string
-    ) {
-        this.ADAAS_API_CREDENTIALS_CLIENT_ID = client_id;
-        this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = client_secret;
-        this.logger.log('Credentials set manually');
+        this.responseFormatter = responseFormatter || this.responseFormatter;
+        this.errorsHandler = errorsHandler || this.errorsHandler;
     }
 
 
 
+    /**
+     * 
+     * Returns a authentication depending on the request type
+     * 
+     * @param userASEID 
+     * @returns 
+     */
+    getAuthenticator(userASEID?: string): A_AUTH_TYPES__IAuthenticator {
+        switch (true) {
 
-    private async loadCredentials(): Promise<void> {
-        const fs = await LibPolyfill.fs();
-
-        if (!this.credentialsPromise)
-            this.credentialsPromise = new Promise(async (resolve, reject) => {
-                switch (true) {
-                    case !!this.ADAAS_API_CREDENTIALS_CLIENT_ID && !!this.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
-                        break;
-
-                    case fs.existsSync('adaas.conf.json'):
-                        await this.loadConfigurationsFromFile();
-                        break;
-
-                    case !!process.env.ADAAS_API_CREDENTIALS_CLIENT_ID && !!process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET:
-
-                        this.ADAAS_API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID;
-                        this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET;
-
-                        this.logger.log('Credentials loaded from environment variables');
-                        break;
-
-                    default:
-                        reject(new A_AUTH_Error(A_AUTH_ERRORS.CREDENTIALS_NOT_FOUND));
+            /**
+             * In this case it should be Front End SDK with token received from Auth API 
+             */
+            case this.environment === 'frontend': {
+                const existedAuth = this._AuthMap.get('frontend');
+                if (existedAuth) return existedAuth;
+                else {
+                    const frontendAuth = new A_AUTH_AppInteractionsAuthenticator({}, {
+                        ssoUrl: this.SSO_LOCATION
+                    });
+                    this._AuthMap.set('frontend', frontendAuth);
+                    return frontendAuth;
                 }
+            }
 
-                this.logger = new A_AUTH_Logger(this.verbose, this.ignoreErrors);
-                resolve();
-            });
+            /**
+             * In this case it should be APP API credentials to do operations on behalf of the user
+             * 
+             */
+            case this.environment === 'server' && !!userASEID: {
+                const existedDelegate = this._AuthMap.get(userASEID);
+                if (existedDelegate) return existedDelegate;
+                else {
+                    const delegate = new A_AUTH_ServerDelegateAuthenticator({
+                        client_id: this.CLIENT_ID,
+                        client_secret: this.CLIENT_SECRET,
+                        userASEID: userASEID
+                    }, {
+                        ssoUrl: this.SSO_LOCATION
+                    });
+                    this._AuthMap.set(userASEID, delegate);
+                    return delegate;
+                }
+            }
 
-        return this.credentialsPromise;
-    }
+            /**
+             * This could be both API Credentials connected to User or APP credentials
+             */
+            default: {
 
+                const existedServer = this._AuthMap.get('server');
+                if (existedServer) return existedServer;
+                else {
+                    const server = new A_AUTH_ServerCommandsAuthenticator({
+                        client_id: this.CLIENT_ID,
+                        client_secret: this.CLIENT_SECRET
+                    }, {
+                        ssoUrl: this.SSO_LOCATION
+                    });
 
-
-    private async loadConfigurationsFromFile() {
-        const fs = await LibPolyfill.fs();
-        try {
-            const data = fs.readFileSync('adaas.conf.json', 'utf8');
-
-            const config = JSON.parse(data);
-
-            if (!config.client_id || !config.client_secret)
-                throw new A_AUTH_Error(A_AUTH_ERRORS.CREDENTIALS_NOT_FOUND);
-
-            this.ADAAS_API_CREDENTIALS_CLIENT_ID = config.client_id;
-            this.ADAAS_API_CREDENTIALS_CLIENT_SECRET = config.client_secret;
-            this.A_AUTH_CONFIG_VERBOSE = config.verbose || this.A_AUTH_CONFIG_VERBOSE;
-            this.A_AUTH_CONFIG_IGNORE_ERRORS = config.ignoreErrors || this.A_AUTH_CONFIG_IGNORE_ERRORS;
-            this.A_AUTH_CONFIG_SDK_VALIDATION = config.sdkValidation || this.A_AUTH_CONFIG_SDK_VALIDATION;
-
-            this.logger.log('Credentials loaded from file');
-        } catch (error) {
-            this.logger.error(error);
+                    this._AuthMap.set('server', server);
+                    return server;
+                }
+            }
         }
     }
 
+    protected async loadExtendedConfigurationsFromEnvironment(): Promise<void> {
+        this.SSO_LOCATION = process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION;
+    }
 
-    /**
-     * 
-     * Authenticates the SDK with the API Credentials
-     * Uses on BE side only
-     * 
-     * @returns void
-     */
-    async authenticate() {
-        if (this.A_AUTH_CONFIG_FRONTEND)
-            return Promise.resolve();
-
-        if (!this.authPromise) {
-            this.authPromise = new Promise(async (resolve, reject) => {
-                try {
-                    await this.loadCredentials();
-
-                    const response: AxiosResponse<{ token: string, exp: number }> = await this.axiosInstance.post(
-                        `${this.baseURL}/api/v1/auth/api-credentials/authorize`,
-                        {
-                            client_id: this.ADAAS_API_CREDENTIALS_CLIENT_ID,
-                            client_secret: this.ADAAS_API_CREDENTIALS_CLIENT_SECRET
-                        });
-
-                    this._token = response.data.token;
-
-                    if (this._refreshTimeout)
-                        clearTimeout(this._refreshTimeout);
-
-                    this._refreshTimeout = setTimeout(() => {
-                        this.authPromise = undefined;
-                        this.authenticate();
-                    },
-                        // 1 minute before expiration
-                        (response.data.exp * 1000) - 60 * 1000);
-                    resolve();
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        }
-
-        return this.authPromise;
+    protected async loadExtendedConfigurationsFromFile<T = any>(config: T): Promise<void> {
+        this.SSO_LOCATION = config[this.getConfigurationProperty_File_Alias('SSO_LOCATION')] || this.SSO_LOCATION;
     }
 }
 
 
-export const A_AUTH_ContextInstance = new A_AUTH_Context();
+export const A_AUTH_Context = new A_AUTH_ContextClass()

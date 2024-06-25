@@ -15,40 +15,68 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_APIProvider = void 0;
 const axios_1 = __importDefault(require("axios"));
 const A_AUTH_Context_class_1 = require("./A_AUTH_Context.class");
-const A_AUTH_Error_class_1 = require("./A_AUTH_Error.class");
 class A_AUTH_APIProvider {
     constructor(baseURL) {
         this.loading = false;
         this.version = 'v1';
-        this.context = A_AUTH_Context_class_1.A_AUTH_ContextInstance;
-        this.baseURL = 'https://api.adaas.org';
+        this.context = A_AUTH_Context_class_1.A_AUTH_Context;
         this.baseURL = baseURL || this.baseURL;
         this.init();
     }
     init() {
-        this.axiosInstance = axios_1.default.create({
+        this._axiosInstance = axios_1.default.create({
             baseURL: this.baseURL
         });
-        this.axiosInstance.interceptors.request.use((conf) => __awaiter(this, void 0, void 0, function* () {
-            if (!this.context.token)
-                yield this.context.authenticate();
-            conf.headers.Authorization = `Bearer ${this.context.token}`;
-            this.loading = true;
-            return conf;
-        }));
-        this.axiosInstance.interceptors.response.use((response) => {
-            this.loading = false;
-            return response;
-        }, (error) => {
-            // whatever you want to do with the error
-            this.loading = false;
-            return this.errorHandler(error);
+    }
+    request(method, url, authenticator, data, params, responseType, meta) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.loading = true;
+                const targetAuth = authenticator || this.context.getAuthenticator();
+                const result = yield this._axiosInstance.request({
+                    method,
+                    baseURL: this.baseURL,
+                    url: `/api/${this.version}${url}`,
+                    data,
+                    headers: {
+                        Authorization: `Bearer ${yield targetAuth.getToken()}`
+                    },
+                    params,
+                    responseType: responseType ? responseType : 'json',
+                });
+                this.loading = false;
+                return this.context.responseFormatter(result, meta);
+            }
+            catch (error) {
+                this.loading = false;
+                return this.context.errorsHandler(error, meta);
+            }
         });
     }
-    errorHandler(error) {
-        const internalError = new A_AUTH_Error_class_1.A_AUTH_Error(error);
-        this.context.logger.error(internalError);
-        throw internalError;
+    post(url, body, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('post', url, config === null || config === void 0 ? void 0 : config.authenticator, body, {}, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+        });
+    }
+    get(url, params, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('get', url, config === null || config === void 0 ? void 0 : config.authenticator, {}, params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+        });
+    }
+    put(url, body, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('put', url, config === null || config === void 0 ? void 0 : config.authenticator, body, config === null || config === void 0 ? void 0 : config.params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+        });
+    }
+    delete(url, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('delete', url, config === null || config === void 0 ? void 0 : config.authenticator, {}, config === null || config === void 0 ? void 0 : config.params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+        });
+    }
+    patch(url, body, config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.request('patch', url, config === null || config === void 0 ? void 0 : config.authenticator, body, config === null || config === void 0 ? void 0 : config.params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+        });
     }
 }
 exports.A_AUTH_APIProvider = A_AUTH_APIProvider;

@@ -1,79 +1,35 @@
-import { AxiosInstance } from "axios";
-import { A_AUTH_Logger } from "./A_AUTH_Logger.class";
-export declare class A_AUTH_Context {
+import { A_SDK_Context } from "@adaas/a-sdk-types";
+import { A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
+import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter } from "../types/A_AUTH_Context.types";
+export declare class A_AUTH_ContextClass extends A_SDK_Context {
     /**
-     * Could be both API Credentials Token and User Token for the UI applications
+     * API Credentials Authentication using CLIENT_ID and CLIENT_SECRET
+     * Uses Across all SDKs connected to A-AUTH
      */
-    private _token;
-    private _refreshTimeout?;
-    logger: A_AUTH_Logger;
-    private ADAAS_API_CREDENTIALS_CLIENT_ID;
-    private ADAAS_API_CREDENTIALS_CLIENT_SECRET;
-    private A_AUTH_CONFIG_SDK_VALIDATION;
-    private A_AUTH_CONFIG_VERBOSE;
-    private A_AUTH_CONFIG_IGNORE_ERRORS;
-    private A_AUTH_CONFIG_FRONTEND;
-    private baseURL;
-    protected axiosInstance: AxiosInstance;
-    protected credentialsPromise?: Promise<void>;
-    protected authPromise?: Promise<void>;
+    global: A_SDK_Context;
+    protected SSO_LOCATION: string;
+    responseFormatter: A_AUTH_TYPES__AuthContext_ResponseFormatter;
+    errorsHandler: A_AUTH_TYPES__AuthContext_ErrorHandler;
+    protected customAllowedProperties: readonly ["CONFIG_SDK_VALIDATION", "CONFIG_VERBOSE", "CONFIG_IGNORE_ERRORS", "CONFIG_FRONTEND", "SSO_LOCATION"];
+    protected _AuthMap: Map<string, A_AUTH_TYPES__IAuthenticator>;
     constructor();
+    getConfigurationProperty<T = any>(property: typeof this.customAllowedProperties[number]): T | undefined;
     /**
-     * Initializes the SDK or can be used to reinitialize the SDK
-     */
-    protected init(): void;
-    set token(token: string);
-    get token(): string;
-    get verbose(): boolean;
-    get ignoreErrors(): boolean;
-    get sdkValidation(): boolean;
-    /**
-     * Configures the SDK with the provided parameters or uses the default ones
-     * Useful for Front End applications to omit env variables and use the SDK
+     * Allows to define a global custom API response and error processors
      *
-     * @param verbose
-     * @param ignoreErrors
-     * @param sdkValidation
+     * @param responseFormatter
+     * @param errorsHandler
      */
-    configure(
-    /**
-     * Verbose mode for the SDK
-     */
-    verbose?: boolean, 
-    /**
-     * Ignore errors mode for the SDK
-     */
-    ignoreErrors?: boolean, 
-    /**
-     * SDK Validation mode
-     */
-    sdkValidation?: boolean, 
-    /**
-     * Location of the SSO Server
-     */
-    adaasSSOLocation?: string, 
-    /**
-     * FrontEnd mode: if true, the SDK will be configured for the FrontEnd and will not require API Credentials
-     */
-    frontEnd?: boolean): void;
-    setCredentials(
-    /**
-     * API Credentials Client ID
-     */
-    client_id: string, 
-    /**
-     * API Credentials Client Secret
-     */
-    client_secret: string): void;
-    private loadCredentials;
-    private loadConfigurationsFromFile;
+    setAPIHandlers(responseFormatter: A_AUTH_TYPES__AuthContext_ResponseFormatter, errorsHandler: A_AUTH_TYPES__AuthContext_ErrorHandler): void;
     /**
      *
-     * Authenticates the SDK with the API Credentials
-     * Uses on BE side only
+     * Returns a authentication depending on the request type
      *
-     * @returns void
+     * @param userASEID
+     * @returns
      */
-    authenticate(): Promise<void>;
+    getAuthenticator(userASEID?: string): A_AUTH_TYPES__IAuthenticator;
+    protected loadExtendedConfigurationsFromEnvironment(): Promise<void>;
+    protected loadExtendedConfigurationsFromFile<T = any>(config: T): Promise<void>;
 }
-export declare const A_AUTH_ContextInstance: A_AUTH_Context;
+export declare const A_AUTH_Context: A_AUTH_ContextClass;

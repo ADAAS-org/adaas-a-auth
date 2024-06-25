@@ -1,40 +1,36 @@
 
-import { A_AUTH_ContextInstance } from './src/global/A_AUTH_Context.class';
+export { A_AUTH_Context } from './src/global/A_AUTH_Context.class';
 
-export { A_AUTH_Error } from './src/global/A_AUTH_Error.class';
-
-// To keep proper naming and prevent confusion
-export const A_AUTH_Context = A_AUTH_ContextInstance;
-
-// Export Some Global Entities
+// ============ Export Global & Service Entities ============
 export { A_AUTH_APIProvider } from './src/global/A_AUTH_APIProvider.class';
-
-// ============ TYPES Export ============
-export { A_AUTH_TYPES__Error_ConstructorParams } from './src/types/A_AUTH_Error.types';
-export {
-    A_TYPES__DeepPartial,
-    A_TYPES__Dictionary,
-    A_TYPES__ObjectKeyEnum
-} from './src/types/common.types';
-
-
-// ============ API TYPES Export ============
-export {
-    A_AUTH_TYPES__Role_APIEntity
-} from './src/api/roles/types/A_AUTH_RolesAPI.types';
-
+export { A_AUTH_AppInteractions_APIProvider } from './src/global/api-providers/A_AUTH_AppInteractions.api';
+export { A_AUTH_ServerCommands_APIProvider } from './src/global/api-providers/A_AUTH_ServerCommands.api';
+export { A_AUTH_ServerDelegate_APIProvider } from './src/global/api-providers/A_AUTH_ServerDelegate.api';
+export { A_AUTH_Authenticator } from './src/global/A_AUTH_Authenticator.class';
+export { A_AUTH_AppInteractionsAuthenticator } from './src/global/authenticator/A_AUTH_AppInteractions.authenticator';
+export { A_AUTH_ServerCommandsAuthenticator } from './src/global/authenticator/A_AUTH_ServerCommands.authenticator';
+export { A_AUTH_ServerDelegateAuthenticator } from './src/global/authenticator/A_AUTH_ServerDelegate.authenticator';
 
 // ================== API ==================
-// Mainly for BE purposes it uses API paths from ENV Variables
+export * as A_AUTH_AppInteractions from './src/api/app-interactions';
+export * as A_AUTH_ServerCommands from './src/api/server-commands';
+// export * as A_AUTH_ServerDelegate from './src/api/server-delegate';
+
+
+// ============ CONSTANTS Export ============
 export {
-    A_AUTH_Authenticator,
-    A_AUTH_RolesAPI,
-    A_AUTH_AppsAPI
-} from './src/api';
+    A_AUTH_CONSTANTS__DEFAULT_ERRORS,
+    A_AUTH_CONSTANTS__ERROR_CODES
+} from './src/constants/errors.constants';
 
 
-// ============ API CLASSES Export ============
-// Mainly for FE purposes it uses API directly from class constructor
-export { A_AUTH_AuthenticatorClass } from './src/api/A_AUTH_Authenticator.class';
-export { A_AUTH_RolesAPIClass } from './src/api/roles/A_AUTH_Roles.api';
-export { A_AUTH_AppsAPIClass } from './src/api/apps/A_AUTH_Apps.api';
+// ============ TYPES Export ============
+export * from './src/types/A_AUTH_Authenticator.types';
+export * from './src/types/A_AUTH_APIProvider.types';
+export * from './src/types/A_AUTH_Context.types';
+
+// ============ API TYPES Export ============
+export * from './src/api/app-interactions/index.types';
+
+
+

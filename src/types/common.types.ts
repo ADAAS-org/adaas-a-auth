@@ -21,24 +21,3 @@ export type A_AUTH_RequestParam = {
      */
     value: string
 }
-
-
-
-
-
-// =======================================================
-// ==================== COMMON TYPES =====================
-// =======================================================
-
-export type A_TYPES__DeepPartial<T> = {
-    [P in keyof T]?: T[P] extends object ? A_TYPES__DeepPartial<T[P]> : T[P];
-};
-
-export type A_TYPES__ObjectKeyEnum<T, E> = {
-    [P in keyof T]?: T[P] extends object ? A_TYPES__ObjectKeyEnum<T[P], E> : E;
-};
-
-
-export type A_TYPES__Dictionary<T> = {
-    [Key: string]: T;
-}
