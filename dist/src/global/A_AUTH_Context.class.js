@@ -17,11 +17,12 @@ const A_AUTH_ServerDelegate_authenticator_1 = require("./authenticator/A_AUTH_Se
 const errors_constants_1 = require("../constants/errors.constants");
 const errors_constants_2 = require("@adaas/a-sdk-types/dist/src/constants/errors.constants");
 class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
-    constructor() {
-        super({
-            namespace: 'a-auth',
-            errors: errors_constants_1.A_AUTH_CONSTANTS__DEFAULT_ERRORS
-        });
+    constructor(params = {
+        namespace: 'a-auth',
+        errors: errors_constants_1.A_AUTH_CONSTANTS__DEFAULT_ERRORS
+    }) {
+        super(Object.assign({ namespace: 'a-auth', errors: errors_constants_1.A_AUTH_CONSTANTS__DEFAULT_ERRORS }, params));
+        this.params = params;
         /**
          * API Credentials Authentication using CLIENT_ID and CLIENT_SECRET
          * Uses Across all SDKs connected to A-AUTH

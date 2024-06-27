@@ -5,7 +5,8 @@ import { A_AUTH_ServerCommandsAuthenticator } from "./authenticator/A_AUTH_Serve
 import { A_AUTH_ServerDelegateAuthenticator } from "./authenticator/A_AUTH_ServerDelegate.authenticator";
 import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter } from "../types/A_AUTH_Context.types";
 import { A_AUTH_CONSTANTS__DEFAULT_ERRORS } from "../constants/errors.constants";
-import { A_SDK_CONSTANTS__DEFAULT_ERRORS, A_SDK_CONSTANTS__ERROR_CODES } from "@adaas/a-sdk-types/dist/src/constants/errors.constants";
+import { A_SDK_CONSTANTS__ERROR_CODES } from "@adaas/a-sdk-types/dist/src/constants/errors.constants";
+import { A_SDK_TYPES__ContextConstructor } from "@adaas/a-sdk-types/dist/src/types/A_SDK_Context.types";
 
 
 export class A_AUTH_ContextClass extends A_SDK_ContextClass {
@@ -31,10 +32,16 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
 
     protected _AuthMap = new Map<string, A_AUTH_TYPES__IAuthenticator>();
 
-    constructor() {
-        super({
+    constructor(
+        protected params: Partial<A_SDK_TYPES__ContextConstructor> = {
             namespace: 'a-auth',
             errors: A_AUTH_CONSTANTS__DEFAULT_ERRORS
+        }
+    ) {
+        super({
+            namespace: 'a-auth',
+            errors: A_AUTH_CONSTANTS__DEFAULT_ERRORS,
+            ...params,
         });
     }
 
