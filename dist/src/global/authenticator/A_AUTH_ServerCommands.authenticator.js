@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_ServerCommandsAuthenticator = void 0;
 const A_AUTH_Authenticator_class_1 = require("../A_AUTH_Authenticator.class");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const errors_helper_1 = require("../../helpers/errors.helper");
 const errors_constants_1 = require("../../constants/errors.constants");
 class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator_class_1.A_AUTH_Authenticator {
     constructor() {
@@ -31,7 +30,7 @@ class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator_class_1.A_
         return __awaiter(this, void 0, void 0, function* () {
             yield this.authPromise;
             if (!this._token)
-                throw errors_helper_1.ADAAS_ErrorsProvider.getError(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
+                this.context.Errors.throw(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
             return this._token;
         });
     }

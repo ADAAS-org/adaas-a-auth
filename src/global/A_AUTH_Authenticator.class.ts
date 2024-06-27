@@ -1,9 +1,15 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { A_AUTH_TYPES__AuthenticatorAuthResult, A_AUTH_TYPES__AuthenticatorConfigurations, A_AUTH_TYPES__AuthenticatorCredentials, A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
+import axios, { AxiosInstance } from "axios";
 import { A_SDK_ServerError } from "@adaas/a-sdk-types";
-import { ADAAS_ErrorsProvider } from "../helpers/errors.helper";
 import { A_SDK_CONSTANTS__ERROR_CODES } from "@adaas/a-sdk-types/dist/src/constants/errors.constants";
 import { A_AUTH_CONSTANTS__ERROR_CODES } from "../constants/errors.constants";
+import {
+    A_AUTH_TYPES__AuthenticatorAuthResult,
+    A_AUTH_TYPES__AuthenticatorConfigurations,
+    A_AUTH_TYPES__AuthenticatorCredentials,
+    A_AUTH_TYPES__IAuthenticator
+} from "../types/A_AUTH_Authenticator.types";
+import { A_AUTH_Context, A_AUTH_ContextClass } from "./A_AUTH_Context.class";
+
 
 export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
 
@@ -17,6 +23,8 @@ export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
 
     protected _axiosInstance!: AxiosInstance
 
+    protected context: A_AUTH_ContextClass = A_AUTH_Context;
+
     protected authPromise?: Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
 
     constructor(
@@ -29,7 +37,7 @@ export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
          */
         config: A_AUTH_TYPES__AuthenticatorConfigurations = {
             ssoUrl: 'https://sso.adaas.org'
-        }
+        },
     ) {
         this.baseURL = config.ssoUrl;
         this.init();
@@ -53,7 +61,7 @@ export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
         await this.authPromise;
 
         if (!this._token)
-            throw ADAAS_ErrorsProvider.getError(A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
+            this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
 
         return this._token;
     }
@@ -67,10 +75,10 @@ export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
      * @returns void
      */
     async authenticate(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult> {
-        throw ADAAS_ErrorsProvider.getError(A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED)
+        return this.context.Errors.throw(A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED)
     }
 
     async refresh(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult | undefined> {
-        throw ADAAS_ErrorsProvider.getError(A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED)
+        return this.context.Errors.throw(A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED)
     }
 }

@@ -4,8 +4,9 @@ import {
     A_AUTH_APP_INTERACTIONS_TYPES__AppsListResponse,
     A_AUTH_TYPES__App_APIEntity
 } from "./A_AUTH_Apps.types";
+import { A_AUTH_ContextClass } from "@adaas/a-auth/global/A_AUTH_Context.class";
 
-export class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_APIProvider {
+export class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
 
     protected baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
 

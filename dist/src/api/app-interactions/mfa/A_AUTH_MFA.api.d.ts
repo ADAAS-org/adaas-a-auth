@@ -1,6 +1,7 @@
 import { A_AUTH_AppInteractions_APIProvider } from "../../../global/api-providers/A_AUTH_AppInteractions.api";
 import { A_AUTH_APP_INTERACTIONS_TYPES__EnableMFA_AppResponse, A_AUTH_APP_INTERACTIONS_TYPES__VerifyMFA_AppTokenRequest, A_AUTH_APP_INTERACTIONS_TYPES__VerifyMFA_AppTokenResponse, A_AUTH_APP_INTERACTIONS_TYPES__VerifyMFA_EmailTokenRequest, A_AUTH_APP_INTERACTIONS_TYPES__VerifyMFA_EmailTokenResponse } from "./A_AUTH_MFA.types";
-export declare class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_APIProvider {
+import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
+export declare class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
     protected baseURL: any;
     /**
      * Request to enable MFA for the user using Authenticator App

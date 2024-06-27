@@ -1,6 +1,7 @@
 import { A_AUTH_AppInteractions_APIProvider } from "../../../global/api-providers/A_AUTH_AppInteractions.api";
 import { A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppRequest, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppResponse, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceRequest, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignInAppRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignInAppResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignInRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse } from "./A_AUTH_SignIn.types";
-export declare class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_APIProvider {
+import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
+export declare class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
     protected baseURL: any;
     /**
      *

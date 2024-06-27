@@ -1,6 +1,7 @@
 import { A_AUTH_AppInteractions_APIProvider } from "../../../global/api-providers/A_AUTH_AppInteractions.api";
 import { A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignUpRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse } from "./A_AUTH_SignUp.types";
-export declare class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_APIProvider {
+import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
+export declare class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
     protected baseURL: any;
     signUp<M = any>(
     /**

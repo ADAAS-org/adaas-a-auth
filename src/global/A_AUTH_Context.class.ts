@@ -1,20 +1,20 @@
-import { A_SDK_Context, A_SDK_GlobalContext, A_SDK_ServerError } from "@adaas/a-sdk-types";
-import { A_AUTH_Authenticator } from "./A_AUTH_Authenticator.class";
-import { A_AUTH_TYPES__AuthenticatorCredentials, A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
+import { A_SDK_Context, A_SDK_ContextClass, A_SDK_ServerError } from "@adaas/a-sdk-types";
+import { A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
 import { A_AUTH_AppInteractionsAuthenticator } from "./authenticator/A_AUTH_AppInteractions.authenticator";
 import { A_AUTH_ServerCommandsAuthenticator } from "./authenticator/A_AUTH_ServerCommands.authenticator";
 import { A_AUTH_ServerDelegateAuthenticator } from "./authenticator/A_AUTH_ServerDelegate.authenticator";
-import { AxiosError, AxiosResponse } from "axios";
 import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter } from "../types/A_AUTH_Context.types";
+import { A_AUTH_CONSTANTS__DEFAULT_ERRORS } from "../constants/errors.constants";
+import { A_SDK_CONSTANTS__DEFAULT_ERRORS, A_SDK_CONSTANTS__ERROR_CODES } from "@adaas/a-sdk-types/dist/src/constants/errors.constants";
 
 
-export class A_AUTH_ContextClass extends A_SDK_Context {
+export class A_AUTH_ContextClass extends A_SDK_ContextClass {
 
     /**
      * API Credentials Authentication using CLIENT_ID and CLIENT_SECRET
      * Uses Across all SDKs connected to A-AUTH
      */
-    global: A_SDK_Context = A_SDK_GlobalContext;
+    global: A_SDK_ContextClass = A_SDK_Context;
 
 
     protected SSO_LOCATION: string = 'https://sso.adaas.org';
@@ -32,17 +32,19 @@ export class A_AUTH_ContextClass extends A_SDK_Context {
     protected _AuthMap = new Map<string, A_AUTH_TYPES__IAuthenticator>();
 
     constructor() {
-        super('a-auth');
+        super({
+            namespace: 'a-auth',
+            errors: A_AUTH_CONSTANTS__DEFAULT_ERRORS
+        });
     }
 
 
     getConfigurationProperty<T = any>(
         property: typeof this.customAllowedProperties[number]
-    ): T | undefined {
+    ): T {
         if (this.customAllowedProperties.includes(property as any))
             return this[property as string] as T;
-
-        return undefined;
+        this.Errors.throw(A_SDK_CONSTANTS__ERROR_CODES.CONFIGURATION_PROPERTY_NOT_EXISTS_OR_NOT_ALLOWED_TO_READ);
     }
 
 
@@ -76,14 +78,14 @@ export class A_AUTH_ContextClass extends A_SDK_Context {
             /**
              * In this case it should be Front End SDK with token received from Auth API 
              */
-            case this.environment === 'frontend': {
-                const existedAuth = this._AuthMap.get('frontend');
+            case this.environment === 'browser': {
+                const existedAuth = this._AuthMap.get(this.environment);
                 if (existedAuth) return existedAuth;
                 else {
                     const frontendAuth = new A_AUTH_AppInteractionsAuthenticator({}, {
                         ssoUrl: this.SSO_LOCATION
                     });
-                    this._AuthMap.set('frontend', frontendAuth);
+                    this._AuthMap.set(this.environment, frontendAuth);
                     return frontendAuth;
                 }
             }
@@ -113,7 +115,7 @@ export class A_AUTH_ContextClass extends A_SDK_Context {
              */
             default: {
 
-                const existedServer = this._AuthMap.get('server');
+                const existedServer = this._AuthMap.get(this.environment);
                 if (existedServer) return existedServer;
                 else {
                     const server = new A_AUTH_ServerCommandsAuthenticator({
@@ -123,7 +125,7 @@ export class A_AUTH_ContextClass extends A_SDK_Context {
                         ssoUrl: this.SSO_LOCATION
                     });
 
-                    this._AuthMap.set('server', server);
+                    this._AuthMap.set(this.environment, server);
                     return server;
                 }
             }

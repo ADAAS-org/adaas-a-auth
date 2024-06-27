@@ -1,6 +1,7 @@
 import { A_AUTH_AppInteractions_APIProvider } from "../../../global/api-providers/A_AUTH_AppInteractions.api";
 import { A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListRequest, A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListResponse, A_AUTH_APP_INTERACTIONS_TYPES__RolesListRequest, A_AUTH_APP_INTERACTIONS_TYPES__RolesListResponse, A_AUTH_TYPES__Role_APIEntity } from "./A_AUTH_RolesAPI.types";
-export declare class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_APIProvider {
+import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
+export declare class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
     protected baseURL: any;
     /**
      * This method returns a list of publicly available roles, like student, or business owner

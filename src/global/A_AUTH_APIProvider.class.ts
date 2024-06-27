@@ -1,21 +1,23 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Method, ResponseType } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, Method, ResponseType } from 'axios';
 import { A_AUTH_TYPES__IAuthenticator } from '../types/A_AUTH_Authenticator.types';
 import { A_AUTH_Context, A_AUTH_ContextClass } from './A_AUTH_Context.class';
-import { A_SDK_ServerError } from '@adaas/a-sdk-types';
 import { A_AUTH_TYPES__APIProviderRequestConfig } from '../types/A_AUTH_APIProvider.types';
 
-export class A_AUTH_APIProvider {
+export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
 
     loading: boolean = false;
 
+
     protected _axiosInstance!: AxiosInstance
     protected version: string = 'v1'
-    protected context: A_AUTH_ContextClass = A_AUTH_Context;
+    protected context!: C;
     protected baseURL!: string;
 
     constructor(
-        baseURL?: string
+        context: C,
+        baseURL?: string,
     ) {
+        this.context = context;
         this.baseURL = baseURL || this.baseURL;
         this.init();
     }
@@ -38,6 +40,11 @@ export class A_AUTH_APIProvider {
         meta?: M
     ): Promise<T> {
         try {
+            /**
+             * Make sure the context is ready and all configurations are loaded
+             */
+            await this.context.ready;
+
             this.loading = true;
 
             const targetAuth = authenticator || this.context.getAuthenticator();

@@ -1,15 +1,14 @@
 import { Method, ResponseType } from "axios";
 import { A_AUTH_APIProvider } from "../A_AUTH_APIProvider.class";
 import { A_AUTH_TYPES__IAuthenticator } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
-import { ADAAS_ErrorsProvider } from "@adaas/a-auth/helpers/errors.helper";
 import { A_AUTH_CONSTANTS__ERROR_CODES } from "@adaas/a-auth/constants/errors.constants";
 import { A_AUTH_TYPES__APIProviderRequestConfig } from "@adaas/a-auth/types/A_AUTH_APIProvider.types";
 import { A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
 import { A_AUTH_ServerDelegateAuthenticator } from "../authenticator/A_AUTH_ServerDelegate.authenticator";
-import { A_AUTH_ServerCommandsAuthenticator } from "../authenticator/A_AUTH_ServerCommands.authenticator";
+import { A_AUTH_ContextClass } from "../A_AUTH_Context.class";
 
 
-export class A_AUTH_ServerDelegate_APIProvider extends A_AUTH_APIProvider {
+export class A_AUTH_ServerDelegate_APIProvider<C extends A_AUTH_ContextClass> extends A_AUTH_APIProvider<C> {
 
     protected async request<T, M>(
         method: Method,
@@ -21,9 +20,9 @@ export class A_AUTH_ServerDelegate_APIProvider extends A_AUTH_APIProvider {
         meta?: M
     ): Promise<T> {
         if (this.context.environment !== 'server')
-            throw ADAAS_ErrorsProvider.getError(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_FROM_BROWSER);
+            this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_FROM_BROWSER);
         else if (!auth)
-            throw ADAAS_ErrorsProvider.getError(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_WITHOUT_AUTH);
+            this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_WITHOUT_AUTH);
         else
             return super.request<T, M>(method, url, auth, data, params, responseType, meta);
     }

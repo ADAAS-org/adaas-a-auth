@@ -8,10 +8,11 @@ import {
     A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenResponse
 } from "./A_AUTH_Token.types";
 import { A_AUTH_TYPES__APIProviderRequestConfig } from "@adaas/a-auth/types/A_AUTH_APIProvider.types";
+import { A_AUTH_ContextClass } from "@adaas/a-auth/global/A_AUTH_Context.class";
 
 
 
-export class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_APIProvider {
+export class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_APIProvider<A_AUTH_ContextClass> {
 
     protected baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
 

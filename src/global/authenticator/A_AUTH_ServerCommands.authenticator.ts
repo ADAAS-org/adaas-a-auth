@@ -1,7 +1,6 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 import { A_AUTH_Authenticator } from "../A_AUTH_Authenticator.class";
-import { A_SDK_CommonHelper, A_SDK_Error, A_SDK_ServerError } from "@adaas/a-sdk-types";
-import { ADAAS_ErrorsProvider } from "@adaas/a-auth/helpers/errors.helper";
+import { A_SDK_CommonHelper } from "@adaas/a-sdk-types";
 import { A_AUTH_CONSTANTS__ERROR_CODES } from "@adaas/a-auth/constants/errors.constants";
 import { A_AUTH_TYPES__AuthenticatorAuthResult, A_AUTH_TYPES__IAuthenticator } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
 import { A_SDK_ScheduleObject } from "@adaas/a-sdk-types/dist/src/global/A_SDK_ScheduleObject.class";
@@ -30,7 +29,7 @@ export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator imp
         await this.authPromise;
 
         if (!this._token)
-            throw ADAAS_ErrorsProvider.getError(A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
+            this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
 
         return this._token;
     }

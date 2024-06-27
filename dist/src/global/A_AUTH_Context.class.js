@@ -14,14 +14,19 @@ const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const A_AUTH_AppInteractions_authenticator_1 = require("./authenticator/A_AUTH_AppInteractions.authenticator");
 const A_AUTH_ServerCommands_authenticator_1 = require("./authenticator/A_AUTH_ServerCommands.authenticator");
 const A_AUTH_ServerDelegate_authenticator_1 = require("./authenticator/A_AUTH_ServerDelegate.authenticator");
-class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_Context {
+const errors_constants_1 = require("../constants/errors.constants");
+const errors_constants_2 = require("@adaas/a-sdk-types/dist/src/constants/errors.constants");
+class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     constructor() {
-        super('a-auth');
+        super({
+            namespace: 'a-auth',
+            errors: errors_constants_1.A_AUTH_CONSTANTS__DEFAULT_ERRORS
+        });
         /**
          * API Credentials Authentication using CLIENT_ID and CLIENT_SECRET
          * Uses Across all SDKs connected to A-AUTH
          */
-        this.global = a_sdk_types_1.A_SDK_GlobalContext;
+        this.global = a_sdk_types_1.A_SDK_Context;
         this.SSO_LOCATION = 'https://sso.adaas.org';
         this.responseFormatter = (response) => response.data;
         this.errorsHandler = (error) => { throw new a_sdk_types_1.A_SDK_ServerError(error); };
@@ -34,7 +39,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_Context {
     getConfigurationProperty(property) {
         if (this.customAllowedProperties.includes(property))
             return this[property];
-        return undefined;
+        this.Errors.throw(errors_constants_2.A_SDK_CONSTANTS__ERROR_CODES.CONFIGURATION_PROPERTY_NOT_EXISTS_OR_NOT_ALLOWED_TO_READ);
     }
     /**
      * Allows to define a global custom API response and error processors
@@ -58,15 +63,15 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_Context {
             /**
              * In this case it should be Front End SDK with token received from Auth API
              */
-            case this.environment === 'frontend': {
-                const existedAuth = this._AuthMap.get('frontend');
+            case this.environment === 'browser': {
+                const existedAuth = this._AuthMap.get(this.environment);
                 if (existedAuth)
                     return existedAuth;
                 else {
                     const frontendAuth = new A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator({}, {
                         ssoUrl: this.SSO_LOCATION
                     });
-                    this._AuthMap.set('frontend', frontendAuth);
+                    this._AuthMap.set(this.environment, frontendAuth);
                     return frontendAuth;
                 }
             }
@@ -94,7 +99,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_Context {
              * This could be both API Credentials connected to User or APP credentials
              */
             default: {
-                const existedServer = this._AuthMap.get('server');
+                const existedServer = this._AuthMap.get(this.environment);
                 if (existedServer)
                     return existedServer;
                 else {
@@ -104,7 +109,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_Context {
                     }, {
                         ssoUrl: this.SSO_LOCATION
                     });
-                    this._AuthMap.set('server', server);
+                    this._AuthMap.set(this.environment, server);
                     return server;
                 }
             }

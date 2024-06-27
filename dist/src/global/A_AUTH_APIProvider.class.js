@@ -14,12 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_APIProvider = void 0;
 const axios_1 = __importDefault(require("axios"));
-const A_AUTH_Context_class_1 = require("./A_AUTH_Context.class");
 class A_AUTH_APIProvider {
-    constructor(baseURL) {
+    constructor(context, baseURL) {
         this.loading = false;
         this.version = 'v1';
-        this.context = A_AUTH_Context_class_1.A_AUTH_Context;
+        this.context = context;
         this.baseURL = baseURL || this.baseURL;
         this.init();
     }
@@ -31,6 +30,10 @@ class A_AUTH_APIProvider {
     request(method, url, authenticator, data, params, responseType, meta) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                /**
+                 * Make sure the context is ready and all configurations are loaded
+                 */
+                yield this.context.ready;
                 this.loading = true;
                 const targetAuth = authenticator || this.context.getAuthenticator();
                 const result = yield this._axiosInstance.request({

@@ -9,9 +9,10 @@ import {
     A_AUTH_APP_INTERACTIONS_TYPES__SignInRequest,
     A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse
 } from "./A_AUTH_SignIn.types";
+import { A_AUTH_ContextClass } from "@adaas/a-auth/global/A_AUTH_Context.class";
 
 
-export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_APIProvider {
+export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
 
     protected baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
 

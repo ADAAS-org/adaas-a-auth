@@ -1,7 +1,7 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 import { A_AUTH_Authenticator } from "../A_AUTH_Authenticator.class";
 import { A_AUTH_TYPES__AuthenticatorAuthResult, A_AUTH_TYPES__AuthenticatorConfigurations, A_AUTH_TYPES__AuthenticatorCredentials, A_AUTH_TYPES__IAuthenticator } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
-import { A_SDK_CommonHelper } from "@adaas/a-sdk-types";
+import { A_SDK_CommonHelper, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
 
 export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
 
@@ -22,7 +22,7 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
         /**
          *  Default API Credentials configuration
          */
-        credentials: Partial<A_AUTH_TYPES__AuthenticatorCredentials>,
+        credentials: A_SDK_TYPES__Required<Partial<A_AUTH_TYPES__AuthenticatorCredentials>, ['userASEID']>,
         /**
          *  Authenticator Configuration
          */

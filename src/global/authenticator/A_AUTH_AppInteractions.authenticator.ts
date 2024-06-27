@@ -1,7 +1,6 @@
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { AxiosResponse } from "axios";
 import { A_AUTH_Authenticator } from "../A_AUTH_Authenticator.class";
-import { A_SDK_CommonHelper, A_SDK_Error, A_SDK_ServerError } from "@adaas/a-sdk-types";
-import { ADAAS_ErrorsProvider } from "@adaas/a-auth/helpers/errors.helper";
+import { A_SDK_CommonHelper, A_SDK_Error } from "@adaas/a-sdk-types";
 import { A_AUTH_CONSTANTS__ERROR_CODES } from "@adaas/a-auth/constants/errors.constants";
 import { A_AUTH_TYPES__AuthenticatorAuthResult } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
 
@@ -92,7 +91,7 @@ export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
             return await schedule.promise;
 
         } catch (error) {
-            throw ADAAS_ErrorsProvider.getError(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_REFRESH_TOKEN);
+            this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_REFRESH_TOKEN);
         }
     }
 }

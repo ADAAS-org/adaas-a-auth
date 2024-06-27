@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_Authenticator = void 0;
 const axios_1 = __importDefault(require("axios"));
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
-const errors_helper_1 = require("../helpers/errors.helper");
 const errors_constants_1 = require("@adaas/a-sdk-types/dist/src/constants/errors.constants");
 const errors_constants_2 = require("../constants/errors.constants");
+const A_AUTH_Context_class_1 = require("./A_AUTH_Context.class");
 class A_AUTH_Authenticator {
     constructor(
     /**
@@ -36,6 +36,7 @@ class A_AUTH_Authenticator {
          */
         this._token = '';
         this.baseURL = '';
+        this.context = A_AUTH_Context_class_1.A_AUTH_Context;
         this.baseURL = config.ssoUrl;
         this.init();
     }
@@ -52,7 +53,7 @@ class A_AUTH_Authenticator {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.authPromise;
             if (!this._token)
-                throw errors_helper_1.ADAAS_ErrorsProvider.getError(errors_constants_2.A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
+                this.context.Errors.throw(errors_constants_2.A_AUTH_CONSTANTS__ERROR_CODES.TOKEN_NOT_AVAILABLE);
             return this._token;
         });
     }
@@ -65,12 +66,12 @@ class A_AUTH_Authenticator {
      */
     authenticate(...props) {
         return __awaiter(this, void 0, void 0, function* () {
-            throw errors_helper_1.ADAAS_ErrorsProvider.getError(errors_constants_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED);
+            return this.context.Errors.throw(errors_constants_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED);
         });
     }
     refresh(...props) {
         return __awaiter(this, void 0, void 0, function* () {
-            throw errors_helper_1.ADAAS_ErrorsProvider.getError(errors_constants_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED);
+            return this.context.Errors.throw(errors_constants_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED);
         });
     }
 }

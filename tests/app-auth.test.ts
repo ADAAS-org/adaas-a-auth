@@ -1,16 +1,14 @@
-// import { config } from 'dotenv';
-// config();
-// jest.retryTimes(0);
+import { A_AUTH_Context } from '@adaas/a-auth/global/A_AUTH_Context.class';
+import { config } from 'dotenv';
+config();
+jest.retryTimes(0);
 
-// // TODO: =======================================REPLACE WITH NEW VERSION=======================================
+// TODO: =======================================REPLACE WITH NEW VERSION=======================================
 
 
-// describe('Auth Basic Methods to implement SSO', () => {
-//     it('Should receive Auth SSO URL depending on the app credentials', async () => {
+describe('Auth Basic Methods to implement SSO', () => {
+    it('Should receive Auth SSO URL depending on the app credentials', async () => {
+        await A_AUTH_Context.ready;
 
-//         // const resp = await A_AUTH_Authenticator.getSignInUrl('http://local.a-blog.org/callback/adaas');
-
-//         // expect(resp).toBeDefined();
-
-//     });
-// });
+    });
+});

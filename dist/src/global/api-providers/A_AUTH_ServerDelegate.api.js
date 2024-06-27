@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_ServerDelegate_APIProvider = void 0;
 const A_AUTH_APIProvider_class_1 = require("../A_AUTH_APIProvider.class");
-const errors_helper_1 = require("../../helpers/errors.helper");
 const errors_constants_1 = require("../../constants/errors.constants");
 class A_AUTH_ServerDelegate_APIProvider extends A_AUTH_APIProvider_class_1.A_AUTH_APIProvider {
     request(method, url, auth, data, params, responseType, meta) {
@@ -20,9 +19,9 @@ class A_AUTH_ServerDelegate_APIProvider extends A_AUTH_APIProvider_class_1.A_AUT
         });
         return __awaiter(this, void 0, void 0, function* () {
             if (this.context.environment !== 'server')
-                throw errors_helper_1.ADAAS_ErrorsProvider.getError(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_FROM_BROWSER);
+                this.context.Errors.throw(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_FROM_BROWSER);
             else if (!auth)
-                throw errors_helper_1.ADAAS_ErrorsProvider.getError(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_WITHOUT_AUTH);
+                this.context.Errors.throw(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_WITHOUT_AUTH);
             else
                 return _super.request.call(this, method, url, auth, data, params, responseType, meta);
         });
