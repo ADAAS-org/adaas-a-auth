@@ -12,10 +12,10 @@ export declare class A_AUTH_ContextClass extends A_SDK_ContextClass {
     protected SSO_LOCATION: string;
     responseFormatter: A_AUTH_TYPES__AuthContext_ResponseFormatter;
     errorsHandler: A_AUTH_TYPES__AuthContext_ErrorHandler;
-    protected customAllowedProperties: readonly ["CONFIG_SDK_VALIDATION", "CONFIG_VERBOSE", "CONFIG_IGNORE_ERRORS", "SSO_LOCATION"];
+    protected authContextAllowedProperties: readonly ["CONFIG_SDK_VALIDATION", "CONFIG_VERBOSE", "CONFIG_IGNORE_ERRORS", "SSO_LOCATION"];
     protected _AuthMap: Map<string, A_AUTH_TYPES__IAuthenticator>;
     constructor(params?: Partial<A_SDK_TYPES__ContextConstructor>);
-    getConfigurationProperty<T = any>(property: typeof this.customAllowedProperties[number]): T;
+    getConfigurationProperty<T = any>(property: typeof this.authContextAllowedProperties[number]): T;
     /**
      * Allows to define a global custom API response and error processors
      *

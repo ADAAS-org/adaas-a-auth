@@ -31,14 +31,14 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
         this.SSO_LOCATION = 'https://sso.adaas.org';
         this.responseFormatter = (response) => response.data;
         this.errorsHandler = (error) => { throw new a_sdk_types_1.A_SDK_ServerError(error); };
-        this.customAllowedProperties = [
+        this.authContextAllowedProperties = [
             ...this.defaultAllowedToReadProperties,
             "SSO_LOCATION"
         ];
         this._AuthMap = new Map();
     }
     getConfigurationProperty(property) {
-        if (this.customAllowedProperties.includes(property))
+        if (this.authContextAllowedProperties.includes(property))
             return this[property];
         this.Errors.throw(errors_constants_2.A_SDK_CONSTANTS__ERROR_CODES.CONFIGURATION_PROPERTY_NOT_EXISTS_OR_NOT_ALLOWED_TO_READ);
     }

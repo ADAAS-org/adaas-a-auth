@@ -24,7 +24,7 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
     errorsHandler: A_AUTH_TYPES__AuthContext_ErrorHandler = (error) => { throw new A_SDK_ServerError(error) }
 
 
-    protected customAllowedProperties = [
+    protected authContextAllowedProperties = [
         ...this.defaultAllowedToReadProperties,
         "SSO_LOCATION"
     ] as const;
@@ -47,9 +47,9 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
 
 
     getConfigurationProperty<T = any>(
-        property: typeof this.customAllowedProperties[number]
+        property: typeof this.authContextAllowedProperties[number]
     ): T {
-        if (this.customAllowedProperties.includes(property as any))
+        if (this.authContextAllowedProperties.includes(property as any))
             return this[property as string] as T;
         this.Errors.throw(A_SDK_CONSTANTS__ERROR_CODES.CONFIGURATION_PROPERTY_NOT_EXISTS_OR_NOT_ALLOWED_TO_READ);
     }

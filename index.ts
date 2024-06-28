@@ -31,6 +31,7 @@ export * from './src/types/A_AUTH_Context.types';
 
 // ============ API TYPES Export ============
 export * from './src/api/app-interactions/index.types';
+export * from './src/api/server-commands/index.types';
 
 
 

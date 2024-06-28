@@ -14,3 +14,4 @@ export * from './src/types/A_AUTH_Authenticator.types';
 export * from './src/types/A_AUTH_APIProvider.types';
 export * from './src/types/A_AUTH_Context.types';
 export * from './src/api/app-interactions/index.types';
+export * from './src/api/server-commands/index.types';
