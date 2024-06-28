@@ -19,7 +19,7 @@ export class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_API
      * @param meta 
      * @returns 
      */
-    async getApps<M = any>(
+    async list<M = any>(
         request: A_AUTH_APP_INTERACTIONS_TYPES__AppsListRequest,
         meta?: M
     ): Promise<A_AUTH_APP_INTERACTIONS_TYPES__AppsListResponse> {
@@ -40,7 +40,7 @@ export class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_API
      * @param appASEID 
      * @returns 
      */
-    async getApp<M = any>(
+    async load<M = any>(
         /**
          * The app ASEID 
          */

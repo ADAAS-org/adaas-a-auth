@@ -24,7 +24,7 @@ class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_api_1.A_A
      * @param filter
      * @returns
      */
-    getPublicRolesList(request, 
+    listPublic(request, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */
@@ -45,7 +45,7 @@ class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_api_1.A_A
      * @param filter
      * @returns
      */
-    getRolesList(request, 
+    list(request, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */
@@ -63,7 +63,7 @@ class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_api_1.A_A
      * @param roleIdOrIdentity
      * @returns
      */
-    getRole(roleASEID, 
+    load(roleASEID, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */

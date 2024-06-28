@@ -43,7 +43,7 @@ class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_api_1.A_AUT
      * @param meta
      * @returns
      */
-    verifyToken(request, config) {
+    verify(request, config) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.post(`/-s-cmd-/token/verify`, request, config);
         });
@@ -57,7 +57,7 @@ class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_api_1.A_AUT
      * @param meta
      * @returns
      */
-    refreshToken(request, config) {
+    refresh(request, config) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.post(`/-s-cmd-/token/refresh`, request, config);
         });

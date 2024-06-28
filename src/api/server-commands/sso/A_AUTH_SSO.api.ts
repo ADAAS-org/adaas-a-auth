@@ -26,7 +26,7 @@ export class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommands_APIPro
      */
     getSignInUrl<M = any>(
         request: A_AUTH_SERVER_COMMANDS_TYPES__GetSignInUrlRequest,
-        config: A_AUTH_TYPES__APIProviderRequestConfig<M>
+        config?: A_AUTH_TYPES__APIProviderRequestConfig<M>
     ) {
         return this.post<A_AUTH_SERVER_COMMANDS_TYPES__GetSignInUrlResponse, M>(
             `/-s-cmd-/sso/sign-in/url`,
@@ -46,7 +46,7 @@ export class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommands_APIPro
      */
     async getSignUpUrl<M = any>(
         request: A_AUTH_SERVER_COMMANDS_TYPES__GetSignUpUrlRequest,
-        config: A_AUTH_TYPES__APIProviderRequestConfig<M>
+        config?: A_AUTH_TYPES__APIProviderRequestConfig<M>
     ) {
         return await this.post<A_AUTH_SERVER_COMMANDS_TYPES__GetSignUpUrlResponse, M>(
             `/-s-cmd-/sso/sign-up/url`,
@@ -66,7 +66,7 @@ export class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommands_APIPro
      */
     async verifyOrigin<M = any>(
         request: A_AUTH_SERVER_COMMANDS_TYPES__VerifyOriginRequest,
-        config: A_AUTH_TYPES__APIProviderRequestConfig<M>
+        config?: A_AUTH_TYPES__APIProviderRequestConfig<M>
     ) {
         return await this.post<A_AUTH_SERVER_COMMANDS_TYPES__VerifyOriginResponse, M>(
             `/-s-cmd-/sso/origin/verify`,

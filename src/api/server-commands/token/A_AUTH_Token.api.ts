@@ -27,7 +27,7 @@ export class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_APIP
      */
     getAccessToken<M = any>(
         request: A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenRequest,
-        config: A_AUTH_TYPES__APIProviderRequestConfig<M>
+        config?: A_AUTH_TYPES__APIProviderRequestConfig<M>
 
     ) {
         return this.post<A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenResponse, M>(
@@ -49,9 +49,9 @@ export class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_APIP
      * @param meta 
      * @returns 
      */
-    async verifyToken<M = any>(
+    async verify<M = any>(
         request: A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenRequest,
-        config: A_AUTH_TYPES__APIProviderRequestConfig<M>
+        config?: A_AUTH_TYPES__APIProviderRequestConfig<M>
     ) {
         return await this.post<A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenResponse, M>(
             `/-s-cmd-/token/verify`,
@@ -71,9 +71,9 @@ export class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_APIP
      * @param meta 
      * @returns 
      */
-    async refreshToken<M = any>(
+    async refresh<M = any>(
         request: A_AUTH_SERVER_COMMANDS_TYPES__RefreshTokenRequest,
-        config: A_AUTH_TYPES__APIProviderRequestConfig<M>
+        config?: A_AUTH_TYPES__APIProviderRequestConfig<M>
     ) {
         return await this.post<A_AUTH_SERVER_COMMANDS_TYPES__RefreshTokenResponse, M>(
             `/-s-cmd-/token/refresh`,

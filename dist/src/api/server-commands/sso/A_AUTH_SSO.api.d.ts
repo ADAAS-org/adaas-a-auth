@@ -11,7 +11,7 @@ export declare class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommand
      * @param config
      * @returns
      */
-    getSignInUrl<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__GetSignInUrlRequest, config: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__GetSignInUrlResponse>;
+    getSignInUrl<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__GetSignInUrlRequest, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__GetSignInUrlResponse>;
     /**
      *
      * Method to generate sign up url for the user to sign up via ADAAS SSO
@@ -20,7 +20,7 @@ export declare class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommand
      * @param config
      * @returns
      */
-    getSignUpUrl<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__GetSignUpUrlRequest, config: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__GetSignUpUrlResponse>;
+    getSignUpUrl<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__GetSignUpUrlRequest, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__GetSignUpUrlResponse>;
     /**
      * Method to verify origin of the request
      *
@@ -28,5 +28,5 @@ export declare class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommand
      * @param config
      * @returns
      */
-    verifyOrigin<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__VerifyOriginRequest, config: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__VerifyOriginResponse>;
+    verifyOrigin<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__VerifyOriginRequest, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__VerifyOriginResponse>;
 }

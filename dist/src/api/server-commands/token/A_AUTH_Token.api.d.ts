@@ -11,7 +11,7 @@ export declare class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerComma
      * @param meta
      * @returns
      */
-    getAccessToken<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenRequest, config: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenResponse>;
+    getAccessToken<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenRequest, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenResponse>;
     /**
      *
      * Method to validate token regardless of the token type
@@ -23,7 +23,7 @@ export declare class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerComma
      * @param meta
      * @returns
      */
-    verifyToken<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenRequest, config: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenResponse>;
+    verify<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenRequest, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenResponse>;
     /**
      *
      * Method to refresh token for the user.
@@ -33,5 +33,5 @@ export declare class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerComma
      * @param meta
      * @returns
      */
-    refreshToken<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__RefreshTokenRequest, config: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__RefreshTokenResponse>;
+    refresh<M = any>(request: A_AUTH_SERVER_COMMANDS_TYPES__RefreshTokenRequest, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<A_AUTH_SERVER_COMMANDS_TYPES__RefreshTokenResponse>;
 }

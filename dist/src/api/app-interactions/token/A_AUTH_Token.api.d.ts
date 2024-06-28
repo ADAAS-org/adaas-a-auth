@@ -11,7 +11,7 @@ export declare class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInterac
      * @param meta
      * @returns
      */
-    verifyToken<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__VerifyTokenRequest, 
+    verify<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__VerifyTokenRequest, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */
@@ -24,7 +24,7 @@ export declare class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInterac
      * @param meta
      * @returns
      */
-    refreshToken<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__RefreshTokenRequest, 
+    refresh<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__RefreshTokenRequest, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */

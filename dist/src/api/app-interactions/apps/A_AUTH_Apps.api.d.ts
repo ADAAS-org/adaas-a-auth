@@ -11,14 +11,14 @@ export declare class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteract
      * @param meta
      * @returns
      */
-    getApps<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__AppsListRequest, meta?: M): Promise<A_AUTH_APP_INTERACTIONS_TYPES__AppsListResponse>;
+    list<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__AppsListRequest, meta?: M): Promise<A_AUTH_APP_INTERACTIONS_TYPES__AppsListResponse>;
     /**
      * Returns a app by id or identity
      *
      * @param appASEID
      * @returns
      */
-    getApp<M = any>(
+    load<M = any>(
     /**
      * The app ASEID
      */

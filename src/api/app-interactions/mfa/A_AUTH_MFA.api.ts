@@ -85,5 +85,4 @@ export class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_APIP
                 meta
             });
     }
-
 }

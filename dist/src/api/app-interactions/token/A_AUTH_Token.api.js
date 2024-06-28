@@ -30,7 +30,7 @@ class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_api_1.A_A
      * @param meta
      * @returns
      */
-    verifyToken(request, 
+    verify(request, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */
@@ -49,7 +49,7 @@ class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_api_1.A_A
      * @param meta
      * @returns
      */
-    refreshToken(request, 
+    refresh(request, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */

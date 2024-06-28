@@ -24,7 +24,7 @@ class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_api_1.A_AU
      * @param meta
      * @returns
      */
-    getApps(request, meta) {
+    list(request, meta) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this
                 .get('/api/v1/apps', request, {
@@ -38,7 +38,7 @@ class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_api_1.A_AU
      * @param appASEID
      * @returns
      */
-    getApp(
+    load(
     /**
      * The app ASEID
      */

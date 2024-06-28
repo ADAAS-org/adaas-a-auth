@@ -11,7 +11,7 @@ export declare class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInterac
      * @param filter
      * @returns
      */
-    getPublicRolesList<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListRequest, 
+    listPublic<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListRequest, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */
@@ -25,7 +25,7 @@ export declare class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInterac
      * @param filter
      * @returns
      */
-    getRolesList<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__RolesListRequest, 
+    list<M = any>(request: A_AUTH_APP_INTERACTIONS_TYPES__RolesListRequest, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */
@@ -36,7 +36,7 @@ export declare class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInterac
      * @param roleIdOrIdentity
      * @returns
      */
-    getRole<M>(roleASEID: string, 
+    load<M>(roleASEID: string, 
     /**
      * The meta object to pass through API call for error handling or response handling
      */

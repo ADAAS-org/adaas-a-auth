@@ -22,7 +22,7 @@ export class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_AP
      * @param filter 
      * @returns 
      */
-    async getPublicRolesList<M = any>(
+    async listPublic<M = any>(
         request: A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListRequest,
         /**
          * The meta object to pass through API call for error handling or response handling
@@ -49,7 +49,7 @@ export class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_AP
      * @param filter 
      * @returns 
      */
-    async getRolesList<M = any>(
+    async list<M = any>(
         request: A_AUTH_APP_INTERACTIONS_TYPES__RolesListRequest,
         /**
          * The meta object to pass through API call for error handling or response handling
@@ -72,7 +72,7 @@ export class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_AP
      * @param roleIdOrIdentity 
      * @returns 
      */
-    async getRole<M>(
+    async load<M>(
         roleASEID: string,
         /**
          * The meta object to pass through API call for error handling or response handling
