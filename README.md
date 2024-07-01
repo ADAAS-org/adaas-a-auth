@@ -1,10 +1,10 @@
-<img align="left" style="margin-right:40px; margin-bottom:80px;" width="180" height="80" src="./docs/logo.png" alt="ADAAS Logo">
+<img align="left" style="margin-right:40px; margin-bottom:80px;" width="180" height="80" src="./docs/a-logo-docs.png" alt="ADAAS Logo">
 
-# ADAAS Application Development Framework (ADF) Node.js SDK for Authentication
+# A-Auth Authentication SDK for ADAAS SDKs
 
 | LTS | Latest | npm               |
 |---------------|----------|---------------------------|
-| v1.0.0      |   v1.0.1    |     [@adaas/adf-auth](https://npm.com)    |
+| v1.0.0      |   v1.0.1    |     [@adaas/a-auth](https://npm.com)    |
 
 
 <!-- TABLE OF CONTENTS -->

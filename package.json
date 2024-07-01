@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ADAAS-org/adaas-adf-auth.git"
+    "url": "git+https://github.com/ADAAS-org/adaas-a-auth.git"
   },
   "keywords": [
     "sdk",
@@ -44,9 +44,9 @@
   "author": "adaas.org",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ADAAS-org/adaas-adf-auth/issues"
+    "url": "https://github.com/ADAAS-org/adaas-a-auth/issues"
   },
-  "homepage": "https://github.com/ADAAS-org/adaas-adf-auth#readme",
+  "homepage": "https://github.com/ADAAS-org/adaas-a-auth#readme",
   "dependencies": {
     "@adaas/a-sdk-types": "^0.0.33",
     "@types/node": "^20.10.0",

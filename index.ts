@@ -1,5 +1,8 @@
 
-export { A_AUTH_Context } from './src/global/A_AUTH_Context.class';
+export {
+    A_AUTH_Context,
+    A_AUTH_ContextClass
+} from './src/global/A_AUTH_Context.class';
 
 // ============ Export Global & Service Entities ============
 export { A_AUTH_APIProvider } from './src/global/A_AUTH_APIProvider.class';
