@@ -41,13 +41,12 @@ export type A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse = Partial<{
 }>;
 export type A_AUTH_APP_INTERACTIONS_TYPES__SignInAppRequest = {
     app: string;
+};
+export type A_AUTH_APP_INTERACTIONS_TYPES__SignInAppResponse = {
     actions?: Array<{
         action: A_AUTH_APP_INTERACTIONS_TYPES__SSO_ACTION;
         data: any;
     }>;
-};
-export type A_AUTH_APP_INTERACTIONS_TYPES__SignInAppResponse = {
-    status: 'OK' | 'ERROR';
 };
 export type A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppRequest = {
     /**

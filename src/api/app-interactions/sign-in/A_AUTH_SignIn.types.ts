@@ -58,14 +58,14 @@ export type A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse = Partial<{
 
 export type A_AUTH_APP_INTERACTIONS_TYPES__SignInAppRequest = {
     app: string,
-    actions?: Array<{
-        action: A_AUTH_APP_INTERACTIONS_TYPES__SSO_ACTION,
-        data: any
-    }>,
+
 }
 
 export type A_AUTH_APP_INTERACTIONS_TYPES__SignInAppResponse = {
-    status: 'OK' | 'ERROR',
+    actions?: Array<{
+        action: A_AUTH_APP_INTERACTIONS_TYPES__SSO_ACTION,
+        data: any
+    }>
 }
 
 
