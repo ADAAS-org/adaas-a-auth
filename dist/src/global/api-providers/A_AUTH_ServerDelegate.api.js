@@ -34,12 +34,12 @@ class A_AUTH_ServerDelegate_APIProvider extends A_AUTH_APIProvider_class_1.A_AUT
             return _super.post.call(this, url, body, config);
         });
     }
-    get(url, config) {
+    get(url_1) {
         const _super = Object.create(null, {
             get: { get: () => super.get }
         });
-        return __awaiter(this, void 0, void 0, function* () {
-            return _super.get.call(this, url, config);
+        return __awaiter(this, arguments, void 0, function* (url, params = {}, config) {
+            return _super.get.call(this, url, params, config);
         });
     }
     put(url_1) {

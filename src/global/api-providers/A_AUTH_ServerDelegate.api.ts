@@ -35,12 +35,12 @@ export class A_AUTH_ServerDelegate_APIProvider<C extends A_AUTH_ContextClass> ex
         return super.post<T, M>(url, body, config);
     }
 
-
     protected async get<T, M = any>(
         url: string,
+        params: any = {},
         config: A_SDK_TYPES__Required<A_AUTH_TYPES__APIProviderRequestConfig<M, A_AUTH_ServerDelegateAuthenticator>, ['authenticator']>
     ): Promise<T> {
-        return super.get<T, M>(url, config);
+        return super.get<T, M>(url, params, config);
     }
 
     protected async put<T, M = any>(
