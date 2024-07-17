@@ -1,5 +1,5 @@
 import { A_AUTH_AppInteractions_APIProvider } from "../../../global/api-providers/A_AUTH_AppInteractions.api";
-import { A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppRequest, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppResponse, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceRequest, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignInAppRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignInAppResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignInRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse } from "./A_AUTH_SignIn.types";
+import { A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppRequest, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppResponse, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceRequest, A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignInAppRequest, A_AUTH_APP_INTERACTIONS_TYPES__SignInAppResponse, A_AUTH_APP_INTERACTIONS_TYPES__SignInRequest } from "./A_AUTH_SignIn.types";
 import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
 export declare class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
     protected baseURL: any;
@@ -19,7 +19,15 @@ export declare class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppIntera
     /**
      * The meta object to pass through API call for error handling or response handling
      */
-    meta?: M): Promise<A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse>;
+    meta?: M): Promise<Partial<{
+        actions: {
+            action: import("./A_AUTH_SignIn.types").A_AUTH_APP_INTERACTIONS_TYPES__SSO_ACTION;
+            data: any;
+        }[];
+        token: string;
+        refreshToken: string;
+        exp: number;
+    }>>;
     /**
      * This method just do sign in to particular application.
      * In contrast with APP Authorize Request it will just sign in to the app and not attach the app to the user account
