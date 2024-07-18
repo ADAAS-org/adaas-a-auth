@@ -2,10 +2,17 @@ import { A_SDK_TYPES__IDefaultPagination, A_SDK_TYPES__IRequestFilter, A_SDK_TYP
 
 //========================= DEFAULT ROLES API TYPES ================================
 export type A_AUTH_TYPES__Role_APIEntity = {
-    id: number,
-    identity: string,
-    name: string,
-    description?: string,
+    aseid: string
+    id: number;
+    icon?: string;
+    name: string;
+    description?: string;
+    default: boolean;
+    public: boolean;
+    user_id: number;
+    scope_aseid?: string;
+    
+    // User?: ADAAS_SSO_DB_User
 
     created_at: string;
     updated_at: string;

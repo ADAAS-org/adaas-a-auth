@@ -1,9 +1,14 @@
 import { A_SDK_TYPES__IDefaultPagination, A_SDK_TYPES__IRequestFilter, A_SDK_TYPES__IRequestPagination } from "@adaas/a-sdk-types";
 export type A_AUTH_TYPES__Role_APIEntity = {
+    aseid: string;
     id: number;
-    identity: string;
+    icon?: string;
     name: string;
     description?: string;
+    default: boolean;
+    public: boolean;
+    user_id: number;
+    scope_aseid?: string;
     created_at: string;
     updated_at: string;
 };
