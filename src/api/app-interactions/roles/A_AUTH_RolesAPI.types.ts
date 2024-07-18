@@ -9,9 +9,9 @@ export type A_AUTH_TYPES__Role_APIEntity = {
     description?: string;
     default: boolean;
     public: boolean;
-    user_id: number;
+    user_id?: number;
     scope_aseid?: string;
-    
+
     // User?: ADAAS_SSO_DB_User
 
     created_at: string;
@@ -26,7 +26,7 @@ export type A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListRequest = {
     filter: A_SDK_TYPES__IRequestFilter
 }
 
-export type A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListResponse = A_SDK_TYPES__IDefaultPagination<A_AUTH_TYPES__Role_APIEntity>
+export type A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListResponse = A_SDK_TYPES__IDefaultPagination<Partial<A_AUTH_TYPES__Role_APIEntity>>
 
 
 // =========================  ROLES LIST API TYPES ================================
