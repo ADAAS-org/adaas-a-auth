@@ -37,6 +37,26 @@ class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_api_1.A_A
         });
     }
     /**
+     * Returns a list of roles in accordance with API Credentials permissions and issuer.
+     * Allows user to select scope connected to primary role
+     *
+     * @param request
+     * @param meta
+     * @returns
+     */
+    listScoped(request, 
+    /**
+     * The meta object to pass through API call for error handling or response handling
+     */
+    meta) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this
+                .get('/roles/scoped', request, {
+                meta
+            });
+        });
+    }
+    /**
      * Returns a list of roles in accordance with API Credentials permissions and issuer
      * Based on The parent organization Role
      *

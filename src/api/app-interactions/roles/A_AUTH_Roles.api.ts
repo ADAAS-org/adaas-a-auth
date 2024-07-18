@@ -4,6 +4,8 @@ import {
     A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListResponse,
     A_AUTH_APP_INTERACTIONS_TYPES__RolesListRequest,
     A_AUTH_APP_INTERACTIONS_TYPES__RolesListResponse,
+    A_AUTH_APP_INTERACTIONS_TYPES__ScopedRolesListRequest,
+    A_AUTH_APP_INTERACTIONS_TYPES__ScopedRolesListResponse,
     A_AUTH_TYPES__Role_APIEntity
 } from "./A_AUTH_RolesAPI.types";
 import { A_AUTH_ContextClass } from "@adaas/a-auth/global/A_AUTH_Context.class";
@@ -37,6 +39,31 @@ export class A_AUTH_APP_INTERACTIONS__RolesAPI extends A_AUTH_AppInteractions_AP
                     meta
                 }
             );
+    }
+
+
+    /**
+     * Returns a list of roles in accordance with API Credentials permissions and issuer.
+     * Allows user to select scope connected to primary role
+     * 
+     * @param request 
+     * @param meta 
+     * @returns 
+     */
+    async listScoped<M = any>(
+        request: A_AUTH_APP_INTERACTIONS_TYPES__ScopedRolesListRequest,
+        /**
+         * The meta object to pass through API call for error handling or response handling
+         */
+        meta?: M
+    ) {
+        return await this
+            .get<A_AUTH_APP_INTERACTIONS_TYPES__ScopedRolesListResponse, M>(
+                '/roles/scoped',
+                request,
+                {
+                    meta
+                });
     }
 
 

@@ -29,6 +29,17 @@ export type A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListRequest = {
 export type A_AUTH_APP_INTERACTIONS_TYPES__PublicRolesListResponse = A_SDK_TYPES__IDefaultPagination<Partial<A_AUTH_TYPES__Role_APIEntity>>
 
 
+
+// ========================= SCOPED ROLES LIST API TYPES ================================
+export type A_AUTH_APP_INTERACTIONS_TYPES__ScopedRolesListRequest = {
+    pagination: A_SDK_TYPES__IRequestPagination,
+    filter: A_SDK_TYPES__IRequestFilter
+}
+
+export type A_AUTH_APP_INTERACTIONS_TYPES__ScopedRolesListResponse = A_SDK_TYPES__IDefaultPagination<Partial<A_AUTH_TYPES__Role_APIEntity>>
+
+
+
 // =========================  ROLES LIST API TYPES ================================
 export type A_AUTH_APP_INTERACTIONS_TYPES__RolesListRequest = {
     pagination: A_SDK_TYPES__IRequestPagination,
