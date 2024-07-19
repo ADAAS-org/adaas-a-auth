@@ -5,15 +5,19 @@ export type A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenResponse = {
     valid: boolean;
     exp: number;
     /**
+     * API Credentials  ASEID
+     */
+    client?: string;
+    /**
      * user ASEID
      */
-    user: string;
+    user?: string;
     /**
      *  App ASEID
      */
-    app: string;
+    app?: string;
     /**
-     * Array of roles ASEIDs for the user
+     * Array of roles ASEIDs for the actor (user or api credentials)
      */
     roles: Array<string>;
     /**
