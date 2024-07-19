@@ -29,6 +29,7 @@ class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator_class_1.A_
         this._client_secret = '';
         this.baseURL = '';
         this._userASEID = credentials.userASEID;
+        this._userScope = credentials.userScope;
     }
     /**
      *
@@ -45,7 +46,8 @@ class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator_class_1.A_
                         const response = yield this._axiosInstance.post(`${this.baseURL}/api/v1/-s-cmd-/api-credentials/authorize`, {
                             client_id: this._client_id,
                             client_secret: this._client_secret,
-                            usr: this._userASEID
+                            usr: this._userASEID,
+                            scope: this._userScope
                         });
                         this.refresh(response.data.exp);
                         resolve({
@@ -66,14 +68,15 @@ class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator_class_1.A_
      * For this AUTH Type, the refresh is not needed
      * Because of that we will just delete the token from the memory
      *
-     * @param exp
+     * @param exp - Expiration Date in Unix Timestamp
      * @param userASEID
      * @returns
      */
     refresh(exp) {
         return __awaiter(this, void 0, void 0, function* () {
+            const diff = exp - Math.floor(Date.now() / 1000);
             a_sdk_types_1.A_SDK_CommonHelper
-                .schedule((exp * 1000) - 60 * 1000, () => __awaiter(this, void 0, void 0, function* () { return this.authPromise = undefined; }));
+                .schedule((diff * 1000) - 60 * 1000, () => __awaiter(this, void 0, void 0, function* () { return this.authPromise = undefined; }));
             return;
         });
     }

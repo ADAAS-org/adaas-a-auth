@@ -49,6 +49,11 @@ export interface A_AUTH_TYPES__AuthenticatorCredentials {
      * User Identifier for the SDK operations on behalf of the user
      */
     userASEID: string
+
+    /**
+     * User Identifier for the SDK operations on behalf of the user
+     */
+    userScope: string
 }
 
 

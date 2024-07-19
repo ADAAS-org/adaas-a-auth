@@ -10,6 +10,7 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
      * This is a User token issued by ADAAS SSO for the communication between FE and BE
      */
     protected _userASEID!: string;
+    protected _userScope!: string;
 
     protected _client_id: string = '';
     protected _client_secret: string = '';
@@ -22,7 +23,7 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
         /**
          *  Default API Credentials configuration
          */
-        credentials: A_SDK_TYPES__Required<Partial<A_AUTH_TYPES__AuthenticatorCredentials>, ['userASEID']>,
+        credentials: A_SDK_TYPES__Required<Partial<A_AUTH_TYPES__AuthenticatorCredentials>, ['userASEID', 'userScope']>,
         /**
          *  Authenticator Configuration
          */
@@ -32,7 +33,8 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
     ) {
         super(credentials, config);
 
-        this._userASEID = credentials.userASEID!;
+        this._userASEID = credentials.userASEID;
+        this._userScope = credentials.userScope;
     }
 
 
@@ -48,12 +50,16 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
         if (!this.authPromise) {
             this.authPromise = new Promise(async (resolve, reject) => {
                 try {
-                    const response: AxiosResponse<{ token: string, exp: number }> = await this._axiosInstance.post(
+                    const response: AxiosResponse<{
+                        token: string,
+                        exp: number
+                    }> = await this._axiosInstance.post(
                         `${this.baseURL}/api/v1/-s-cmd-/api-credentials/authorize`,
                         {
                             client_id: this._client_id,
                             client_secret: this._client_secret,
-                            usr: this._userASEID
+                            usr: this._userASEID,
+                            scope: this._userScope
                         });
 
                     this.refresh(response.data.exp);
@@ -79,14 +85,17 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
      * For this AUTH Type, the refresh is not needed
      * Because of that we will just delete the token from the memory
      * 
-     * @param exp 
+     * @param exp - Expiration Date in Unix Timestamp 
      * @param userASEID 
      * @returns 
      */
     async refresh(exp: number): Promise<undefined> {
+
+        const diff = exp - Math.floor(Date.now() / 1000);
+
         A_SDK_CommonHelper
             .schedule<undefined>(
-                (exp * 1000) - 60 * 1000,
+                (diff * 1000) - 60 * 1000,
                 async () => this.authPromise = undefined,
             );
 

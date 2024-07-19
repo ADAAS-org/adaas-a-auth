@@ -84,9 +84,17 @@ export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator imp
             if (this.schedule)
                 this.schedule.clear();
 
+            const diff = this._tokenExp - Math.floor(Date.now() / 1000);
+
+            A_SDK_CommonHelper
+                .schedule<undefined>(
+                    (diff * 1000) - 60 * 1000,
+                    async () => this.authPromise = undefined,
+                );
+
             const schedule = A_SDK_CommonHelper
                 .schedule<A_AUTH_TYPES__AuthenticatorAuthResult>(
-                    (this._tokenExp * 1000) - 60 * 1000,
+                    (diff * 1000) - 60 * 1000,
                     () => {
                         this.authPromise = undefined;
                         return this.authenticate();

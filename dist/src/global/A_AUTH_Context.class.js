@@ -57,9 +57,10 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
      * Returns a authentication depending on the request type
      *
      * @param userASEID
+     * @param userScope
      * @returns
      */
-    getAuthenticator(userASEID) {
+    getAuthenticator(userASEID, userScope) {
         switch (true) {
             /**
              * In this case it should be Front End SDK with token received from Auth API
@@ -80,15 +81,16 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
              * In this case it should be APP API credentials to do operations on behalf of the user
              *
              */
-            case this.environment === 'server' && !!userASEID: {
-                const existedDelegate = this._AuthMap.get(userASEID);
+            case this.environment === 'server' && !!userASEID && !!userScope: {
+                const existedDelegate = this._AuthMap.get(`${userScope}/${userASEID}`);
                 if (existedDelegate)
                     return existedDelegate;
                 else {
                     const delegate = new A_AUTH_ServerDelegate_authenticator_1.A_AUTH_ServerDelegateAuthenticator({
                         client_id: this.CLIENT_ID,
                         client_secret: this.CLIENT_SECRET,
-                        userASEID: userASEID
+                        userASEID: userASEID,
+                        userScope: userScope
                     }, {
                         ssoUrl: this.SSO_LOCATION
                     });

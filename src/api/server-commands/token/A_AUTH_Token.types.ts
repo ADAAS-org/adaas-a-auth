@@ -5,29 +5,44 @@ export type A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenRequest = {
 
 
 export type A_AUTH_SERVER_COMMANDS_TYPES__VerifyTokenResponse = {
-    valid: boolean,
+
+    /**
+     * Token Expiration Date 
+     */
     exp: number,
 
     /**
-     * API Credentials  ASEID
+     * The main actor in request (API credentials or User) ASEID
+     * 
      */
     client?: string
-    /**
-     * user ASEID
-     */
-    user?: string
-    /**
-     *  App ASEID
-     */
-    app?: string
+
     /**
      * Array of roles ASEIDs for the actor (user or api credentials)
      */
     roles: Array<string>
+
     /**
-     * Current User scope -> corresponds to selected Role Scope e.g Organization or Sub-Organization Unit
+     * Current Actor scope -> corresponds to selected Role Scope e.g Organization or Sub-Organization Unit
      */
     scope: string
+
+
+    /**
+     * API Credentials ASEID
+     */
+    api?: string
+
+    /**
+     * user ASEID
+     */
+    user?: string
+
+    /**
+     *  App ASEID
+     */
+    app?: string
+
 }
 
 

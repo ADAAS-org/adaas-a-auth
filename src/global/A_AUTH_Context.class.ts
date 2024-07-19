@@ -77,9 +77,13 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
      * Returns a authentication depending on the request type
      * 
      * @param userASEID 
+     * @param userScope 
      * @returns 
      */
-    getAuthenticator(userASEID?: string): A_AUTH_TYPES__IAuthenticator {
+    getAuthenticator(
+        userASEID?: string,
+        userScope?: string
+    ): A_AUTH_TYPES__IAuthenticator {
         switch (true) {
 
             /**
@@ -101,14 +105,15 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
              * In this case it should be APP API credentials to do operations on behalf of the user
              * 
              */
-            case this.environment === 'server' && !!userASEID: {
-                const existedDelegate = this._AuthMap.get(userASEID);
+            case this.environment === 'server' && !!userASEID && !!userScope: {
+                const existedDelegate = this._AuthMap.get(`${userScope}/${userASEID}`);
                 if (existedDelegate) return existedDelegate;
                 else {
                     const delegate = new A_AUTH_ServerDelegateAuthenticator({
                         client_id: this.CLIENT_ID,
                         client_secret: this.CLIENT_SECRET,
-                        userASEID: userASEID
+                        userASEID: userASEID,
+                        userScope: userScope
                     }, {
                         ssoUrl: this.SSO_LOCATION
                     });

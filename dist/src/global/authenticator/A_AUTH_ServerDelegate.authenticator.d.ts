@@ -7,6 +7,7 @@ export declare class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authentic
      * This is a User token issued by ADAAS SSO for the communication between FE and BE
      */
     protected _userASEID: string;
+    protected _userScope: string;
     protected _client_id: string;
     protected _client_secret: string;
     protected baseURL: string;
@@ -15,7 +16,7 @@ export declare class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authentic
     /**
      *  Default API Credentials configuration
      */
-    credentials: A_SDK_TYPES__Required<Partial<A_AUTH_TYPES__AuthenticatorCredentials>, ['userASEID']>, 
+    credentials: A_SDK_TYPES__Required<Partial<A_AUTH_TYPES__AuthenticatorCredentials>, ['userASEID', 'userScope']>, 
     /**
      *  Authenticator Configuration
      */
@@ -33,7 +34,7 @@ export declare class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authentic
      * For this AUTH Type, the refresh is not needed
      * Because of that we will just delete the token from the memory
      *
-     * @param exp
+     * @param exp - Expiration Date in Unix Timestamp
      * @param userASEID
      * @returns
      */

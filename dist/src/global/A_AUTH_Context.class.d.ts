@@ -28,9 +28,10 @@ export declare class A_AUTH_ContextClass extends A_SDK_ContextClass {
      * Returns a authentication depending on the request type
      *
      * @param userASEID
+     * @param userScope
      * @returns
      */
-    getAuthenticator(userASEID?: string): A_AUTH_TYPES__IAuthenticator;
+    getAuthenticator(userASEID?: string, userScope?: string): A_AUTH_TYPES__IAuthenticator;
     protected loadExtendedConfigurationsFromEnvironment(): Promise<void>;
     protected loadExtendedConfigurationsFromFile<T = any>(config: T): Promise<void>;
 }
