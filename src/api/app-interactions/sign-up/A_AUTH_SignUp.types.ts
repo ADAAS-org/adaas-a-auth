@@ -4,7 +4,6 @@ import { A_AUTH_TYPES__Role_APIEntity } from "../roles/A_AUTH_RolesAPI.types"
 // DUPLICATE OF adaas-a-account
 // TODO: move to a shared package
 export type A_AUTH_TYPES__Country_APIEntity = {
-    id: number,
     aseid: '',
     name: string;
     iso2: string;
@@ -18,7 +17,6 @@ export type A_AUTH_TYPES__Country_APIEntity = {
 
 
 export type A_AUTH_TYPES__Timezone_APIEntity = {
-    id: number,
     aseid: '',
     name: string;
     code: string;
@@ -30,7 +28,6 @@ export type A_AUTH_TYPES__Timezone_APIEntity = {
 
 
 export type A_AUTH_TYPES__BusinessDomain_APIEntity = {
-    id: number,
     aseid: '',
     name: string;
     description: string;
@@ -42,7 +39,6 @@ export type A_AUTH_TYPES__BusinessDomain_APIEntity = {
 
 
 export type A_AUTH_TYPES__BusinessType_APIEntity = {
-    id: number,
     aseid: '',
     name: string;
     description: string;
