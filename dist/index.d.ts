@@ -9,9 +9,11 @@ export { A_AUTH_ServerCommandsAuthenticator } from './src/global/authenticator/A
 export { A_AUTH_ServerDelegateAuthenticator } from './src/global/authenticator/A_AUTH_ServerDelegate.authenticator';
 export * as A_AUTH_AppInteractions from './src/api/app-interactions';
 export * as A_AUTH_ServerCommands from './src/api/server-commands';
+export * as A_AUTH_ServerDelegate from './src/api/server-delegate';
 export { A_AUTH_CONSTANTS__DEFAULT_ERRORS, A_AUTH_CONSTANTS__ERROR_CODES } from './src/constants/errors.constants';
 export * from './src/types/A_AUTH_Authenticator.types';
 export * from './src/types/A_AUTH_APIProvider.types';
 export * from './src/types/A_AUTH_Context.types';
 export * from './src/api/app-interactions/index.types';
 export * from './src/api/server-commands/index.types';
+export * from './src/api/server-delegate/index.types';

@@ -17,7 +17,7 @@ export { A_AUTH_ServerDelegateAuthenticator } from './src/global/authenticator/A
 // ================== API ==================
 export * as A_AUTH_AppInteractions from './src/api/app-interactions';
 export * as A_AUTH_ServerCommands from './src/api/server-commands';
-// export * as A_AUTH_ServerDelegate from './src/api/server-delegate';
+export * as A_AUTH_ServerDelegate from './src/api/server-delegate';
 
 
 // ============ CONSTANTS Export ============
@@ -35,6 +35,7 @@ export * from './src/types/A_AUTH_Context.types';
 // ============ API TYPES Export ============
 export * from './src/api/app-interactions/index.types';
 export * from './src/api/server-commands/index.types';
+export * from './src/api/server-delegate/index.types';
 
 
 

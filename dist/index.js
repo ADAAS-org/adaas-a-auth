@@ -26,7 +26,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.A_AUTH_CONSTANTS__ERROR_CODES = exports.A_AUTH_CONSTANTS__DEFAULT_ERRORS = exports.A_AUTH_ServerCommands = exports.A_AUTH_AppInteractions = exports.A_AUTH_ServerDelegateAuthenticator = exports.A_AUTH_ServerCommandsAuthenticator = exports.A_AUTH_AppInteractionsAuthenticator = exports.A_AUTH_Authenticator = exports.A_AUTH_ServerDelegate_APIProvider = exports.A_AUTH_ServerCommands_APIProvider = exports.A_AUTH_AppInteractions_APIProvider = exports.A_AUTH_APIProvider = exports.A_AUTH_ContextClass = exports.A_AUTH_Context = void 0;
+exports.A_AUTH_CONSTANTS__ERROR_CODES = exports.A_AUTH_CONSTANTS__DEFAULT_ERRORS = exports.A_AUTH_ServerDelegate = exports.A_AUTH_ServerCommands = exports.A_AUTH_AppInteractions = exports.A_AUTH_ServerDelegateAuthenticator = exports.A_AUTH_ServerCommandsAuthenticator = exports.A_AUTH_AppInteractionsAuthenticator = exports.A_AUTH_Authenticator = exports.A_AUTH_ServerDelegate_APIProvider = exports.A_AUTH_ServerCommands_APIProvider = exports.A_AUTH_AppInteractions_APIProvider = exports.A_AUTH_APIProvider = exports.A_AUTH_ContextClass = exports.A_AUTH_Context = void 0;
 var A_AUTH_Context_class_1 = require("./src/global/A_AUTH_Context.class");
 Object.defineProperty(exports, "A_AUTH_Context", { enumerable: true, get: function () { return A_AUTH_Context_class_1.A_AUTH_Context; } });
 Object.defineProperty(exports, "A_AUTH_ContextClass", { enumerable: true, get: function () { return A_AUTH_Context_class_1.A_AUTH_ContextClass; } });
@@ -50,7 +50,7 @@ Object.defineProperty(exports, "A_AUTH_ServerDelegateAuthenticator", { enumerabl
 // ================== API ==================
 exports.A_AUTH_AppInteractions = __importStar(require("./src/api/app-interactions"));
 exports.A_AUTH_ServerCommands = __importStar(require("./src/api/server-commands"));
-// export * as A_AUTH_ServerDelegate from './src/api/server-delegate';
+exports.A_AUTH_ServerDelegate = __importStar(require("./src/api/server-delegate"));
 // ============ CONSTANTS Export ============
 var errors_constants_1 = require("./src/constants/errors.constants");
 Object.defineProperty(exports, "A_AUTH_CONSTANTS__DEFAULT_ERRORS", { enumerable: true, get: function () { return errors_constants_1.A_AUTH_CONSTANTS__DEFAULT_ERRORS; } });
@@ -62,4 +62,5 @@ __exportStar(require("./src/types/A_AUTH_Context.types"), exports);
 // ============ API TYPES Export ============
 __exportStar(require("./src/api/app-interactions/index.types"), exports);
 __exportStar(require("./src/api/server-commands/index.types"), exports);
+__exportStar(require("./src/api/server-delegate/index.types"), exports);
 //# sourceMappingURL=index.js.map
