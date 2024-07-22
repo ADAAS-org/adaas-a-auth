@@ -52,21 +52,21 @@ export type A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileRequest = {
     role: A_AUTH_TYPES__Role_APIEntity;
     title: string;
     name: string;
-    timezone: A_AUTH_TYPES__Timezone_APIEntity;
-    country: A_AUTH_TYPES__Country_APIEntity;
+    Timezone: A_AUTH_TYPES__Timezone_APIEntity;
+    Country: A_AUTH_TYPES__Country_APIEntity;
     locale: string;
 };
 export type A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse = {
     status: 'OK' | 'ERROR';
-};
+} | A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse;
 export type A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationRequest = {
     name: string;
     website: string;
-    timezone: A_AUTH_TYPES__Timezone_APIEntity;
-    country: A_AUTH_TYPES__Country_APIEntity;
-    domains: Array<A_AUTH_TYPES__BusinessDomain_APIEntity>;
-    type: A_AUTH_TYPES__BusinessType_APIEntity;
+    Timezone: A_AUTH_TYPES__Timezone_APIEntity;
+    Country: A_AUTH_TYPES__Country_APIEntity;
+    Domains: Array<A_AUTH_TYPES__BusinessDomain_APIEntity>;
+    Type: A_AUTH_TYPES__BusinessType_APIEntity;
 };
 export type A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse = {
     status: 'OK' | 'ERROR';
-};
+} | A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse;

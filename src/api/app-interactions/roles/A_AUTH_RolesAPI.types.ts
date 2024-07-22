@@ -10,7 +10,7 @@ export type A_AUTH_TYPES__Role_APIEntity = {
     default: boolean;
     public: boolean;
     user_id?: number;
-    scope_aseid?: string;
+    a_arc_scope_aseid?: string;
 
     // User?: ADAAS_SSO_DB_User
 
