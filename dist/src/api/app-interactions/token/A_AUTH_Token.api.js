@@ -17,7 +17,7 @@ class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_api_1.A_A
         this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
         // async validateInvite(invite) {
         //     this.loading = true
-        //     return await this.__axiosInstance.post(`/auth/invite/verify`, {
+        //     return await this.__axiosInstance.post(`/a-auth/invite/verify`, {
         //         invite
         //     });
         // }
@@ -36,7 +36,7 @@ class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_api_1.A_A
      */
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.post(`/auth/token/verify`, request, {
+            return yield this.post(`/a-auth/token/verify`, request, {
                 meta
             });
         });
@@ -55,7 +55,7 @@ class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_api_1.A_A
      */
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.post(`/auth/token/refresh`, request, {
+            return yield this.post(`/a-auth/token/refresh`, request, {
                 meta
             });
         });

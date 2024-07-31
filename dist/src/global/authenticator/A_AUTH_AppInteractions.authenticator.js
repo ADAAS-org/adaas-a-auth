@@ -39,7 +39,7 @@ class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator_class_1.A
                     try {
                         this._token = localStorage.getItem('x-adaas-access') || '';
                         const response = yield this._axiosInstance
-                            .post(`${this.baseURL}/api/v1/auth/token/verify`, {
+                            .post(`${this.baseURL}/api/v1/a-auth/token/verify`, {
                             token: this._token,
                         });
                         this._tokenExp = response.data.exp;
@@ -67,7 +67,7 @@ class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator_class_1.A
                     .schedule((exp * 1000) - 60 * 1000, () => __awaiter(this, void 0, void 0, function* () {
                     this._refreshToken = localStorage.getItem('x-adaas-refresh') || '';
                     const updatedTokens = yield this._axiosInstance
-                        .post(`${this.baseURL}/api/v1/auth/token/refresh`, {
+                        .post(`${this.baseURL}/api/v1/a-auth/token/refresh`, {
                         refreshToken: this._refreshToken
                     }, {
                         headers: {

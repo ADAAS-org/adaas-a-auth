@@ -32,7 +32,7 @@ export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
 
                     const response: AxiosResponse<{ valid: boolean, exp: number }> = await this._axiosInstance
                         .post(
-                            `${this.baseURL}/api/v1/auth/token/verify`,
+                            `${this.baseURL}/api/v1/a-auth/token/verify`,
                             {
                                 token: this._token,
                             });
@@ -70,7 +70,7 @@ export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
                             token: string,
                             refreshToken: string
                         }> = await this._axiosInstance
-                            .post(`${this.baseURL}/api/v1/auth/token/refresh`, {
+                            .post(`${this.baseURL}/api/v1/a-auth/token/refresh`, {
                                 refreshToken: this._refreshToken
                             }, {
                                 headers: {

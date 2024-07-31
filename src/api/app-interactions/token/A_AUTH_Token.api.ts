@@ -29,7 +29,7 @@ export class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_AP
         meta?: M
     ) {
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__VerifyTokenResponse, M>(
-            `/auth/token/verify`,
+            `/a-auth/token/verify`,
             request,
             {
                 meta
@@ -54,7 +54,7 @@ export class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_AP
         meta?: M
     ) {
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__RefreshTokenResponse, M>(
-            `/auth/token/refresh`,
+            `/a-auth/token/refresh`,
             request,
             {
                 meta
@@ -65,7 +65,7 @@ export class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_AP
     // async validateInvite(invite) {
     //     this.loading = true
 
-    //     return await this.__axiosInstance.post(`/auth/invite/verify`, {
+    //     return await this.__axiosInstance.post(`/a-auth/invite/verify`, {
     //         invite
     //     });
 
