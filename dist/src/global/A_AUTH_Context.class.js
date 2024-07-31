@@ -47,6 +47,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
       */
     configure(config) {
         var _a;
+        this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
         this.SSO_LOCATION = ((_a = config.variables) === null || _a === void 0 ? void 0 : _a.ssoLocation) || this.SSO_LOCATION;
         super.configure(config);
     }
@@ -74,6 +75,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
      * @returns
      */
     getAuthenticator(userASEID, userScope) {
+        this.Logger.log('Getting Authenticator for the environment', this.environment);
         switch (true) {
             /**
              * In this case it should be Front End SDK with token received from Auth API
@@ -87,6 +89,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
                         ssoUrl: this.SSO_LOCATION
                     });
                     this._AuthMap.set(this.environment, frontendAuth);
+                    this.Logger.log('Frontend Authenticator created');
                     return frontendAuth;
                 }
             }
@@ -108,6 +111,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
                         ssoUrl: this.SSO_LOCATION
                     });
                     this._AuthMap.set(userASEID, delegate);
+                    this.Logger.log('Server Delegate Authenticator created');
                     return delegate;
                 }
             }
@@ -126,6 +130,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
                         ssoUrl: this.SSO_LOCATION
                     });
                     this._AuthMap.set(this.environment, server);
+                    this.Logger.log('Server Authenticator created');
                     return server;
                 }
             }
@@ -133,8 +138,11 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     }
     setAuthenticator(data) {
         var _a;
-        if (!data.token || !data.exp || this.environment !== 'browser')
+        this.Logger.log('Setting Authenticator for the environment', this.environment);
+        if (!data.token || !data.exp || this.environment !== 'browser') {
+            this.Logger.log('Token or Exp is not provided or environment is not browser');
             return;
+        }
         try {
             localStorage.setItem('x-adaas-access', data.token);
             localStorage.setItem('x-adaas-refresh', data.refreshToken || '');
@@ -145,6 +153,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
                     ssoUrl: this.SSO_LOCATION
                 });
                 this._AuthMap.set(this.environment, frontendAuth);
+                this.Logger.log('Frontend Authenticator created');
             }
         }
         catch (error) {
@@ -154,6 +163,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     loadExtendedConfigurationsFromEnvironment() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                this.Logger.log('Loading Extended Configurations from Environment');
                 this.SSO_LOCATION = this.environment === 'server' ?
                     // eslint-disable-next-line no-use-before-define
                     (process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION)
@@ -167,6 +177,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     }
     loadExtendedConfigurationsFromFile(config) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.Logger.log('Loading Extended Configurations from File');
             // eslint-disable-next-line no-use-before-define
             this.SSO_LOCATION = this.environment === 'server' ?
                 // eslint-disable-next-line no-use-before-define

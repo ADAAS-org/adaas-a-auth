@@ -35,12 +35,17 @@ class A_AUTH_APIProvider {
                  */
                 yield this.context.ready;
                 this.loading = true;
+                this.context.Logger.log(`Calling ${method.toUpperCase()} ${url}`, {
+                    data,
+                    params,
+                });
                 const includeAuth = (!config || !config.adaas || config.adaas.auth !== false);
                 let token;
                 if (includeAuth) {
                     const targetAuth = authenticator || this.context.getAuthenticator();
                     yield targetAuth.authenticate();
                     token = yield targetAuth.getToken();
+                    this.context.Logger.log(`Authentication successful`);
                 }
                 const result = yield this._axiosInstance.request({
                     method,
@@ -52,6 +57,7 @@ class A_AUTH_APIProvider {
                     responseType: (config === null || config === void 0 ? void 0 : config.responseType) ? config.responseType : 'json',
                 });
                 this.loading = false;
+                this.context.Logger.log(`Response received -> result.data`, result.data);
                 return this.context.responseFormatter(result, config === null || config === void 0 ? void 0 : config.meta);
             }
             catch (error) {

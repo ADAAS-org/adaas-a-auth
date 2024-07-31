@@ -46,16 +46,23 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
 
             this.loading = true;
 
+            this.context.Logger.log(`Calling ${method.toUpperCase()} ${url}`, {
+                data,
+                params,
+            });
 
             const includeAuth = (!config || !config.adaas || config.adaas.auth !== false);
             let token: string | undefined;
 
             if (includeAuth) {
+
                 const targetAuth = authenticator || this.context.getAuthenticator();
 
                 await targetAuth.authenticate();
 
                 token = await targetAuth.getToken();
+
+                this.context.Logger.log(`Authentication successful`);
             }
 
             const result: AxiosResponse<T> = await this._axiosInstance.request({
@@ -70,7 +77,10 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
                 params: config?.params ? config.params : params,
                 responseType: config?.responseType ? config.responseType : 'json',
             });
+
             this.loading = false;
+
+            this.context.Logger.log(`Response received -> result.data`, result.data);
 
             return this.context.responseFormatter<T, M>(result, config?.meta);
 
