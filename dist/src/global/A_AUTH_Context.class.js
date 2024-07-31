@@ -120,10 +120,16 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     }
     loadExtendedConfigurationsFromEnvironment() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.SSO_LOCATION = this.environment === 'server' ?
-                // eslint-disable-next-line no-use-before-define
-                (process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION)
-                : this.SSO_LOCATION;
+            try {
+                this.SSO_LOCATION = this.environment === 'server' ?
+                    // eslint-disable-next-line no-use-before-define
+                    (process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION)
+                    : this.SSO_LOCATION;
+            }
+            catch (error) {
+                // TODO fix error handling
+                error;
+            }
         });
     }
     loadExtendedConfigurationsFromFile(config) {
