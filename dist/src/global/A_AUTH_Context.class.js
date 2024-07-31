@@ -37,6 +37,19 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
         ];
         this._AuthMap = new Map();
     }
+    /**
+      * Configures the SDK with the provided parameters or uses the default ones
+      * Useful for Front End applications to omit env variables and use the SDK
+      *
+      * @param verbose
+      * @param ignoreErrors
+      * @param sdkValidation
+      */
+    configure(config) {
+        var _a;
+        this.SSO_LOCATION = ((_a = config.variables) === null || _a === void 0 ? void 0 : _a.ssoLocation) || this.SSO_LOCATION;
+        super.configure(config);
+    }
     getConfigurationProperty(property) {
         if (this.authContextAllowedProperties.includes(property))
             return this[property];

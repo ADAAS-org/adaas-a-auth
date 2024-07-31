@@ -1,9 +1,9 @@
-import { A_SDK_Context, A_SDK_ContextClass, A_SDK_ServerError } from "@adaas/a-sdk-types";
+import { A_SDK_Context, A_SDK_ContextClass, A_SDK_ServerError, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
 import { A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
 import { A_AUTH_AppInteractionsAuthenticator } from "./authenticator/A_AUTH_AppInteractions.authenticator";
 import { A_AUTH_ServerCommandsAuthenticator } from "./authenticator/A_AUTH_ServerCommands.authenticator";
 import { A_AUTH_ServerDelegateAuthenticator } from "./authenticator/A_AUTH_ServerDelegate.authenticator";
-import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter } from "../types/A_AUTH_Context.types";
+import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter, A_AUTH_TYPES__ContextConfigurations } from "../types/A_AUTH_Context.types";
 import { A_AUTH_CONSTANTS__DEFAULT_ERRORS } from "../constants/errors.constants";
 import { A_SDK_CONSTANTS__ERROR_CODES } from "@adaas/a-sdk-types/dist/src/constants/errors.constants";
 import { A_SDK_TYPES__ContextConstructor } from "@adaas/a-sdk-types/dist/src/types/A_SDK_Context.types";
@@ -44,6 +44,23 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
             ...params,
         });
     }
+
+
+    /**
+      * Configures the SDK with the provided parameters or uses the default ones
+      * Useful for Front End applications to omit env variables and use the SDK
+      * 
+      * @param verbose 
+      * @param ignoreErrors 
+      * @param sdkValidation 
+      */
+    configure(config: A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_AUTH_TYPES__ContextConfigurations>, ['variables.ssoLocation']>) {
+
+        this.SSO_LOCATION = config.variables?.ssoLocation || this.SSO_LOCATION;
+
+        super.configure(config);
+    }
+
 
 
     getConfigurationProperty<T = any>(
