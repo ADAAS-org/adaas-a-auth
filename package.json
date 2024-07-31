@@ -48,7 +48,7 @@
   },
   "homepage": "https://github.com/ADAAS-org/adaas-a-auth#readme",
   "dependencies": {
-    "@adaas/a-sdk-types": "^0.0.45",
+    "@adaas/a-sdk-types": "^0.0.46",
     "@types/node": "^20.10.0",
     "axios": "^1.6.2"
   },
