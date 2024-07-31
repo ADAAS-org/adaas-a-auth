@@ -7,8 +7,12 @@ export declare class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
     protected _axiosInstance: AxiosInstance;
     protected version: string;
     protected context: C;
-    protected baseURL: string;
+    private _base;
     constructor(context: C, baseURL?: string);
+    /**
+     * Wrapper to work with dynamic ENV variables
+     */
+    protected get baseURL(): string;
     init(): void;
     protected request<T, M>(method: Method, url: string, authenticator?: A_AUTH_TYPES__IAuthenticator, data?: any, params?: any, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<T>;
     protected post<T, M = any>(url: string, body?: any, config?: A_AUTH_TYPES__APIProviderRequestConfig<M>): Promise<T>;

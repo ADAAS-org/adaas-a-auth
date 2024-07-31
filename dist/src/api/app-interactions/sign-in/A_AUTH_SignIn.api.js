@@ -12,9 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_APP_INTERACTIONS__SignInAPI = void 0;
 const A_AUTH_AppInteractions_api_1 = require("../../../global/api-providers/A_AUTH_AppInteractions.api");
 class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_api_1.A_AUTH_AppInteractions_APIProvider {
-    constructor() {
-        super(...arguments);
-        this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
+    get baseURL() {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
     }
     /**
      *

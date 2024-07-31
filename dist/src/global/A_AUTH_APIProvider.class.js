@@ -19,8 +19,14 @@ class A_AUTH_APIProvider {
         this.loading = false;
         this.version = 'v1';
         this.context = context;
-        this.baseURL = baseURL || this.baseURL;
+        this._base = baseURL || this.baseURL;
         this.init();
+    }
+    /**
+     * Wrapper to work with dynamic ENV variables
+     */
+    get baseURL() {
+        return this.baseURL;
     }
     init() {
         this._axiosInstance = axios_1.default.create({

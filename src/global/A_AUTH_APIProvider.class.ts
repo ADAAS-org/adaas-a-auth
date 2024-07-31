@@ -11,15 +11,23 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
     protected _axiosInstance!: AxiosInstance
     protected version: string = 'v1'
     protected context!: C;
-    protected baseURL!: string;
+    private _base: string
 
     constructor(
         context: C,
         baseURL?: string,
     ) {
         this.context = context;
-        this.baseURL = baseURL || this.baseURL;
+        this._base = baseURL || this.baseURL;
         this.init();
+    }
+
+
+    /**
+     * Wrapper to work with dynamic ENV variables
+     */
+    protected get baseURL(): string {
+        return this.baseURL;
     }
 
 

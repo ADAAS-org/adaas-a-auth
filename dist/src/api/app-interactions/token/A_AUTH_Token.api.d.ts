@@ -2,7 +2,7 @@ import { A_AUTH_AppInteractions_APIProvider } from "../../../global/api-provider
 import { A_AUTH_APP_INTERACTIONS_TYPES__RefreshTokenRequest, A_AUTH_APP_INTERACTIONS_TYPES__RefreshTokenResponse, A_AUTH_APP_INTERACTIONS_TYPES__VerifyTokenRequest, A_AUTH_APP_INTERACTIONS_TYPES__VerifyTokenResponse } from "./A_AUTH_Token.types";
 import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
 export declare class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
-    protected baseURL: any;
+    protected get baseURL(): string;
     /**
      *
      * Method to validate token

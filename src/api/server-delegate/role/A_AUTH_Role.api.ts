@@ -13,8 +13,9 @@ import { A_AUTH_ServerDelegate_APIProvider } from "@adaas/a-auth/global/api-prov
 
 export class A_AUTH_SERVER_DELEGATE__RolesAPI extends A_AUTH_ServerDelegate_APIProvider<A_AUTH_ContextClass> {
 
-    protected baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
-
+    protected get baseURL(): string {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
+    }
 
     async create<M = any>(
         request: A_AUTH_SERVER_DELEGATE_TYPES__RoleCreateRequest,

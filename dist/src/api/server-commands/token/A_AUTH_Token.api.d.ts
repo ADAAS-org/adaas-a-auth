@@ -3,7 +3,7 @@ import { A_AUTH_SERVER_COMMANDS_TYPES__GetUserAccessTokenRequest, A_AUTH_SERVER_
 import { A_AUTH_TYPES__APIProviderRequestConfig } from "../../../types/A_AUTH_APIProvider.types";
 import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
 export declare class A_AUTH_SERVER_COMMANDS__TokenAPI extends A_AUTH_ServerCommands_APIProvider<A_AUTH_ContextClass> {
-    protected baseURL: any;
+    protected get baseURL(): string;
     /**
      * Allows to exchange code for the access token for the further communication between the client and the server
      *

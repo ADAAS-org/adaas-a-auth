@@ -12,8 +12,9 @@ import { A_AUTH_ContextClass } from "@adaas/a-auth/global/A_AUTH_Context.class";
 
 export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_APIProvider<A_AUTH_ContextClass> {
 
-    protected baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
-
+    protected get baseURL(): string {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
+    }
 
 
     async signUp<M = any>(

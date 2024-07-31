@@ -12,15 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_APP_INTERACTIONS__TokenAPI = void 0;
 const A_AUTH_AppInteractions_api_1 = require("../../../global/api-providers/A_AUTH_AppInteractions.api");
 class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_api_1.A_AUTH_AppInteractions_APIProvider {
-    constructor() {
-        super(...arguments);
-        this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
-        // async validateInvite(invite) {
-        //     this.loading = true
-        //     return await this.__axiosInstance.post(`/a-auth/invite/verify`, {
-        //         invite
-        //     });
-        // }
+    get baseURL() {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
     }
     /**
      *

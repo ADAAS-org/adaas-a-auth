@@ -3,7 +3,7 @@ import { A_AUTH_SERVER_COMMANDS_TYPES__GetSignInUrlRequest, A_AUTH_SERVER_COMMAN
 import { A_AUTH_TYPES__APIProviderRequestConfig } from "../../../types/A_AUTH_APIProvider.types";
 import { A_AUTH_ContextClass } from "../../../global/A_AUTH_Context.class";
 export declare class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommands_APIProvider<A_AUTH_ContextClass> {
-    protected baseURL: any;
+    protected get baseURL(): string;
     /**
      * Generates a sign in url for the user to sign in via ADAAS SS0
      *

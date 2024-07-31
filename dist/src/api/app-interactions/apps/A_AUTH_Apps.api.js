@@ -12,9 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_APP_INTERACTIONS__AppsAPI = void 0;
 const A_AUTH_AppInteractions_api_1 = require("../../../global/api-providers/A_AUTH_AppInteractions.api");
 class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_api_1.A_AUTH_AppInteractions_APIProvider {
-    constructor() {
-        super(...arguments);
-        this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
+    get baseURL() {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
     }
     /**
      *  Returns a lis of apps corresponding to the user and the filter
@@ -28,7 +27,7 @@ class A_AUTH_APP_INTERACTIONS__AppsAPI extends A_AUTH_AppInteractions_api_1.A_AU
         return __awaiter(this, void 0, void 0, function* () {
             return yield this
                 .get('/api/v1/apps', request, {
-                meta
+                meta,
             });
         });
     }

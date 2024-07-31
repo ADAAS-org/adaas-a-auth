@@ -12,9 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_SERVER_COMMANDS__SsoAPI = void 0;
 const A_AUTH_ServerCommands_api_1 = require("../../../global/api-providers/A_AUTH_ServerCommands.api");
 class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommands_api_1.A_AUTH_ServerCommands_APIProvider {
-    constructor() {
-        super(...arguments);
-        this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
+    get baseURL() {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
     }
     /**
      * Generates a sign in url for the user to sign in via ADAAS SS0

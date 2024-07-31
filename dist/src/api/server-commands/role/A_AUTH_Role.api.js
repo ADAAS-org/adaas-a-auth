@@ -12,9 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_SERVER_COMMANDS__RolesAPI = void 0;
 const A_AUTH_ServerCommands_api_1 = require("../../../global/api-providers/A_AUTH_ServerCommands.api");
 class A_AUTH_SERVER_COMMANDS__RolesAPI extends A_AUTH_ServerCommands_api_1.A_AUTH_ServerCommands_APIProvider {
-    constructor() {
-        super(...arguments);
-        this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
+    get baseURL() {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
     }
     create(request, config) {
         return __awaiter(this, void 0, void 0, function* () {

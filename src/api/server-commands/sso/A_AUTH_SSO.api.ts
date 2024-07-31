@@ -14,8 +14,9 @@ import { A_AUTH_ContextClass } from "@adaas/a-auth/global/A_AUTH_Context.class";
 
 export class A_AUTH_SERVER_COMMANDS__SsoAPI extends A_AUTH_ServerCommands_APIProvider<A_AUTH_ContextClass> {
 
-    protected baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
-
+    protected get baseURL(): string {
+        return this.context.getConfigurationProperty('SSO_LOCATION');
+    }
 
     /**
      * Generates a sign in url for the user to sign in via ADAAS SS0
