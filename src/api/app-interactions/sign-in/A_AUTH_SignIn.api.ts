@@ -38,7 +38,7 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse, M>(
-            `/auth/sign-in`,
+            `/sign-in`,
             credentials,
             {
                 meta
@@ -67,7 +67,7 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignInAppResponse, M>(
-            `/auth/sign-in/app`,
+            `/sign-in/app`,
             request,
             {
                 meta
@@ -95,7 +95,7 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppResponse, M>(
-            `/auth/sign-in/app/authorize`,
+            `/sign-in/apporize`,
             request,
             {
                 meta
@@ -122,7 +122,7 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceResponse, M>(
-            `/auth/sign-in/device/authorize`,
+            `/sign-in/deviceorize`,
             request,
             {
                 meta

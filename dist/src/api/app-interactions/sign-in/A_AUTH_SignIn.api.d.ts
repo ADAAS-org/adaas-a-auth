@@ -26,7 +26,16 @@ export declare class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppIntera
         }[];
         token: string;
         refreshToken: string;
-        exp: number;
+        exp: number; /**
+         * This method just do sign in to particular application.
+         * In contrast with APP Authorize Request it will just sign in to the app and not attach the app to the user account
+         *
+         * !!!NOTE: If application is not authorized this request will FAIL
+         *
+         * @param app
+         * @param meta
+         * @returns
+         */
     }>>;
     /**
      * This method just do sign in to particular application.

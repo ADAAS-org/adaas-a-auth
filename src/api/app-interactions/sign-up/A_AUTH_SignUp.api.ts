@@ -26,7 +26,7 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
     ): Promise<A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse> {
         this.loading = true
 
-        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse, M>(`/auth/sign-up`, newUser, {
+        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse, M>(`/sign-up`, newUser, {
             meta
         });
     }
@@ -43,7 +43,7 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
     ): Promise<A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse> {
         this.loading = true
 
-        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse, M>(`/auth/sign-up/profile`, profile, {
+        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse, M>(`/sign-up/profile`, profile, {
             meta
         });
     }
@@ -60,7 +60,7 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
     ): Promise<A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse> {
         this.loading = true
 
-        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse, M>(`/auth/sign-up/organization`, organization, {
+        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse, M>(`/sign-up/organization`, organization, {
             meta
         });
     }
@@ -68,7 +68,7 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
     // async signUpInvite(credentials, meta) {
     //     this.loading = true
 
-    //     return await this.__axiosInstance.post(`/auth/invite/sign-up`, credentials, {
+    //     return await this.__axiosInstance.post(`/invite/sign-up`, credentials, {
     //         meta
     //     });
     // }

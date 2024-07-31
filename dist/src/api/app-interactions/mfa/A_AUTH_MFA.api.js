@@ -28,7 +28,7 @@ class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_api_1.A_AUT
      */
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.post(`/auth/2fa/app/enable`, {}, {
+            return yield this.post(`/mfa/app/enable`, {}, {
                 meta
             });
         });
@@ -48,7 +48,7 @@ class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_api_1.A_AUT
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/2fa/app/token/verify`, request, {
+            return yield this.post(`/mfa/app/token/verify`, request, {
                 meta
             });
         });
@@ -68,7 +68,7 @@ class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_api_1.A_AUT
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/2fa/email/token/verify`, request, {
+            return yield this.post(`/mfa/email/token/verify`, request, {
                 meta
             });
         });

@@ -27,7 +27,7 @@ export class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_APIP
         meta?: M
     ) {
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__EnableMFA_AppResponse, M>(
-            `/auth/2fa/app/enable`,
+            `/mfa/app/enable`,
             {},
             {
                 meta
@@ -53,7 +53,7 @@ export class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_APIP
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__VerifyMFA_AppTokenResponse, M>(
-            `/auth/2fa/app/token/verify`,
+            `/mfa/app/token/verify`,
             request,
             {
                 meta
@@ -79,7 +79,7 @@ export class A_AUTH_APP_INTERACTIONS__MfaAPI extends A_AUTH_AppInteractions_APIP
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__VerifyMFA_EmailTokenResponse, M>(
-            `/auth/2fa/email/token/verify`,
+            `/mfa/email/token/verify`,
             request,
             {
                 meta

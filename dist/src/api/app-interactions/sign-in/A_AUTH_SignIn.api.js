@@ -35,7 +35,7 @@ class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/sign-in`, credentials, {
+            return yield this.post(`/sign-in`, credentials, {
                 meta
             });
         });
@@ -57,7 +57,7 @@ class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/sign-in/app`, request, {
+            return yield this.post(`/sign-in/app`, request, {
                 meta
             });
         });
@@ -79,7 +79,7 @@ class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/sign-in/app/authorize`, request, {
+            return yield this.post(`/sign-in/apporize`, request, {
                 meta
             });
         });
@@ -99,7 +99,7 @@ class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/sign-in/device/authorize`, request, {
+            return yield this.post(`/sign-in/deviceorize`, request, {
                 meta
             });
         });

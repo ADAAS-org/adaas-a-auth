@@ -17,7 +17,7 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
         this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
         // async signUpInvite(credentials, meta) {
         //     this.loading = true
-        //     return await this.__axiosInstance.post(`/auth/invite/sign-up`, credentials, {
+        //     return await this.__axiosInstance.post(`/invite/sign-up`, credentials, {
         //         meta
         //     });
         // }
@@ -33,7 +33,7 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/sign-up`, newUser, {
+            return yield this.post(`/sign-up`, newUser, {
                 meta
             });
         });
@@ -49,7 +49,7 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/sign-up/profile`, profile, {
+            return yield this.post(`/sign-up/profile`, profile, {
                 meta
             });
         });
@@ -65,7 +65,7 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/auth/sign-up/organization`, organization, {
+            return yield this.post(`/sign-up/organization`, organization, {
                 meta
             });
         });
