@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.A_AUTH_APIProvider = void 0;
 const axios_1 = __importDefault(require("axios"));
+const a_sdk_types_1 = require("@adaas/a-sdk-types");
 class A_AUTH_APIProvider {
     constructor(context, baseURL) {
         this.loading = false;
@@ -68,7 +69,10 @@ class A_AUTH_APIProvider {
             }
             catch (error) {
                 this.loading = false;
-                return this.context.errorsHandler(error, config === null || config === void 0 ? void 0 : config.meta);
+                this.context.errorsHandler(error, config === null || config === void 0 ? void 0 : config.meta);
+                const receivedError = new a_sdk_types_1.A_SDK_ServerError(error);
+                this.context.Logger.error(receivedError);
+                throw receivedError;
             }
         });
     }
