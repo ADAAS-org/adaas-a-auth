@@ -131,6 +131,26 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
             }
         }
     }
+    setAuthenticator(data) {
+        var _a;
+        if (!data.token || !data.exp || this.environment !== 'browser')
+            return;
+        try {
+            localStorage.setItem('x-adaas-access', data.token);
+            localStorage.setItem('x-adaas-refresh', data.refreshToken || '');
+            const existedAuth = this._AuthMap.get(this.environment);
+            if (existedAuth && existedAuth instanceof A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator) {
+                (_a = existedAuth.schedule) === null || _a === void 0 ? void 0 : _a.clear();
+                const frontendAuth = new A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator({}, {
+                    ssoUrl: this.SSO_LOCATION
+                });
+                this._AuthMap.set(this.environment, frontendAuth);
+            }
+        }
+        catch (error) {
+            this.Logger.error(new a_sdk_types_1.A_SDK_Error(error));
+        }
+    }
     loadExtendedConfigurationsFromEnvironment() {
         return __awaiter(this, void 0, void 0, function* () {
             try {

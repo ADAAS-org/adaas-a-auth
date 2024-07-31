@@ -1,4 +1,4 @@
-import { A_SDK_Context, A_SDK_ContextClass, A_SDK_ServerError, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
+import { A_SDK_Context, A_SDK_ContextClass, A_SDK_Error, A_SDK_ServerError, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
 import { A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
 import { A_AUTH_AppInteractionsAuthenticator } from "./authenticator/A_AUTH_AppInteractions.authenticator";
 import { A_AUTH_ServerCommandsAuthenticator } from "./authenticator/A_AUTH_ServerCommands.authenticator";
@@ -114,6 +114,7 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                         ssoUrl: this.SSO_LOCATION
                     });
                     this._AuthMap.set(this.environment, frontendAuth);
+
                     return frontendAuth;
                 }
             }
@@ -134,6 +135,7 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                     }, {
                         ssoUrl: this.SSO_LOCATION
                     });
+
                     this._AuthMap.set(userASEID, delegate);
                     return delegate;
                 }
@@ -158,6 +160,34 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                     return server;
                 }
             }
+        }
+    }
+
+    setAuthenticator(
+        data: {
+            token?: string,
+            refreshToken?: string,
+            exp?: number
+        }
+    ) {
+        if (!data.token || !data.exp || this.environment !== 'browser') return;
+
+        try {
+            localStorage.setItem('x-adaas-access', data.token);
+            localStorage.setItem('x-adaas-refresh', data.refreshToken || '');
+
+            const existedAuth = this._AuthMap.get(this.environment);
+
+            if (existedAuth && existedAuth instanceof A_AUTH_AppInteractionsAuthenticator) {
+                existedAuth.schedule?.clear();
+                const frontendAuth = new A_AUTH_AppInteractionsAuthenticator({}, {
+                    ssoUrl: this.SSO_LOCATION
+                });
+
+                this._AuthMap.set(this.environment, frontendAuth);
+            }
+        } catch (error) {
+            this.Logger.error(new A_SDK_Error(error));
         }
     }
 

@@ -15,12 +15,6 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
     constructor() {
         super(...arguments);
         this.baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
-        // async signUpInvite(credentials, meta) {
-        //     this.loading = true
-        //     return await this.__axiosInstance.post(`/invite/sign-up`, credentials, {
-        //         meta
-        //     });
-        // }
     }
     signUp(
     /**
@@ -33,9 +27,16 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/sign-up`, newUser, {
+            const resp = yield this.post(`/sign-up`, newUser, {
                 meta
             });
+            // Set the authenticator for the context
+            this.context.setAuthenticator({
+                token: resp.token,
+                refreshToken: resp.refreshToken,
+                exp: resp.exp,
+            });
+            return resp;
         });
     }
     signUpProfile(
@@ -49,9 +50,18 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/sign-up/profile`, profile, {
+            const resp = yield this.post(`/sign-up/profile`, profile, {
                 meta
             });
+            if ('token' in resp) {
+                // Set the authenticator for the context
+                this.context.setAuthenticator({
+                    token: resp.token,
+                    refreshToken: resp.refreshToken,
+                    exp: resp.exp,
+                });
+            }
+            return resp;
         });
     }
     signUpOrganization(
@@ -65,9 +75,18 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
-            return yield this.post(`/sign-up/organization`, organization, {
+            const resp = yield this.post(`/sign-up/organization`, organization, {
                 meta
             });
+            if ('token' in resp) {
+                // Set the authenticator for the context
+                this.context.setAuthenticator({
+                    token: resp.token,
+                    refreshToken: resp.refreshToken,
+                    exp: resp.exp,
+                });
+            }
+            return resp;
         });
     }
 }

@@ -14,6 +14,8 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
 
     protected baseURL = this.context.getConfigurationProperty('SSO_LOCATION');
 
+
+
     async signUp<M = any>(
         /**
          * The new user to sign up
@@ -26,9 +28,18 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
     ): Promise<A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse> {
         this.loading = true
 
-        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse, M>(`/sign-up`, newUser, {
+        const resp = await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse, M>(`/sign-up`, newUser, {
             meta
         });
+
+        // Set the authenticator for the context
+        this.context.setAuthenticator({
+            token: resp.token,
+            refreshToken: resp.refreshToken,
+            exp: resp.exp,
+        });
+
+        return resp;
     }
 
     async signUpProfile<M = any>(
@@ -43,9 +54,20 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
     ): Promise<A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse> {
         this.loading = true
 
-        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse, M>(`/sign-up/profile`, profile, {
+        const resp = await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpProfileResponse, M>(`/sign-up/profile`, profile, {
             meta
         });
+
+        if ('token' in resp) {
+            // Set the authenticator for the context
+            this.context.setAuthenticator({
+                token: resp.token,
+                refreshToken: resp.refreshToken,
+                exp: resp.exp,
+            });
+        }
+
+        return resp;
     }
 
     async signUpOrganization<M = any>(
@@ -60,17 +82,19 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
     ): Promise<A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse> {
         this.loading = true
 
-        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse, M>(`/sign-up/organization`, organization, {
+        const resp = await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpOrganizationResponse, M>(`/sign-up/organization`, organization, {
             meta
         });
+
+        if ('token' in resp) {
+            // Set the authenticator for the context
+            this.context.setAuthenticator({
+                token: resp.token,
+                refreshToken: resp.refreshToken,
+                exp: resp.exp,
+            });
+        }
+
+        return resp;
     }
-
-    // async signUpInvite(credentials, meta) {
-    //     this.loading = true
-
-    //     return await this.__axiosInstance.post(`/invite/sign-up`, credentials, {
-    //         meta
-    //     });
-    // }
-
 }

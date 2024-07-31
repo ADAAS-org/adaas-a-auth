@@ -49,6 +49,8 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
 
             const targetAuth = authenticator || this.context.getAuthenticator();
 
+            await targetAuth.authenticate();
+
             const result: AxiosResponse<T> = await this._axiosInstance.request({
                 method,
                 baseURL: this.baseURL,

@@ -36,6 +36,7 @@ class A_AUTH_APIProvider {
                 yield this.context.ready;
                 this.loading = true;
                 const targetAuth = authenticator || this.context.getAuthenticator();
+                yield targetAuth.authenticate();
                 const result = yield this._axiosInstance.request({
                     method,
                     baseURL: this.baseURL,

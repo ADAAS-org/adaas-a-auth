@@ -37,12 +37,21 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
     ) {
         this.loading = true
 
-        return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse, M>(
+        const resp = await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignInResponse, M>(
             `/sign-in`,
             credentials,
             {
                 meta
             });
+
+        // Set the authenticator for the context
+        this.context.setAuthenticator({
+            token: resp.token,
+            refreshToken: resp.refreshToken,
+            exp: resp.exp,
+        });
+
+        return resp;
     }
 
 
@@ -95,7 +104,7 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeAppResponse, M>(
-            `/sign-in/apporize`,
+            `/sign-in/authorize`,
             request,
             {
                 meta
@@ -122,7 +131,7 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
         this.loading = true
 
         return await this.post<A_AUTH_APP_INTERACTIONS_TYPES__AuthorizeDeviceResponse, M>(
-            `/sign-in/deviceorize`,
+            `/sign-in/device/authorize`,
             request,
             {
                 meta

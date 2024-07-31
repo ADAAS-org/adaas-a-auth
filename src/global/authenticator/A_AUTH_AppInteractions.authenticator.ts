@@ -3,6 +3,7 @@ import { A_AUTH_Authenticator } from "../A_AUTH_Authenticator.class";
 import { A_SDK_CommonHelper, A_SDK_Error } from "@adaas/a-sdk-types";
 import { A_AUTH_CONSTANTS__ERROR_CODES } from "@adaas/a-auth/constants/errors.constants";
 import { A_AUTH_TYPES__AuthenticatorAuthResult } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
+import { A_SDK_ScheduleObject } from "@adaas/a-sdk-types/dist/src/global/A_SDK_ScheduleObject.class";
 
 export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
 
@@ -14,6 +15,8 @@ export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
     protected _tokenExp: number = 0;
 
     protected _refreshToken: string = '';
+
+    schedule?: A_SDK_ScheduleObject<A_AUTH_TYPES__AuthenticatorAuthResult>;
 
 
     /**
@@ -60,7 +63,9 @@ export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
 
     async refresh(exp: number): Promise<A_AUTH_TYPES__AuthenticatorAuthResult> {
         try {
-            const schedule = A_SDK_CommonHelper
+            await this.schedule?.clear();
+
+            this.schedule = A_SDK_CommonHelper
                 .schedule<A_AUTH_TYPES__AuthenticatorAuthResult>(
                     (exp * 1000) - 60 * 1000,
                     async () => {
@@ -88,7 +93,7 @@ export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
                     },
                 );
 
-            return await schedule.promise;
+            return await this.schedule.promise;
 
         } catch (error) {
             this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_REFRESH_TOKEN);

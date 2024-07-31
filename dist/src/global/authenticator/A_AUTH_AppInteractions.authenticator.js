@@ -62,8 +62,10 @@ class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator_class_1.A
     }
     refresh(exp) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
-                const schedule = a_sdk_types_1.A_SDK_CommonHelper
+                yield ((_a = this.schedule) === null || _a === void 0 ? void 0 : _a.clear());
+                this.schedule = a_sdk_types_1.A_SDK_CommonHelper
                     .schedule((exp * 1000) - 60 * 1000, () => __awaiter(this, void 0, void 0, function* () {
                     this._refreshToken = localStorage.getItem('x-adaas-refresh') || '';
                     const updatedTokens = yield this._axiosInstance
@@ -81,7 +83,7 @@ class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator_class_1.A
                         refreshToken: this._refreshToken
                     };
                 }));
-                return yield schedule.promise;
+                return yield this.schedule.promise;
             }
             catch (error) {
                 this.context.Errors.throw(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_REFRESH_TOKEN);

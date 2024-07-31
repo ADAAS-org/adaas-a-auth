@@ -41,6 +41,11 @@ export declare class A_AUTH_ContextClass extends A_SDK_ContextClass {
      * @returns
      */
     getAuthenticator(userASEID?: string, userScope?: string): A_AUTH_TYPES__IAuthenticator;
+    setAuthenticator(data: {
+        token?: string;
+        refreshToken?: string;
+        exp?: number;
+    }): void;
     protected loadExtendedConfigurationsFromEnvironment(): Promise<void>;
     protected loadExtendedConfigurationsFromFile<T = any>(config: T): Promise<void>;
 }
