@@ -53,7 +53,7 @@ class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator_class_1.A
                         });
                     }
                     catch (error) {
-                        reject(new a_sdk_types_1.A_SDK_Error(error));
+                        reject(error);
                     }
                 }));
             }

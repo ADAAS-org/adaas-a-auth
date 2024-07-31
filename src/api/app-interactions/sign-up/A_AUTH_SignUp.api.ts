@@ -29,7 +29,10 @@ export class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_A
         this.loading = true
 
         const resp = await this.post<A_AUTH_APP_INTERACTIONS_TYPES__SignUpResponse, M>(`/sign-up`, newUser, {
-            meta
+            meta,
+            adaas: {
+                auth: false
+            }
         });
 
         // Set the authenticator for the context

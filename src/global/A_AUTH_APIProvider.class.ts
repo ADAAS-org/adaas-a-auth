@@ -36,8 +36,7 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
         authenticator?: A_AUTH_TYPES__IAuthenticator,
         data?: any,
         params?: any,
-        responseType?: ResponseType,
-        meta?: M
+        config?: A_AUTH_TYPES__APIProviderRequestConfig<M>
     ): Promise<T> {
         try {
             /**
@@ -47,31 +46,38 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
 
             this.loading = true;
 
-            const targetAuth = authenticator || this.context.getAuthenticator();
 
-            await targetAuth.authenticate();
+            const includeAuth = (!config || !config.adaas || config.adaas.auth !== false);
+            let token: string | undefined;
+
+            if (includeAuth) {
+                const targetAuth = authenticator || this.context.getAuthenticator();
+
+                await targetAuth.authenticate();
+
+                token = await targetAuth.getToken();
+            }
 
             const result: AxiosResponse<T> = await this._axiosInstance.request({
                 method,
                 baseURL: this.baseURL,
                 url: `/api/${this.version}${url}`,
                 data,
-                headers: {
-                    Authorization: `Bearer ${await targetAuth.getToken()}`
-                },
-                params,
-                responseType: responseType ? responseType : 'json',
-
+                headers: (includeAuth && token) ? {
+                    ...config?.headers,
+                    Authorization: `Bearer ${token}`
+                } : config?.headers,
+                params: config?.params ? config.params : params,
+                responseType: config?.responseType ? config.responseType : 'json',
             });
-
             this.loading = false;
 
-            return this.context.responseFormatter<T, M>(result, meta);
+            return this.context.responseFormatter<T, M>(result, config?.meta);
 
         } catch (error) {
             this.loading = false;
 
-            return this.context.errorsHandler<M>(error as any, meta)
+            return this.context.errorsHandler<M>(error as any, config?.meta)
         }
     }
 
@@ -81,7 +87,7 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
         body?: any,
         config?: A_AUTH_TYPES__APIProviderRequestConfig<M>,
     ): Promise<T> {
-        return this.request<T, M>('post', url, config?.authenticator, body, {}, config?.responseType, config?.meta);
+        return this.request<T, M>('post', url, config?.authenticator, body, {}, config);
     }
 
 
@@ -90,7 +96,7 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
         params?: any,
         config?: A_AUTH_TYPES__APIProviderRequestConfig<M>,
     ): Promise<T> {
-        return this.request<T, M>('get', url, config?.authenticator, {}, params, config?.responseType, config?.meta);
+        return this.request<T, M>('get', url, config?.authenticator, {}, params, config);
     }
 
 
@@ -99,7 +105,7 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
         body?: any,
         config?: A_AUTH_TYPES__APIProviderRequestConfig<M>,
     ): Promise<T> {
-        return this.request<T, M>('put', url, config?.authenticator, body, config?.params, config?.responseType, config?.meta);
+        return this.request<T, M>('put', url, config?.authenticator, body, {}, config);
     }
 
 
@@ -107,7 +113,7 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
         url: string,
         config?: A_AUTH_TYPES__APIProviderRequestConfig<M>,
     ): Promise<T> {
-        return this.request<T, M>('delete', url, config?.authenticator, {}, config?.params, config?.responseType, config?.meta);
+        return this.request<T, M>('delete', url, config?.authenticator, {}, {}, config);
     }
 
 
@@ -116,6 +122,6 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
         body?: any,
         config?: A_AUTH_TYPES__APIProviderRequestConfig<M>,
     ): Promise<T> {
-        return this.request<T, M>('patch', url, config?.authenticator, body, config?.params, config?.responseType, config?.meta);
+        return this.request<T, M>('patch', url, config?.authenticator, body, {}, config);
     }
 }

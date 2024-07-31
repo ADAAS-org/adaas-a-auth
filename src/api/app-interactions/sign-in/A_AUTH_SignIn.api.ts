@@ -41,7 +41,10 @@ export class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppInteractions_A
             `/sign-in`,
             credentials,
             {
-                meta
+                meta,
+                adaas: {
+                    auth: false
+                }
             });
 
         // Set the authenticator for the context

@@ -13,7 +13,7 @@ exports.A_AUTH_ServerCommands_APIProvider = void 0;
 const A_AUTH_APIProvider_class_1 = require("../A_AUTH_APIProvider.class");
 const errors_constants_1 = require("../../constants/errors.constants");
 class A_AUTH_ServerCommands_APIProvider extends A_AUTH_APIProvider_class_1.A_AUTH_APIProvider {
-    request(method, url, auth, data, params, responseType, meta) {
+    request(method, url, auth, data, params, config) {
         const _super = Object.create(null, {
             request: { get: () => super.request }
         });
@@ -21,7 +21,7 @@ class A_AUTH_ServerCommands_APIProvider extends A_AUTH_APIProvider_class_1.A_AUT
             if (this.context.environment !== 'server')
                 this.context.Errors.throw(errors_constants_1.A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_COMMANDS_FROM_BROWSER);
             else
-                return _super.request.call(this, method, url, auth, data, params, responseType, meta);
+                return _super.request.call(this, method, url, auth, data, params, config);
         });
     }
 }

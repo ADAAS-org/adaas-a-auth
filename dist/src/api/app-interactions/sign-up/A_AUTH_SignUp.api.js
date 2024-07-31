@@ -28,7 +28,10 @@ class A_AUTH_APP_INTERACTIONS__SignUpAPI extends A_AUTH_AppInteractions_api_1.A_
         return __awaiter(this, void 0, void 0, function* () {
             this.loading = true;
             const resp = yield this.post(`/sign-up`, newUser, {
-                meta
+                meta,
+                adaas: {
+                    auth: false
+                }
             });
             // Set the authenticator for the context
             this.context.setAuthenticator({

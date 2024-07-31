@@ -37,7 +37,10 @@ class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_api_1.A_A
     meta) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.post(`/a-auth/token/verify`, request, {
-                meta
+                meta,
+                adaas: {
+                    auth: false
+                }
             });
         });
     }

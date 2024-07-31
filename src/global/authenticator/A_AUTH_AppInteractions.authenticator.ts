@@ -52,7 +52,7 @@ export class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator {
                         exp: this._tokenExp
                     })
                 } catch (error) {
-                    reject(new A_SDK_Error(error))
+                    reject(error)
                 }
             });
         }

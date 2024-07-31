@@ -16,15 +16,14 @@ export class A_AUTH_ServerDelegate_APIProvider<C extends A_AUTH_ContextClass> ex
         auth: A_AUTH_TYPES__IAuthenticator,
         data?: any,
         params?: any,
-        responseType?: ResponseType,
-        meta?: M
+        config?: A_SDK_TYPES__Required<A_AUTH_TYPES__APIProviderRequestConfig<M, A_AUTH_ServerDelegateAuthenticator>, ['authenticator']>
     ): Promise<T> {
         if (this.context.environment !== 'server')
             this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_FROM_BROWSER);
         else if (!auth)
             this.context.Errors.throw(A_AUTH_CONSTANTS__ERROR_CODES.UNABLE_TO_USE_SERVER_DELEGATE_WITHOUT_AUTH);
         else
-            return super.request<T, M>(method, url, auth, data, params, responseType, meta);
+            return super.request<T, M>(method, url, auth, data, params, config);
     }
 
     protected async post<T, M = any>(

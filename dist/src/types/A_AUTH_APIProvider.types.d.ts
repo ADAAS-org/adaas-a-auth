@@ -9,4 +9,7 @@ export type A_AUTH_TYPES__APIProviderError = {
 export type A_AUTH_TYPES__APIProviderRequestConfig<T = any, A extends A_AUTH_TYPES__IAuthenticator = A_AUTH_TYPES__IAuthenticator> = {
     authenticator?: A;
     meta?: T;
+    adaas?: {
+        auth?: boolean;
+    };
 } & AxiosRequestConfig;

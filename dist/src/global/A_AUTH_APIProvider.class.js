@@ -27,7 +27,7 @@ class A_AUTH_APIProvider {
             baseURL: this.baseURL
         });
     }
-    request(method, url, authenticator, data, params, responseType, meta) {
+    request(method, url, authenticator, data, params, config) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 /**
@@ -35,51 +35,54 @@ class A_AUTH_APIProvider {
                  */
                 yield this.context.ready;
                 this.loading = true;
-                const targetAuth = authenticator || this.context.getAuthenticator();
-                yield targetAuth.authenticate();
+                const includeAuth = (!config || !config.adaas || config.adaas.auth !== false);
+                let token;
+                if (includeAuth) {
+                    const targetAuth = authenticator || this.context.getAuthenticator();
+                    yield targetAuth.authenticate();
+                    token = yield targetAuth.getToken();
+                }
                 const result = yield this._axiosInstance.request({
                     method,
                     baseURL: this.baseURL,
                     url: `/api/${this.version}${url}`,
                     data,
-                    headers: {
-                        Authorization: `Bearer ${yield targetAuth.getToken()}`
-                    },
-                    params,
-                    responseType: responseType ? responseType : 'json',
+                    headers: (includeAuth && token) ? Object.assign(Object.assign({}, config === null || config === void 0 ? void 0 : config.headers), { Authorization: `Bearer ${token}` }) : config === null || config === void 0 ? void 0 : config.headers,
+                    params: (config === null || config === void 0 ? void 0 : config.params) ? config.params : params,
+                    responseType: (config === null || config === void 0 ? void 0 : config.responseType) ? config.responseType : 'json',
                 });
                 this.loading = false;
-                return this.context.responseFormatter(result, meta);
+                return this.context.responseFormatter(result, config === null || config === void 0 ? void 0 : config.meta);
             }
             catch (error) {
                 this.loading = false;
-                return this.context.errorsHandler(error, meta);
+                return this.context.errorsHandler(error, config === null || config === void 0 ? void 0 : config.meta);
             }
         });
     }
     post(url, body, config) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.request('post', url, config === null || config === void 0 ? void 0 : config.authenticator, body, {}, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+            return this.request('post', url, config === null || config === void 0 ? void 0 : config.authenticator, body, {}, config);
         });
     }
     get(url, params, config) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.request('get', url, config === null || config === void 0 ? void 0 : config.authenticator, {}, params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+            return this.request('get', url, config === null || config === void 0 ? void 0 : config.authenticator, {}, params, config);
         });
     }
     put(url, body, config) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.request('put', url, config === null || config === void 0 ? void 0 : config.authenticator, body, config === null || config === void 0 ? void 0 : config.params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+            return this.request('put', url, config === null || config === void 0 ? void 0 : config.authenticator, body, {}, config);
         });
     }
     delete(url, config) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.request('delete', url, config === null || config === void 0 ? void 0 : config.authenticator, {}, config === null || config === void 0 ? void 0 : config.params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+            return this.request('delete', url, config === null || config === void 0 ? void 0 : config.authenticator, {}, {}, config);
         });
     }
     patch(url, body, config) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.request('patch', url, config === null || config === void 0 ? void 0 : config.authenticator, body, config === null || config === void 0 ? void 0 : config.params, config === null || config === void 0 ? void 0 : config.responseType, config === null || config === void 0 ? void 0 : config.meta);
+            return this.request('patch', url, config === null || config === void 0 ? void 0 : config.authenticator, body, {}, config);
         });
     }
 }

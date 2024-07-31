@@ -32,7 +32,10 @@ export class A_AUTH_APP_INTERACTIONS__TokenAPI extends A_AUTH_AppInteractions_AP
             `/a-auth/token/verify`,
             request,
             {
-                meta
+                meta,
+                adaas: {
+                    auth: false
+                }
             });
     }
 
