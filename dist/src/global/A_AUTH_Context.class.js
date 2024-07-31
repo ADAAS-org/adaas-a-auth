@@ -120,12 +120,19 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     }
     loadExtendedConfigurationsFromEnvironment() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.SSO_LOCATION = process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION;
+            this.SSO_LOCATION = this.environment === 'server' ?
+                // eslint-disable-next-line no-use-before-define
+                (process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION)
+                : this.SSO_LOCATION;
         });
     }
     loadExtendedConfigurationsFromFile(config) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.SSO_LOCATION = config[this.getConfigurationProperty_File_Alias('SSO_LOCATION')] || this.SSO_LOCATION;
+            // eslint-disable-next-line no-use-before-define
+            this.SSO_LOCATION = this.environment === 'server' ?
+                // eslint-disable-next-line no-use-before-define
+                config[this.getConfigurationProperty_File_Alias('SSO_LOCATION')] || this.SSO_LOCATION
+                : this.SSO_LOCATION;
         });
     }
 }

@@ -145,11 +145,18 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
     }
 
     protected async loadExtendedConfigurationsFromEnvironment(): Promise<void> {
-        this.SSO_LOCATION = process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION;
+        this.SSO_LOCATION = this.environment === 'server' ?
+            // eslint-disable-next-line no-use-before-define
+            (process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION)
+            : this.SSO_LOCATION;
     }
 
     protected async loadExtendedConfigurationsFromFile<T = any>(config: T): Promise<void> {
-        this.SSO_LOCATION = config[this.getConfigurationProperty_File_Alias('SSO_LOCATION')] || this.SSO_LOCATION;
+        // eslint-disable-next-line no-use-before-define
+        this.SSO_LOCATION = this.environment === 'server' ?
+            // eslint-disable-next-line no-use-before-define
+            config[this.getConfigurationProperty_File_Alias('SSO_LOCATION')] || this.SSO_LOCATION
+            : this.SSO_LOCATION;
     }
 }
 
