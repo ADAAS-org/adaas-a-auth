@@ -48,10 +48,14 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
       * @param sdkValidation
       */
     configure(config) {
-        var _a, _b;
+        var _a;
         this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
         this.SSO_LOCATION = ((_a = config.auth) === null || _a === void 0 ? void 0 : _a.location) || this.SSO_LOCATION;
-        this.ENABLE_AUTH = ((_b = config.auth) === null || _b === void 0 ? void 0 : _b.enable) || this.ENABLE_AUTH;
+        this.ENABLE_AUTH = config.auth
+            ? config.auth.enable !== undefined
+                ? config.auth.enable
+                : this.ENABLE_AUTH
+            : this.ENABLE_AUTH;
         super.configure(config);
     }
     getConfigurationProperty(property) {

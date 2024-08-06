@@ -61,7 +61,11 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
         this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
 
         this.SSO_LOCATION = config.auth?.location || this.SSO_LOCATION;
-        this.ENABLE_AUTH = config.auth?.enable || this.ENABLE_AUTH;
+        this.ENABLE_AUTH = config.auth
+            ? config.auth.enable !== undefined
+                ? config.auth.enable
+                : this.ENABLE_AUTH
+            : this.ENABLE_AUTH;
 
         super.configure(config);
     }
