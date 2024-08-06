@@ -50,10 +50,8 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     configure(config) {
         var _a, _b;
         this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
-        this.SSO_LOCATION = ((_a = config.variables) === null || _a === void 0 ? void 0 : _a.ssoLocation) || this.SSO_LOCATION;
-        this.ENABLE_AUTH = ((_b = config.variables) === null || _b === void 0 ? void 0 : _b.enable) ?
-            config.variables.enable === true ? true : false
-            : this.ENABLE_AUTH;
+        this.SSO_LOCATION = ((_a = config.auth) === null || _a === void 0 ? void 0 : _a.location) || this.SSO_LOCATION;
+        this.ENABLE_AUTH = ((_b = config.auth) === null || _b === void 0 ? void 0 : _b.enable) || this.ENABLE_AUTH;
         super.configure(config);
     }
     getConfigurationProperty(property) {

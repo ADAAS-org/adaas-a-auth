@@ -46,15 +46,21 @@ class A_AUTH_APIProvider {
                     data,
                     params,
                 });
+                this.context.Logger.log(`ENV CONFIGURATIONS AUTH ${this.context.getConfigurationProperty('ENABLE_AUTH')}`);
+                this.context.Logger.log(`ENV CONFIGURATIONS AUTH ${typeof this.context.getConfigurationProperty('ENABLE_AUTH')}`);
                 const includeAuth = this.context.getConfigurationProperty('ENABLE_AUTH')
                     ? (!config || !config.adaas || config.adaas.auth !== false)
                     : false;
+                this.context.Logger.log(`Include Auth: ${includeAuth}`);
                 let token;
                 if (includeAuth) {
                     const targetAuth = authenticator || this.context.getAuthenticator();
                     yield targetAuth.authenticate();
                     token = yield targetAuth.getToken();
                     this.context.Logger.log(`Authentication successful`);
+                }
+                else {
+                    this.context.Logger.log(`Authentication skipped`);
                 }
                 const result = yield this._axiosInstance.request({
                     method,

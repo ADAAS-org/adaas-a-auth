@@ -1,4 +1,4 @@
-import { A_SDK_ContextClass, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
+import { A_SDK_ContextClass, A_SDK_TYPES__DeepPartial } from "@adaas/a-sdk-types";
 import { A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
 import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter, A_AUTH_TYPES__ContextConfigurations } from "../types/A_AUTH_Context.types";
 import { A_SDK_TYPES__ContextConstructor } from "@adaas/a-sdk-types/dist/src/types/A_SDK_Context.types";
@@ -24,7 +24,7 @@ export declare class A_AUTH_ContextClass extends A_SDK_ContextClass {
       * @param ignoreErrors
       * @param sdkValidation
       */
-    configure(config: A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_AUTH_TYPES__ContextConfigurations>, ['variables.ssoLocation']>): void;
+    configure(config: A_SDK_TYPES__DeepPartial<A_AUTH_TYPES__ContextConfigurations>): void;
     getConfigurationProperty<T = any>(property: typeof this.authContextAllowedProperties[number]): T;
     /**
      * Allows to define a global custom API response and error processors

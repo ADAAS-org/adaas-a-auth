@@ -8,12 +8,8 @@ export type A_AUTH_TYPES__AuthContext_ErrorHandler = <M = any>(error: AxiosError
 
 
 export type A_AUTH_TYPES__ContextConfigurations = {
-    /**
-     * Variables for the SDK
-     */
-    variables: {
+    auth: {
         enable?: boolean
-        ssoLocation?: string
-    } & A_SDK_TYPES__ContextConfigurations['variables']
-
+        location?: string
+    }
 } & A_SDK_TYPES__ContextConfigurations

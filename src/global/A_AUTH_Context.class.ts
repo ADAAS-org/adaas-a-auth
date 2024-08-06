@@ -56,15 +56,12 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
       * @param ignoreErrors 
       * @param sdkValidation 
       */
-    configure(config: A_SDK_TYPES__Required<A_SDK_TYPES__DeepPartial<A_AUTH_TYPES__ContextConfigurations>, ['variables.ssoLocation']>) {
+    configure(config: A_SDK_TYPES__DeepPartial<A_AUTH_TYPES__ContextConfigurations>) {
 
         this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
 
-        this.SSO_LOCATION = config.variables?.ssoLocation || this.SSO_LOCATION;
-
-        this.ENABLE_AUTH = config.variables?.enable ?
-            config.variables.enable === true ? true : false
-            : this.ENABLE_AUTH;
+        this.SSO_LOCATION = config.auth?.location || this.SSO_LOCATION;
+        this.ENABLE_AUTH = config.auth?.enable || this.ENABLE_AUTH;
 
         super.configure(config);
     }
