@@ -7,6 +7,7 @@ export type A_AUTH_TYPES__ContextConfigurations = {
      * Variables for the SDK
      */
     variables: {
+        enable?: boolean;
         ssoLocation?: string;
     } & A_SDK_TYPES__ContextConfigurations['variables'];
 } & A_SDK_TYPES__ContextConfigurations;

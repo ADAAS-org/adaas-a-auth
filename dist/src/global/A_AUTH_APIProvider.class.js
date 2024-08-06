@@ -46,7 +46,9 @@ class A_AUTH_APIProvider {
                     data,
                     params,
                 });
-                const includeAuth = (!config || !config.adaas || config.adaas.auth !== false);
+                const includeAuth = this.context.getConfigurationProperty('ENABLE_AUTH')
+                    ? (!config || !config.adaas || config.adaas.auth !== false)
+                    : false;
                 let token;
                 if (includeAuth) {
                     const targetAuth = authenticator || this.context.getAuthenticator();

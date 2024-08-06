@@ -60,7 +60,10 @@ export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
                 params,
             });
 
-            const includeAuth = (!config || !config.adaas || config.adaas.auth !== false);
+            const includeAuth = this.context.getConfigurationProperty<boolean>('ENABLE_AUTH')
+                ? (!config || !config.adaas || config.adaas.auth !== false)
+                : false;
+
             let token: string | undefined;
 
             if (includeAuth) {

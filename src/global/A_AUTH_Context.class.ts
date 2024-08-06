@@ -19,6 +19,7 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
 
 
     protected SSO_LOCATION: string = 'https://sso.adaas.org';
+    protected ENABLE_AUTH: boolean = true;
 
     responseFormatter: A_AUTH_TYPES__AuthContext_ResponseFormatter = (response) => response.data;
     errorsHandler: A_AUTH_TYPES__AuthContext_ErrorHandler = (error) => { throw new A_SDK_ServerError(error) }
@@ -26,7 +27,8 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
 
     protected authContextAllowedProperties = [
         ...this.defaultAllowedToReadProperties,
-        "SSO_LOCATION"
+        "SSO_LOCATION",
+        "ENABLE_AUTH"
     ] as const;
 
 
@@ -59,6 +61,10 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
         this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
 
         this.SSO_LOCATION = config.variables?.ssoLocation || this.SSO_LOCATION;
+
+        this.ENABLE_AUTH = config.variables?.enable ?
+            config.variables.enable === true ? true : false
+            : this.ENABLE_AUTH;
 
         super.configure(config);
     }
@@ -184,6 +190,8 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
             exp?: number
         }
     ) {
+        if (!this.ENABLE_AUTH) return;
+
         this.Logger.log('Setting Authenticator for the environment', this.environment);
 
         if (!data.token || !data.exp || this.environment !== 'browser') {
@@ -220,6 +228,16 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                 // eslint-disable-next-line no-use-before-define
                 (process.env[this.getConfigurationProperty_ENV_Alias('SSO_LOCATION')] || this.SSO_LOCATION)
                 : this.SSO_LOCATION;
+
+            this.ENABLE_AUTH = this.environment === 'server' ?
+                // eslint-disable-next-line no-use-before-define
+                (
+                    process.env[this.getConfigurationProperty_ENV_Alias('ENABLE_AUTH')] ?
+                        process.env[this.getConfigurationProperty_ENV_Alias('ENABLE_AUTH')] === 'true' ?
+                            true : false
+                        : this.ENABLE_AUTH
+                )
+                : this.ENABLE_AUTH;
         } catch (error) {
             // TODO fix error handling
             error;
@@ -235,6 +253,20 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
             // eslint-disable-next-line no-use-before-define
             config[this.getConfigurationProperty_File_Alias('SSO_LOCATION')] || this.SSO_LOCATION
             : this.SSO_LOCATION;
+
+        // eslint-disable-next-line no-use-before-define
+        this.ENABLE_AUTH = this.environment === 'server' ?
+            // eslint-disable-next-line no-use-before-define
+            (
+                config[this.getConfigurationProperty_File_Alias('ENABLE_AUTH')] ?
+                    (config[this.getConfigurationProperty_File_Alias('ENABLE_AUTH')] === 'true'
+                        ||
+                        config[this.getConfigurationProperty_File_Alias('ENABLE_AUTH')] === true
+                    ) ?
+                        true : false
+                    : this.ENABLE_AUTH
+            )
+            : this.ENABLE_AUTH;
     }
 }
 
