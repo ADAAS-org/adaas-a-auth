@@ -58,7 +58,8 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
       */
     configure(config: A_SDK_TYPES__DeepPartial<A_AUTH_TYPES__ContextConfigurations>) {
 
-        this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
+        if (this.hasInherited(A_AUTH_ContextClass))
+            this.Logger.log('Configuring A_AUTH_Context with provided configurations', config);
 
         this.SSO_LOCATION = config.auth?.location || this.SSO_LOCATION;
         this.ENABLE_AUTH = config.auth
@@ -112,7 +113,6 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
     ): A_AUTH_TYPES__IAuthenticator {
 
         this.Logger.log('Getting Authenticator for the environment', this.environment);
-
 
         switch (true) {
 
