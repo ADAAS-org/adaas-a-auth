@@ -123,7 +123,10 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                 const existedAuth = this._AuthMap.get(this.environment);
                 if (existedAuth) return existedAuth;
                 else {
-                    const frontendAuth = new A_AUTH_AppInteractionsAuthenticator({}, {
+                    const frontendAuth = new A_AUTH_AppInteractionsAuthenticator({
+                        client_id: this.CLIENT_ID,
+                        client_secret: this.CLIENT_SECRET
+                    }, {
                         ssoUrl: this.SSO_LOCATION
                     });
                     this._AuthMap.set(this.environment, frontendAuth);
