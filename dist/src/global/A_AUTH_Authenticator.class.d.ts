@@ -11,7 +11,7 @@ export declare class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticato
     protected _axiosInstance: AxiosInstance;
     protected context: A_AUTH_ContextClass;
     protected authPromise?: Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
-    constructor(
+    constructor(context: A_AUTH_ContextClass, 
     /**
      *  Default API Credentials configuration
      */
@@ -34,4 +34,5 @@ export declare class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticato
      */
     authenticate(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
     refresh(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult | undefined>;
+    destroy(...props: any): Promise<void>;
 }

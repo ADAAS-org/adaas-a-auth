@@ -1,8 +1,8 @@
-import { Method, ResponseType } from "axios";
+import { Method, } from "axios";
 import { A_AUTH_APIProvider } from "../A_AUTH_APIProvider.class";
 import { A_AUTH_TYPES__IAuthenticator } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
 import { A_AUTH_CONSTANTS__ERROR_CODES } from "@adaas/a-auth/constants/errors.constants";
-import { A_AUTH_Context, A_AUTH_ContextClass } from "../A_AUTH_Context.class";
+import { A_AUTH_ContextClass } from "../A_AUTH_Context.class";
 import { A_AUTH_TYPES__APIProviderRequestConfig } from "@adaas/a-auth/types/A_AUTH_APIProvider.types";
 
 

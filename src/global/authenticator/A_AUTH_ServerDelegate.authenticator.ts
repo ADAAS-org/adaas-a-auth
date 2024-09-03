@@ -2,6 +2,8 @@ import { AxiosInstance, AxiosResponse } from "axios";
 import { A_AUTH_Authenticator } from "../A_AUTH_Authenticator.class";
 import { A_AUTH_TYPES__AuthenticatorAuthResult, A_AUTH_TYPES__AuthenticatorConfigurations, A_AUTH_TYPES__AuthenticatorCredentials, A_AUTH_TYPES__IAuthenticator } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
 import { A_SDK_CommonHelper, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
+import { A_AUTH_ContextClass } from "../A_AUTH_Context.class";
+import { A_SDK_ScheduleObject } from "@adaas/a-sdk-types/dist/src/global/A_SDK_ScheduleObject.class";
 
 export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
 
@@ -18,8 +20,10 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
     protected baseURL: string = '';
     protected _axiosInstance!: AxiosInstance;
 
+    protected autoDestroySchedule?: A_SDK_ScheduleObject<void>;
 
     constructor(
+        context: A_AUTH_ContextClass,
         /**
          *  Default API Credentials configuration
          */
@@ -31,7 +35,7 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
             ssoUrl: 'https://sso.adaas.org'
         }
     ) {
-        super(credentials, config);
+        super(context, credentials, config);
 
         this._userASEID = credentials.userASEID;
         this._userScope = credentials.userScope;
@@ -93,12 +97,21 @@ export class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator imp
 
         const diff = exp - Math.floor(Date.now() / 1000);
 
-        A_SDK_CommonHelper
+        if (this.autoDestroySchedule)
+            this.autoDestroySchedule.clear();
+
+        this.autoDestroySchedule = A_SDK_CommonHelper
             .schedule<undefined>(
                 (diff * 1000) - 60 * 1000,
                 async () => this.authPromise = undefined,
             );
 
         return;
+    }
+
+    async destroy(...props: any): Promise<void> {
+        await this.autoDestroySchedule?.clear();
+        
+        this._token = undefined as any;
     }
 }

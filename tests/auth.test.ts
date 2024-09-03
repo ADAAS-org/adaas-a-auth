@@ -1,90 +1,89 @@
-// import { A_AUTH_ContextClass } from '@adaas/a-auth/global/A_AUTH_Context.class';
-// import { config } from 'dotenv';
-// config();
-// jest.retryTimes(0);
-// import fs from 'fs';
-// import path from 'path';
+import { Token } from '@adaas/a-sdk/api/server-commands';
+import { A_AUTH_ContextClass } from '../src/global/A_AUTH_Context.class';
+import { config } from 'dotenv';
+config();
+jest.retryTimes(0);
 
-// // TODO: =======================================REPLACE WITH NEW VERSION=======================================
+describe('Authorization with APP API Credentials', () => {
 
-// describe('Authorization with APP API Credentials', () => {
+    it('Should do AUTH', async () => {
+        const testContext = new A_AUTH_ContextClass();
 
-//     it('Should FAIL auth', async () => {
-//         try {
-//             const testContext = new A_AUTH_ContextClass();
+        await testContext.ready;
 
-//             testContext.setCredentials({
-//                 client_id: "ADAAS",
-//                 client_secret: "ADAAS"
-//             });
+        const authenticator = testContext.getAuthenticator()
 
-//             await testContext.authenticate();
-//         } catch (error) {
-//             expect(error).toBeInstanceOf(A_AUTH_Error);
-//             expect(error).not.toBeNull();
-//         }
-//     });
+        await authenticator.authenticate();
 
-//     it('Should auth with direct credentials', async () => {
+        const token = await authenticator.getToken();
 
-//         const testContext = new A_AUTH_Context();
-//         const API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID!;
-//         const API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET!;
+        await authenticator.destroy()
 
-//         testContext.setCredentials(
-//             API_CREDENTIALS_CLIENT_ID,
-//             API_CREDENTIALS_CLIENT_SECRET
-//         )
+        expect(token).toBeDefined();
+        expect(token).not.toBeNull();
+        expect(token).not.toEqual('');
+    });
 
-//         await testContext.authenticate();
+    // it('Should auth with direct credentials', async () => {
 
-//         expect(testContext.token).toBeDefined();
-//         expect(testContext.token).not.toBeNull();
-//         expect(testContext.token).not.toEqual('');
-//     });
+    //     const testContext = new A_AUTH_Context();
+    //     const API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID!;
+    //     const API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET!;
 
-//     it('Should auth with FILE credentials', async () => {
-//         const filePath = path.join(__dirname, '../adaas.conf.json');
+    //     testContext.setCredentials(
+    //         API_CREDENTIALS_CLIENT_ID,
+    //         API_CREDENTIALS_CLIENT_SECRET
+    //     )
 
-//         try {
-//             const API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID!;
-//             const API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET!;
+    //     await testContext.authenticate();
 
-//             const credentials = {
-//                 client_id: API_CREDENTIALS_CLIENT_ID,
-//                 client_secret: API_CREDENTIALS_CLIENT_SECRET
-//             };
+    //     expect(testContext.token).toBeDefined();
+    //     expect(testContext.token).not.toBeNull();
+    //     expect(testContext.token).not.toEqual('');
+    // });
 
+    // it('Should auth with FILE credentials', async () => {
+    //     const filePath = path.join(__dirname, '../adaas.conf.json');
 
-//             // Write credentials to file
-//             fs.writeFileSync(filePath, JSON.stringify(credentials));
+    //     try {
+    //         const API_CREDENTIALS_CLIENT_ID = process.env.ADAAS_API_CREDENTIALS_CLIENT_ID!;
+    //         const API_CREDENTIALS_CLIENT_SECRET = process.env.ADAAS_API_CREDENTIALS_CLIENT_SECRET!;
+
+    //         const credentials = {
+    //             client_id: API_CREDENTIALS_CLIENT_ID,
+    //             client_secret: API_CREDENTIALS_CLIENT_SECRET
+    //         };
 
 
-//             const testContext = new A_AUTH_Context();
-
-//             await testContext.authenticate();
-
-//             expect(testContext.token).toBeDefined();
-//             expect(testContext.token).not.toBeNull();
-//             expect(testContext.token).not.toEqual('');
-//             // Remove the file
-//             fs.unlinkSync(filePath);
-//         } catch (error) {
-//             // Remove the file
-//             fs.unlinkSync(filePath);
-//             throw error
-//         }
-//     });
+    //         // Write credentials to file
+    //         fs.writeFileSync(filePath, JSON.stringify(credentials));
 
 
-//     it('Should auth with ENV credentials', async () => {
+    //         const testContext = new A_AUTH_Context();
 
-//         const testContext = new A_AUTH_Context();
+    //         await testContext.authenticate();
 
-//         await testContext.authenticate();
+    //         expect(testContext.token).toBeDefined();
+    //         expect(testContext.token).not.toBeNull();
+    //         expect(testContext.token).not.toEqual('');
+    //         // Remove the file
+    //         fs.unlinkSync(filePath);
+    //     } catch (error) {
+    //         // Remove the file
+    //         fs.unlinkSync(filePath);
+    //         throw error
+    //     }
+    // });
 
-//         expect(testContext.token).toBeDefined();
-//         expect(testContext.token).not.toBeNull();
-//         expect(testContext.token).not.toEqual('');
-//     });
-// });
+
+    // it('Should auth with ENV credentials', async () => {
+
+    //     const testContext = new A_AUTH_Context();
+
+    //     await testContext.authenticate();
+
+    //     expect(testContext.token).toBeDefined();
+    //     expect(testContext.token).not.toBeNull();
+    //     expect(testContext.token).not.toEqual('');
+    // });
+});

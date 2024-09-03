@@ -4,6 +4,7 @@ import { A_SDK_CommonHelper, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
 import { A_AUTH_CONSTANTS__ERROR_CODES } from "@adaas/a-auth/constants/errors.constants";
 import { A_AUTH_TYPES__AuthenticatorAuthResult, A_AUTH_TYPES__AuthenticatorConfigurations, A_AUTH_TYPES__AuthenticatorCredentials, A_AUTH_TYPES__IAuthenticator } from "@adaas/a-auth/types/A_AUTH_Authenticator.types";
 import { A_SDK_ScheduleObject } from "@adaas/a-sdk-types/dist/src/global/A_SDK_ScheduleObject.class";
+import { A_AUTH_ContextClass } from "../A_AUTH_Context.class";
 
 export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
 
@@ -26,6 +27,7 @@ export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator imp
 
 
     constructor(
+        context: A_AUTH_ContextClass,
         /**
          *  Default API Credentials configuration
          */
@@ -37,7 +39,7 @@ export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator imp
             ssoUrl: 'https://sso.adaas.org'
         },
     ) {
-        super(credentials, config);
+        super(context, credentials, config);
 
         this._client_id = credentials.client_id;
         this._client_secret = credentials.client_secret;
@@ -107,13 +109,7 @@ export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator imp
 
             const diff = this._tokenExp - Math.floor(Date.now() / 1000);
 
-            A_SDK_CommonHelper
-                .schedule<undefined>(
-                    (diff * 1000) - 60 * 1000,
-                    async () => this.authPromise = undefined,
-                );
-
-            const schedule = A_SDK_CommonHelper
+            this.schedule = A_SDK_CommonHelper
                 .schedule<A_AUTH_TYPES__AuthenticatorAuthResult>(
                     (diff * 1000) - 60 * 1000,
                     () => {
@@ -122,7 +118,7 @@ export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator imp
                     },
                 );
 
-            return await schedule.promise;
+            return await this.schedule.promise;
 
         } catch (error) {
             return {
@@ -130,5 +126,10 @@ export class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator imp
                 exp: this._tokenExp
             }
         }
+    }
+
+    async destroy(...props: any): Promise<void> {
+        await this.schedule?.clear();
+        this._token = undefined as any;
     }
 }

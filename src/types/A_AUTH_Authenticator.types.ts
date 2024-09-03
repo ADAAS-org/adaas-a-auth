@@ -8,6 +8,8 @@ export interface A_AUTH_TYPES__IAuthenticator {
     authenticate(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult>
 
     refresh(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult | undefined>
+
+    destroy(...props: any)
 }
 
 

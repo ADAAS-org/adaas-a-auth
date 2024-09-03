@@ -17,4 +17,5 @@ export declare class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenti
      */
     authenticate(): Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
     refresh(exp: number): Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
+    destroy(...props: any): Promise<void>;
 }

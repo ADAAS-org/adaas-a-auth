@@ -14,7 +14,7 @@ const A_AUTH_Authenticator_class_1 = require("../A_AUTH_Authenticator.class");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const errors_constants_1 = require("../../constants/errors.constants");
 class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator_class_1.A_AUTH_Authenticator {
-    constructor(
+    constructor(context, 
     /**
      *  Default API Credentials configuration
      */
@@ -25,7 +25,7 @@ class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator_class_1.A_
     config = {
         ssoUrl: 'https://sso.adaas.org'
     }) {
-        super(credentials, config);
+        super(context, credentials, config);
         /**
          * Could be both API Credentials Token and User Token for the UI applications
          * Or special Token for the SDK operations on behalf of the user
@@ -88,14 +88,12 @@ class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator_class_1.A_
                 if (this.schedule)
                     this.schedule.clear();
                 const diff = this._tokenExp - Math.floor(Date.now() / 1000);
-                a_sdk_types_1.A_SDK_CommonHelper
-                    .schedule((diff * 1000) - 60 * 1000, () => __awaiter(this, void 0, void 0, function* () { return this.authPromise = undefined; }));
-                const schedule = a_sdk_types_1.A_SDK_CommonHelper
+                this.schedule = a_sdk_types_1.A_SDK_CommonHelper
                     .schedule((diff * 1000) - 60 * 1000, () => {
                     this.authPromise = undefined;
                     return this.authenticate();
                 });
-                return yield schedule.promise;
+                return yield this.schedule.promise;
             }
             catch (error) {
                 return {
@@ -103,6 +101,13 @@ class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator_class_1.A_
                     exp: this._tokenExp
                 };
             }
+        });
+    }
+    destroy(...props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            yield ((_a = this.schedule) === null || _a === void 0 ? void 0 : _a.clear());
+            this._token = undefined;
         });
     }
 }

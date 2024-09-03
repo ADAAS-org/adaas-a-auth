@@ -1,4 +1,4 @@
-import { A_AUTH_Context } from "@adaas/a-auth/global/A_AUTH_Context.class";
+import { A_AUTH_Context } from "@adaas/a-auth/definitions/A_AUTH_Context.def";
 import { A_AUTH_APP_INTERACTIONS__AppsAPI } from "./apps/A_AUTH_Apps.api";
 import { A_AUTH_APP_INTERACTIONS__MfaAPI } from "./mfa/A_AUTH_MFA.api";
 import { A_AUTH_APP_INTERACTIONS__RolesAPI } from "./roles/A_AUTH_Roles.api";

@@ -13,7 +13,7 @@ exports.A_AUTH_ServerDelegateAuthenticator = void 0;
 const A_AUTH_Authenticator_class_1 = require("../A_AUTH_Authenticator.class");
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator_class_1.A_AUTH_Authenticator {
-    constructor(
+    constructor(context, 
     /**
      *  Default API Credentials configuration
      */
@@ -24,7 +24,7 @@ class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator_class_1.A_
     config = {
         ssoUrl: 'https://sso.adaas.org'
     }) {
-        super(credentials, config);
+        super(context, credentials, config);
         this._client_id = '';
         this._client_secret = '';
         this.baseURL = '';
@@ -75,9 +75,18 @@ class A_AUTH_ServerDelegateAuthenticator extends A_AUTH_Authenticator_class_1.A_
     refresh(exp) {
         return __awaiter(this, void 0, void 0, function* () {
             const diff = exp - Math.floor(Date.now() / 1000);
-            a_sdk_types_1.A_SDK_CommonHelper
+            if (this.autoDestroySchedule)
+                this.autoDestroySchedule.clear();
+            this.autoDestroySchedule = a_sdk_types_1.A_SDK_CommonHelper
                 .schedule((diff * 1000) - 60 * 1000, () => __awaiter(this, void 0, void 0, function* () { return this.authPromise = undefined; }));
             return;
+        });
+    }
+    destroy(...props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            yield ((_a = this.autoDestroySchedule) === null || _a === void 0 ? void 0 : _a.clear());
+            this._token = undefined;
         });
     }
 }

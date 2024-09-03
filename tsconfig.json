@@ -35,7 +35,8 @@
       "@adaas/a-auth/entities/*": ["src/entities/*"],
       "@adaas/a-auth/global/*": ["src/global/*"],
       "@adaas/a-auth/types/*": ["src/types/*"],
-      "@adaas/a-auth/helpers/*": ["src/helpers/*"]
+      "@adaas/a-auth/helpers/*": ["src/helpers/*"],
+      "@adaas/a-auth/definitions/*": ["src/definitions/*"]
     },
     "lib": [
       "dom",

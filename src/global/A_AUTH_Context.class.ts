@@ -1,9 +1,19 @@
-import { A_SDK_Context, A_SDK_ContextClass, A_SDK_Error, A_SDK_ServerError, A_SDK_TYPES__DeepPartial, A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
+import {
+    A_SDK_Context,
+    A_SDK_ContextClass,
+    A_SDK_Error,
+    A_SDK_ServerError,
+    A_SDK_TYPES__DeepPartial
+} from "@adaas/a-sdk-types";
 import { A_AUTH_TYPES__IAuthenticator } from "../types/A_AUTH_Authenticator.types";
 import { A_AUTH_AppInteractionsAuthenticator } from "./authenticator/A_AUTH_AppInteractions.authenticator";
 import { A_AUTH_ServerCommandsAuthenticator } from "./authenticator/A_AUTH_ServerCommands.authenticator";
 import { A_AUTH_ServerDelegateAuthenticator } from "./authenticator/A_AUTH_ServerDelegate.authenticator";
-import { A_AUTH_TYPES__AuthContext_ErrorHandler, A_AUTH_TYPES__AuthContext_ResponseFormatter, A_AUTH_TYPES__ContextConfigurations } from "../types/A_AUTH_Context.types";
+import {
+    A_AUTH_TYPES__AuthContext_ErrorHandler,
+    A_AUTH_TYPES__AuthContext_ResponseFormatter,
+    A_AUTH_TYPES__ContextConfigurations
+} from "../types/A_AUTH_Context.types";
 import { A_AUTH_CONSTANTS__DEFAULT_ERRORS } from "../constants/errors.constants";
 import { A_SDK_CONSTANTS__ERROR_CODES } from "@adaas/a-sdk-types/dist/src/constants/errors.constants";
 import { A_SDK_TYPES__ContextConstructor } from "@adaas/a-sdk-types/dist/src/types/A_SDK_Context.types";
@@ -45,6 +55,22 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
             errors: A_AUTH_CONSTANTS__DEFAULT_ERRORS,
             ...params,
         });
+    }
+
+
+    async init(): Promise<void> {
+        if (!this.ready)
+            this.ready = new Promise(async (resolve, reject) => {
+                try {
+                    await super.init();
+                    await this.global.ready;
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        else
+            await this.ready;
     }
 
 
@@ -123,10 +149,12 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                 const existedAuth = this._AuthMap.get(this.environment);
                 if (existedAuth) return existedAuth;
                 else {
-                    const frontendAuth = new A_AUTH_AppInteractionsAuthenticator({
-                        client_id: this.CLIENT_ID,
-                        client_secret: this.CLIENT_SECRET
-                    }, {
+                    const frontendAuth = new A_AUTH_AppInteractionsAuthenticator(
+                        this,
+                        {
+                            client_id: this.CLIENT_ID,
+                            client_secret: this.CLIENT_SECRET
+                        }, {
                         ssoUrl: this.SSO_LOCATION
                     });
                     this._AuthMap.set(this.environment, frontendAuth);
@@ -145,12 +173,14 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                 const existedDelegate = this._AuthMap.get(`${userScope}/${userASEID}`);
                 if (existedDelegate) return existedDelegate;
                 else {
-                    const delegate = new A_AUTH_ServerDelegateAuthenticator({
-                        client_id: this.CLIENT_ID,
-                        client_secret: this.CLIENT_SECRET,
-                        userASEID: userASEID,
-                        userScope: userScope
-                    }, {
+                    const delegate = new A_AUTH_ServerDelegateAuthenticator(
+                        this,
+                        {
+                            client_id: this.CLIENT_ID,
+                            client_secret: this.CLIENT_SECRET,
+                            userASEID: userASEID,
+                            userScope: userScope
+                        }, {
                         ssoUrl: this.SSO_LOCATION
                     });
 
@@ -170,10 +200,12 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
                 const existedServer = this._AuthMap.get(this.environment);
                 if (existedServer) return existedServer;
                 else {
-                    const server = new A_AUTH_ServerCommandsAuthenticator({
-                        client_id: this.CLIENT_ID,
-                        client_secret: this.CLIENT_SECRET
-                    }, {
+                    const server = new A_AUTH_ServerCommandsAuthenticator(
+                        this,
+                        {
+                            client_id: this.CLIENT_ID,
+                            client_secret: this.CLIENT_SECRET
+                        }, {
                         ssoUrl: this.SSO_LOCATION
                     });
 
@@ -211,7 +243,9 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
 
             if (existedAuth && existedAuth instanceof A_AUTH_AppInteractionsAuthenticator) {
                 existedAuth.schedule?.clear();
-                const frontendAuth = new A_AUTH_AppInteractionsAuthenticator({}, {
+                const frontendAuth = new A_AUTH_AppInteractionsAuthenticator(
+                    this,
+                    {}, {
                     ssoUrl: this.SSO_LOCATION
                 });
 
@@ -274,5 +308,3 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
     }
 }
 
-
-export const A_AUTH_Context = new A_AUTH_ContextClass()

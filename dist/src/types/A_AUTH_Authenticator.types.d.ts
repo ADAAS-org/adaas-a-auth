@@ -3,6 +3,7 @@ export interface A_AUTH_TYPES__IAuthenticator {
     getToken(...props: any): Promise<string>;
     authenticate(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
     refresh(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult | undefined>;
+    destroy(...props: any): any;
 }
 export type A_AUTH_TYPES__AuthenticatorAuthResult = {
     token: string;

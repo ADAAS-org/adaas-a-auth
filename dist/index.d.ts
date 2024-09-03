@@ -1,4 +1,5 @@
-export { A_AUTH_Context, A_AUTH_ContextClass } from './src/global/A_AUTH_Context.class';
+export { A_AUTH_ContextClass } from './src/global/A_AUTH_Context.class';
+export { A_AUTH_Context } from './src/definitions/A_AUTH_Context.def';
 export { A_AUTH_APIProvider } from './src/global/A_AUTH_APIProvider.class';
 export { A_AUTH_AppInteractions_APIProvider } from './src/global/api-providers/A_AUTH_AppInteractions.api';
 export { A_AUTH_ServerCommands_APIProvider } from './src/global/api-providers/A_AUTH_ServerCommands.api';

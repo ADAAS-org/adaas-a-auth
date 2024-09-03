@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.A_AUTH_Context = exports.A_AUTH_ContextClass = void 0;
+exports.A_AUTH_ContextClass = void 0;
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const A_AUTH_AppInteractions_authenticator_1 = require("./authenticator/A_AUTH_AppInteractions.authenticator");
 const A_AUTH_ServerCommands_authenticator_1 = require("./authenticator/A_AUTH_ServerCommands.authenticator");
@@ -38,6 +38,26 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
             "ENABLE_AUTH"
         ];
         this._AuthMap = new Map();
+    }
+    init() {
+        const _super = Object.create(null, {
+            init: { get: () => super.init }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.ready)
+                this.ready = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        yield _super.init.call(this);
+                        yield this.global.ready;
+                        resolve();
+                    }
+                    catch (error) {
+                        reject(error);
+                    }
+                }));
+            else
+                yield this.ready;
+        });
     }
     /**
       * Configures the SDK with the provided parameters or uses the default ones
@@ -93,7 +113,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
                 if (existedAuth)
                     return existedAuth;
                 else {
-                    const frontendAuth = new A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator({
+                    const frontendAuth = new A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator(this, {
                         client_id: this.CLIENT_ID,
                         client_secret: this.CLIENT_SECRET
                     }, {
@@ -113,7 +133,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
                 if (existedDelegate)
                     return existedDelegate;
                 else {
-                    const delegate = new A_AUTH_ServerDelegate_authenticator_1.A_AUTH_ServerDelegateAuthenticator({
+                    const delegate = new A_AUTH_ServerDelegate_authenticator_1.A_AUTH_ServerDelegateAuthenticator(this, {
                         client_id: this.CLIENT_ID,
                         client_secret: this.CLIENT_SECRET,
                         userASEID: userASEID,
@@ -134,7 +154,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
                 if (existedServer)
                     return existedServer;
                 else {
-                    const server = new A_AUTH_ServerCommands_authenticator_1.A_AUTH_ServerCommandsAuthenticator({
+                    const server = new A_AUTH_ServerCommands_authenticator_1.A_AUTH_ServerCommandsAuthenticator(this, {
                         client_id: this.CLIENT_ID,
                         client_secret: this.CLIENT_SECRET
                     }, {
@@ -162,7 +182,7 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
             const existedAuth = this._AuthMap.get(this.environment);
             if (existedAuth && existedAuth instanceof A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator) {
                 (_a = existedAuth.schedule) === null || _a === void 0 ? void 0 : _a.clear();
-                const frontendAuth = new A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator({}, {
+                const frontendAuth = new A_AUTH_AppInteractions_authenticator_1.A_AUTH_AppInteractionsAuthenticator(this, {}, {
                     ssoUrl: this.SSO_LOCATION
                 });
                 this._AuthMap.set(this.environment, frontendAuth);
@@ -217,5 +237,4 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
     }
 }
 exports.A_AUTH_ContextClass = A_AUTH_ContextClass;
-exports.A_AUTH_Context = new A_AUTH_ContextClass();
 //# sourceMappingURL=A_AUTH_Context.class.js.map

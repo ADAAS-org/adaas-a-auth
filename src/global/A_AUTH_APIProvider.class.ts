@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse, Method, ResponseType } from 'axios';
 import { A_AUTH_TYPES__IAuthenticator } from '../types/A_AUTH_Authenticator.types';
-import { A_AUTH_Context, A_AUTH_ContextClass } from './A_AUTH_Context.class';
+import { A_AUTH_ContextClass } from './A_AUTH_Context.class';
 import { A_AUTH_TYPES__APIProviderRequestConfig } from '../types/A_AUTH_APIProvider.types';
-import { A_SDK_Error, A_SDK_ServerError } from '@adaas/a-sdk-types';
+import { A_SDK_ServerError } from '@adaas/a-sdk-types';
 
 export class A_AUTH_APIProvider<C extends A_AUTH_ContextClass> {
 

@@ -20,10 +20,10 @@ export declare class A_AUTH_APP_INTERACTIONS__SignInAPI extends A_AUTH_AppIntera
      * The meta object to pass through API call for error handling or response handling
      */
     meta?: M): Promise<Partial<{
-        actions: {
+        actions: Array<{
             action: import("./A_AUTH_SignIn.types").A_AUTH_APP_INTERACTIONS_TYPES__SSO_ACTION;
             data: any;
-        }[];
+        }>;
         token: string;
         refreshToken: string;
         exp: number;

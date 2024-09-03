@@ -8,8 +8,7 @@ import {
     A_AUTH_TYPES__AuthenticatorCredentials,
     A_AUTH_TYPES__IAuthenticator
 } from "../types/A_AUTH_Authenticator.types";
-import { A_AUTH_Context, A_AUTH_ContextClass } from "./A_AUTH_Context.class";
-
+import { A_AUTH_ContextClass } from "./A_AUTH_Context.class";
 
 export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
 
@@ -23,11 +22,12 @@ export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
 
     protected _axiosInstance!: AxiosInstance
 
-    protected context: A_AUTH_ContextClass = A_AUTH_Context;
+    protected context: A_AUTH_ContextClass;
 
     protected authPromise?: Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
 
     constructor(
+        context: A_AUTH_ContextClass,
         /**
          *  Default API Credentials configuration
          */
@@ -39,6 +39,7 @@ export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
             ssoUrl: 'https://sso.adaas.org'
         },
     ) {
+        this.context = context;
         this.baseURL = config.ssoUrl;
         this.init();
     }
@@ -79,6 +80,11 @@ export class A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
     }
 
     async refresh(...props: any): Promise<A_AUTH_TYPES__AuthenticatorAuthResult | undefined> {
+        return this.context.Errors.throw(A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED)
+    }
+
+
+    async destroy(...props: any): Promise<void> {
         return this.context.Errors.throw(A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED)
     }
 }

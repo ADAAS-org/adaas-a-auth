@@ -90,6 +90,13 @@ class A_AUTH_AppInteractionsAuthenticator extends A_AUTH_Authenticator_class_1.A
             }
         });
     }
+    destroy(...props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            yield ((_a = this.schedule) === null || _a === void 0 ? void 0 : _a.clear());
+            this._token = undefined;
+        });
+    }
 }
 exports.A_AUTH_AppInteractionsAuthenticator = A_AUTH_AppInteractionsAuthenticator;
 //# sourceMappingURL=A_AUTH_AppInteractions.authenticator.js.map

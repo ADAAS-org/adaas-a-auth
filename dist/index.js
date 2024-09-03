@@ -26,10 +26,11 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.A_AUTH_CONSTANTS__ERROR_CODES = exports.A_AUTH_CONSTANTS__DEFAULT_ERRORS = exports.A_AUTH_ServerDelegate = exports.A_AUTH_ServerCommands = exports.A_AUTH_AppInteractions = exports.A_AUTH_ServerDelegateAuthenticator = exports.A_AUTH_ServerCommandsAuthenticator = exports.A_AUTH_AppInteractionsAuthenticator = exports.A_AUTH_Authenticator = exports.A_AUTH_ServerDelegate_APIProvider = exports.A_AUTH_ServerCommands_APIProvider = exports.A_AUTH_AppInteractions_APIProvider = exports.A_AUTH_APIProvider = exports.A_AUTH_ContextClass = exports.A_AUTH_Context = void 0;
+exports.A_AUTH_CONSTANTS__ERROR_CODES = exports.A_AUTH_CONSTANTS__DEFAULT_ERRORS = exports.A_AUTH_ServerDelegate = exports.A_AUTH_ServerCommands = exports.A_AUTH_AppInteractions = exports.A_AUTH_ServerDelegateAuthenticator = exports.A_AUTH_ServerCommandsAuthenticator = exports.A_AUTH_AppInteractionsAuthenticator = exports.A_AUTH_Authenticator = exports.A_AUTH_ServerDelegate_APIProvider = exports.A_AUTH_ServerCommands_APIProvider = exports.A_AUTH_AppInteractions_APIProvider = exports.A_AUTH_APIProvider = exports.A_AUTH_Context = exports.A_AUTH_ContextClass = void 0;
 var A_AUTH_Context_class_1 = require("./src/global/A_AUTH_Context.class");
-Object.defineProperty(exports, "A_AUTH_Context", { enumerable: true, get: function () { return A_AUTH_Context_class_1.A_AUTH_Context; } });
 Object.defineProperty(exports, "A_AUTH_ContextClass", { enumerable: true, get: function () { return A_AUTH_Context_class_1.A_AUTH_ContextClass; } });
+var A_AUTH_Context_def_1 = require("./src/definitions/A_AUTH_Context.def");
+Object.defineProperty(exports, "A_AUTH_Context", { enumerable: true, get: function () { return A_AUTH_Context_def_1.A_AUTH_Context; } });
 // ============ Export Global & Service Entities ============
 var A_AUTH_APIProvider_class_1 = require("./src/global/A_AUTH_APIProvider.class");
 Object.defineProperty(exports, "A_AUTH_APIProvider", { enumerable: true, get: function () { return A_AUTH_APIProvider_class_1.A_AUTH_APIProvider; } });

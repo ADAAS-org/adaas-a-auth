@@ -17,9 +17,8 @@ const axios_1 = __importDefault(require("axios"));
 const a_sdk_types_1 = require("@adaas/a-sdk-types");
 const errors_constants_1 = require("@adaas/a-sdk-types/dist/src/constants/errors.constants");
 const errors_constants_2 = require("../constants/errors.constants");
-const A_AUTH_Context_class_1 = require("./A_AUTH_Context.class");
 class A_AUTH_Authenticator {
-    constructor(
+    constructor(context, 
     /**
      *  Default API Credentials configuration
      */
@@ -36,7 +35,7 @@ class A_AUTH_Authenticator {
          */
         this._token = '';
         this.baseURL = '';
-        this.context = A_AUTH_Context_class_1.A_AUTH_Context;
+        this.context = context;
         this.baseURL = config.ssoUrl;
         this.init();
     }
@@ -70,6 +69,11 @@ class A_AUTH_Authenticator {
         });
     }
     refresh(...props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.context.Errors.throw(errors_constants_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED);
+        });
+    }
+    destroy(...props) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.context.Errors.throw(errors_constants_1.A_SDK_CONSTANTS__ERROR_CODES.METHOD_NOT_IMPLEMENTED);
         });

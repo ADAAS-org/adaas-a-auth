@@ -3,6 +3,7 @@ import { A_AUTH_Authenticator } from "../A_AUTH_Authenticator.class";
 import { A_SDK_TYPES__Required } from "@adaas/a-sdk-types";
 import { A_AUTH_TYPES__AuthenticatorAuthResult, A_AUTH_TYPES__AuthenticatorConfigurations, A_AUTH_TYPES__AuthenticatorCredentials, A_AUTH_TYPES__IAuthenticator } from "../../types/A_AUTH_Authenticator.types";
 import { A_SDK_ScheduleObject } from "@adaas/a-sdk-types/dist/src/global/A_SDK_ScheduleObject.class";
+import { A_AUTH_ContextClass } from "../A_AUTH_Context.class";
 export declare class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authenticator implements A_AUTH_TYPES__IAuthenticator {
     /**
      * Could be both API Credentials Token and User Token for the UI applications
@@ -16,7 +17,7 @@ export declare class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authentic
     protected baseURL: string;
     protected _axiosInstance: AxiosInstance;
     protected authPromise?: Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
-    constructor(
+    constructor(context: A_AUTH_ContextClass, 
     /**
      *  Default API Credentials configuration
      */
@@ -35,4 +36,5 @@ export declare class A_AUTH_ServerCommandsAuthenticator extends A_AUTH_Authentic
      */
     authenticate(): Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
     refresh(): Promise<A_AUTH_TYPES__AuthenticatorAuthResult>;
+    destroy(...props: any): Promise<void>;
 }
