@@ -39,24 +39,9 @@ class A_AUTH_ContextClass extends a_sdk_types_1.A_SDK_ContextClass {
         ];
         this._AuthMap = new Map();
     }
-    init() {
-        const _super = Object.create(null, {
-            init: { get: () => super.init }
-        });
+    awaitNestedDependencies() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.ready)
-                this.ready = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-                    try {
-                        yield _super.init.call(this);
-                        yield this.global.ready;
-                        resolve();
-                    }
-                    catch (error) {
-                        reject(error);
-                    }
-                }));
-            else
-                yield this.ready;
+            yield this.global.ready;
         });
     }
     /**

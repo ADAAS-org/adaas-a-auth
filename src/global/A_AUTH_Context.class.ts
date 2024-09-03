@@ -57,22 +57,9 @@ export class A_AUTH_ContextClass extends A_SDK_ContextClass {
         });
     }
 
-
-    async init(): Promise<void> {
-        if (!this.ready)
-            this.ready = new Promise(async (resolve, reject) => {
-                try {
-                    await super.init();
-                    await this.global.ready;
-                    resolve();
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        else
-            await this.ready;
+    protected async awaitNestedDependencies(): Promise<void> {
+        await this.global.ready;
     }
-
 
     /**
       * Configures the SDK with the provided parameters or uses the default ones
